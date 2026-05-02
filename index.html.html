@@ -159,3 +159,176 @@
       background: white;
       border-radius: 8px;
       padding: 1.2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    }
+    .widget h3 {
+      font-family: sans-serif;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 1rem;
+      padding-bottom: .5rem;
+      border-bottom: 2px solid #f0a500;
+    }
+    .widget ul { list-style: none; }
+    .widget ul li {
+      padding: .5rem 0;
+      border-bottom: 1px solid #eee;
+      font-size: .9rem;
+      color: #555;
+    }
+    .widget ul li:last-child { border: none; }
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .tag {
+      background: #eee;
+      padding: .3rem .8rem;
+      border-radius: 20px;
+      font-size: .8rem;
+      font-family: sans-serif;
+      color: #444;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .tag:hover { background: #1a1a2e; color: white; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #1a1a2e;
+      color: #aaa;
+      text-align: center;
+      padding: 1.5rem;
+      margin-top: 2rem;
+      font-family: sans-serif;
+      font-size: .85rem;
+    }
+
+    @media (max-width: 640px) {
+      .contenedor { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Blog de tareas pedorras pffftt</h1>
+  <p>:p</p>
+</header>
+
+<nav>
+  <a href="#">Inicio</a>
+  <a href="#">Tecnología</a>
+  <a href="#">Viajes</a>
+  <a href="#">Sobre mí</a>
+  <a href="#">Contacto</a>
+</nav>
+
+<div class="contenedor">
+  <main id="posts"></main>
+  <aside>
+    <div class="widget">
+      <h3>Sobre mí</h3>
+      <p style="font-size:.9rem;color:#555;line-height:1.6">
+        ¡Hola! Soy el autor de este blog. Aquí comparto mis ideas, aprendizajes y aventuras. 🎉
+      </p>
+    </div>
+    <div class="widget">
+      <h3>Categorías</h3>
+      <ul>
+        <li>💻 Tecnología (3)</li>
+        <li>✈️ Viajes (2)</li>
+        <li>📚 Libros (1)</li>
+        <li>🍕 Recetas (2)</li>
+      </ul>
+    </div>
+    <div class="widget">
+      <h3>Etiquetas</h3>
+      <div class="tag-cloud">
+        <span class="tag">HTML</span>
+        <span class="tag">CSS</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag">Diseño</span>
+        <span class="tag">Viajes</span>
+        <span class="tag">Colombia</span>
+        <span class="tag">Tecnología</span>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="cerrar" onclick="cerrarModal()">✕</button>
+    <span class="categoria" id="m-cat"></span>
+    <h2 id="m-titulo"></h2>
+    <p class="meta" id="m-meta"></p>
+    <div id="m-contenido"></div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 Mi Blog · Hecho con ❤️ y HTML puro</p>
+</footer>
+
+<script>
+  const posts = [
+    {
+      emoji: "💻",
+      categoria: "Tecnología",
+      titulo: "Cómo creé mi primer blog con HTML",
+      fecha: "1 de mayo, 2026",
+      autor: "Yo mismo",
+      resumen: "Aprender a crear páginas web desde cero es más fácil de lo que crees. En este artículo te cuento mi experiencia paso a paso.",
+      contenido: `<p>Todo empezó cuando quise tener un espacio en internet donde pudiera expresarme sin depender de plataformas externas.</p><p>HTML es el lenguaje con el que se construye la estructura de toda página web. Junto con CSS y JavaScript, forman el trío fundamental del desarrollo web.</p><p>Lo mejor de todo: <strong>no necesitas pagar nada</strong>. Solo un editor de texto como VS Code y un navegador. ¡Eso es todo!</p>`
+    },
+    {
+      emoji: "✈️",
+      categoria: "Viajes",
+      titulo: "Eje Cafetero: el corazón de Colombia",
+      fecha: "20 de abril, 2026",
+      autor: "Yo mismo",
+      resumen: "Pereira, Armenia, Manizales... una región llena de cultura, café y paisajes increíbles.",
+      contenido: `<p>El Eje Cafetero es una de las regiones más bellas de Colombia. Sus montañas verdes, el aroma a café y la calidez de su gente lo hacen un destino único.</p><p>Empecé mi recorrido en <strong>Pereira</strong>, una ciudad vibrante con una gastronomía increíble.</p>`
+    },
+    {
+      emoji: "📚",
+      categoria: "Libros",
+      titulo: "5 libros que me cambiaron la vida",
+      fecha: "10 de abril, 2026",
+      autor: "Yo mismo",
+      resumen: "Una lista de lecturas que me hicieron ver el mundo diferente. Desde novelas hasta libros de desarrollo personal.",
+      contenido: `<p><strong>1. El Alquimista</strong> – Paulo Coelho</p><p><strong>2. Hábitos Atómicos</strong> – James Clear</p><p><strong>3. Sapiens</strong> – Yuval Noah Harari</p><p><strong>4. El Principito</strong> – Saint-Exupéry</p><p><strong>5. Deep Work</strong> – Cal Newport</p>`
+    }
+  ];
+
+  const main = document.getElementById('posts');
+  posts.forEach((p, i) => {
+    main.innerHTML += `
+      <article class="articulo">
+        <div class="articulo-img">${p.emoji}</div>
+        <div class="articulo-body">
+          <span class="categoria">${p.categoria}</span>
+          <h2>${p.titulo}</h2>
+          <p class="meta">📅 ${p.fecha} &nbsp;·&nbsp; ✍️ ${p.autor}</p>
+          <p>${p.resumen}</p>
+          <button class="leer-mas" onclick="abrirModal(${i})">Leer más →</button>
+        </div>
+      </article>`;
+  });
+
+  function abrirModal(i) {
+    const p = posts[i];
+    document.getElementById('m-cat').textContent     = p.categoria;
+    document.getElementById('m-titulo').textContent  = p.titulo;
+    document.getElementById('m-meta').textContent    = `📅 ${p.fecha}  ·  ✍️ ${p.autor}`;
+    document.getElementById('m-contenido').innerHTML = p.contenido;
+    document.getElementById('modal').classList.add('activo');
+  }
+  function cerrarModal() {
+    document.getElementById('modal').classList.remove('activo');
+  }
+  document.getElementById('modal').addEventListener('click', function(e) {
+    if (e.target === this) cerrarModal();
+  });
+</script>
+</body>
+</html>
