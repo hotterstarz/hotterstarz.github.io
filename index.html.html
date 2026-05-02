@@ -14,23 +14,33 @@
     }
 
     header {
-      background-image: url('chii.jpg');
-      background-size: cover;
-      background-position: center;
+      position: relative;
       color: white;
       padding: 4rem 1rem;
       text-align: center;
-      position: relative;
+      min-height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
     }
+    
+    /* Fondo por defecto (opcional) */
+    header {
+      background-image: url('chii.jpg');
+    }
+    
     header::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0,0,0,0.4);
     }
     header h1, header p { position: relative; z-index: 1; }
-    header h1 { font-size: 2.2rem; letter-spacing: 2px; font-family: 'Comic Neue', 'Comic Sans MS', cursive; }
-    header p  { margin-top: .4rem; color: #aaa; font-style: italic; }
+    header h1 { font-size: 2.2rem; letter-spacing: 2px; font-family: 'Comic Neue', 'Comic Sans MS', cursive; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+    header p  { margin-top: .4rem; color: #f0f0f0; font-style: italic; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
 
     nav {
       background: #16213e;
@@ -77,7 +87,8 @@
     }
     .articulo-img img {
       width: 100%;
-      height: auto;
+      height: 100%;
+      object-fit: cover;
       display: block;
       transition: transform 0.3s ease;
     }
@@ -166,6 +177,7 @@
       gap: 10px;
       margin-top: 15px;
       margin-bottom: 15px;
+      flex-wrap: wrap;
     }
 
     .btn-tarea {
@@ -200,6 +212,7 @@
       border-radius: 5px;
       font-family: 'Comic Neue', 'Comic Sans MS', cursive;
       font-size: 0.9rem;
+      min-width: 150px;
     }
 
     /* Estilos para la imagen de motivación - Marco simple rosa bebé */
@@ -210,17 +223,18 @@
     }
 
     .motivacion-marco {
-      background: #FFB6C1; /* Rosa bebé */
+      background: #FFB6C1;
       padding: 15px;
       border-radius: 10px;
-      display: inline-block;
+      display: block;
       width: 100%;
     }
 
     .motivacion-imagen {
       width: 100%;
-      max-height: 250px;
-      object-fit: cover;
+      height: auto;
+      max-height: 300px;
+      object-fit: contain;
       border-radius: 5px;
       display: block;
     }
@@ -229,12 +243,37 @@
       margin-top: 15px;
       font-size: 1.3rem;
       font-weight: bold;
-      color: #FF69B4; /* Rosa más intenso para el texto */
+      color: #FF69B4;
       font-family: 'Comic Neue', 'Comic Sans MS', cursive;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* Botón para cambiar imagen del header */
+    .customizar-header {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #f0a500;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-family: 'Comic Neue', 'Comic Sans MS', cursive;
+      font-size: 0.9rem;
+      font-weight: bold;
+      z-index: 1000;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+    }
+
+    .customizar-header:hover {
+      background: #1a1a2e;
+      transform: scale(1.05);
     }
 
     .modal-overlay {
@@ -376,14 +415,25 @@
       .motivacion-texto {
         font-size: 1rem;
       }
+      .tareas-controles {
+        flex-direction: column;
+      }
+      .customizar-header {
+        bottom: 10px;
+        right: 10px;
+        padding: 8px 15px;
+        font-size: 0.8rem;
+      }
     }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>Blog de tareas pffftt</h1>
-  <p>:p</p>
+<header id="main-header">
+  <div>
+    <h1>Blog de tareas pffftt</h1>
+    <p>:p</p>
+  </div>
 </header>
 
 <nav>
@@ -455,7 +505,35 @@
   <p>© 2026 Mi Blog · Hecho con ❤️ y HTML puro</p>
 </footer>
 
+<!-- Botón para cambiar la imagen del header -->
+<button class="customizar-header" onclick="customizarHeader()">🎨 Cambiar imagen del header</button>
+
 <script>
+  // ── FUNCIÓN PARA CUSTOMIZAR EL HEADER ──────────────────────
+  function customizarHeader() {
+    const imageUrl = descarga.jpg ('Ingresa la URL de tu imagen o el nombre del archivo (ej: mi-imagen.jpg):', 'chii.jpg');
+    if (imageUrl && imageUrl.trim() !== '') {
+      const header = document.getElementById('main-header');
+      header.style.backgroundImage = `url('${imageUrl}')`;
+      header.style.backgroundSize = 'cover';
+      header.style.backgroundPosition = 'center';
+      header.style.backgroundRepeat = 'no-repeat';
+      
+      // Guardar en localStorage para que recuerde la imagen
+      localStorage.setItem('headerImage', imageUrl);
+    }
+  }
+  
+  // Cargar imagen guardada del header al iniciar
+  const imagenGuardada = localStorage.getItem('headerImage');
+  if (imagenGuardada) {
+    const header = document.getElementById('main-header');
+    header.style.backgroundImage = `url('${imagenGuardada}')`;
+    header.style.backgroundSize = 'cover';
+    header.style.backgroundPosition = 'center';
+    header.style.backgroundRepeat = 'no-repeat';
+  }
+
   // ── SLIDESHOW ──────────────────────────────────────────────
   const slides = document.querySelectorAll('.slide');
   let actual = 0, timer;
@@ -555,13 +633,13 @@
         if (tarea) {
           tarea.completada = this.checked;
           guardarTareas(tareasActuales);
-          renderizarTareas(); // Re-renderizar para actualizar estilos
+          renderizarTareas();
         }
       });
     });
   }
 
-  // Función para escapar HTML y evitar inyección
+  // Función para escapar HTML
   function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
@@ -627,8 +705,7 @@
     let contenidoFinal = '';
 
     if (i === 0) {
-      // Renderizar el gestor de tareas completo con imagen de motivación
-      // CAMBIA LA RUTA DE LA IMAGEN AQUÍ: reemplaza "sevenseven.jpg" con el nombre de tu imagen
+      // Cambia la imagen de motivación aquí
       contenidoFinal = `
         <div class="tareas-controles">
           <input type="text" id="nueva-tarea-input" class="nueva-tarea-input" placeholder="Escribe una nueva tarea...">
@@ -660,7 +737,6 @@
     document.getElementById('m-contenido').innerHTML = contenidoFinal;
     document.getElementById('modal').classList.add('activo');
     
-    // Renderizar las tareas solo si es el primer post
     if (i === 0) {
       renderizarTareas();
     }
