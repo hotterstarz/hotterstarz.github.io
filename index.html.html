@@ -197,7 +197,7 @@
       width: 100%;
       aspect-ratio: 4/3;
       overflow: hidden;
-      border-radius: 6px;
+      border-radius: 8px;
       background: #eee;
     }
     .slide {
@@ -277,14 +277,13 @@
 <div class="contenedor">
   <main id="posts"></main>
   <aside>
-    <div class="widget">
-      <h3>Galería</h3>
+    <div class="widget" style="padding:0;overflow:hidden;border-radius:8px;">
       <div class="slideshow" id="slideshow">
         <div class="slide activo"><img src="chii.jpg" alt="Foto 1"></div>
         <div class="slide"><img src="umibe no onnanoko.jpg" alt="Foto 2"></div>
         <div class="slide"><img src="gwen stacy _ spiderman _ marvel aesthetic.jpg" alt="Foto 3"></div>
       </div>
-      <div class="slide-dots" id="dots"></div>
+      <div class="slide-btns" style="padding:.5rem;">
       <div class="slide-btns">
         <button class="slide-btn" onclick="cambiarSlide(-1)">&#8592;</button>
         <button class="slide-btn" onclick="cambiarSlide(1)">&#8594;</button>
