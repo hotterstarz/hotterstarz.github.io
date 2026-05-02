@@ -33,6 +33,42 @@
     }
     nav a:hover { color: #FFE4B5; }
 
+    /* Botones de sincronización en el modal */
+    .botones-sync-modal {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 10px;
+      background: #FFF5F7;
+      border-radius: 16px;
+    }
+    .btn-sync {
+      background: #D86F8B;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-family: 'Quicksand', cursive;
+      font-size: 0.8rem;
+      transition: all 0.3s ease;
+    }
+    .btn-sync:hover {
+      background: #B3416B;
+      transform: scale(1.05);
+    }
+    .btn-sync.importar {
+      background: #4ECDC4;
+    }
+    .btn-sync.importar:hover {
+      background: #44b3aa;
+    }
+    .btn-sync.compartir {
+      background: #95A5A6;
+    }
+
     .contenedor {
       max-width: 900px;
       margin: 2rem auto;
@@ -390,6 +426,27 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
+    /* Toast mensaje */
+    .toast-mensaje {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #4ECDC4;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-family: 'Quicksand', cursive;
+      font-size: 0.9rem;
+      z-index: 1100;
+      animation: fadeOut 3s ease forwards;
+    }
+    @keyframes fadeOut {
+      0% { opacity: 1; }
+      70% { opacity: 1; }
+      100% { opacity: 0; visibility: hidden; }
+    }
+
     aside { display: flex; flex-direction: column; gap: 1.5rem; }
     .widget {
       background: #FFFFFF;
@@ -623,7 +680,6 @@
   <main id="posts"></main>
   <aside>
 
-    <!-- WIDGET 1: Slideshow de imágenes personales -->
     <div class="widget" style="padding:0;overflow:hidden;border-radius:16px;">
       <div class="slideshow" id="slideshow">
         <div class="slide activo"><img src="chii.jpg" alt="Foto 1"></div>
@@ -637,7 +693,6 @@
       </div>
     </div>
 
-    <!-- WIDGET 2: SLIDESHOW DE PAISAJES -->
     <div class="widget widget-paisajes">
       <h3>🏔️ Paisajes que Inspiran 🌅</h3>
       <div class="slideshow-paisajes" id="slideshowPaisajes">
@@ -652,7 +707,6 @@
       <div class="indicadores-paisajes" id="indicadoresPaisajes"></div>
     </div>
 
-    <!-- Widget de música -->
     <div class="widget widget-musica">
       <h3>🎵 Mi playlist favorita 🎵</h3>
       <iframe class="musica-iframe" 
@@ -767,7 +821,96 @@
   cargarImagenesPaisajes();
   reiniciarTimerPaisajes();
 
-  // ── FUNCIONES PARA TAREAS POR DÍA DE LA SEMANA ─────────────
+  // ── FUNCIONES GLOBALES DE RESPALDO ─────────────────────────
+  function mostrarMensaje(texto) {
+    const mensaje = document.createElement('div');
+    mensaje.className = 'toast-mensaje';
+    mensaje.textContent = texto;
+    document.body.appendChild(mensaje);
+    setTimeout(() => mensaje.remove(), 3000);
+  }
+
+  // ── FUNCIONES PARA TAREAS SIMPLES (Post 0) ─────────────────
+  let tareasSimples = [];
+
+  function guardarTareasSimples() {
+    localStorage.setItem('listaTareas', JSON.stringify(tareasSimples));
+  }
+
+  function cargarTareasSimples() {
+    const guardadas = localStorage.getItem('listaTareas');
+    if (guardadas) {
+      tareasSimples = JSON.parse(guardadas);
+    } else {
+      tareasSimples = [
+        { id: 1, texto: "Póster de P y P (Pasar a plantilla para mandar a imprimir en papel bond)", completada: false },
+        { id: 2, texto: "Empezar trabajo plan de atención de enfermería", completada: false }
+      ];
+    }
+    renderizarTareasSimples();
+  }
+
+  function renderizarTareasSimples() {
+    const container = document.getElementById('lista-tareas-container');
+    if (!container) return;
+    
+    if (tareasSimples.length === 0) {
+      container.innerHTML = '<p style="text-align:center; color:#C97A9A;">✨ ¡No hay tareas pendientes! ✨</p>';
+      return;
+    }
+    
+    container.innerHTML = tareasSimples.map(tarea => `
+      <label class="tarea-item">
+        <input type="checkbox" class="tarea-checkbox-simple" data-id="${tarea.id}" ${tarea.completada ? 'checked' : ''}>
+        <span style="${tarea.completada ? 'text-decoration: line-through; color: #C97A9A;' : ''}">${escapeHtml(tarea.texto)}</span>
+      </label>
+    `).join('');
+    
+    document.querySelectorAll('.tarea-checkbox-simple').forEach(checkbox => {
+      checkbox.addEventListener('change', function(e) {
+        const id = parseInt(this.getAttribute('data-id'));
+        const tarea = tareasSimples.find(t => t.id === id);
+        if (tarea) {
+          tarea.completada = this.checked;
+          guardarTareasSimples();
+          renderizarTareasSimples();
+        }
+      });
+    });
+  }
+
+  function agregarTareaSimple() {
+    const input = document.getElementById('nueva-tarea-input');
+    const texto = input.value.trim();
+    if (texto === '') {
+      alert('🌸 Por favor escribe una tarea 🌸');
+      return;
+    }
+    
+    const nuevoId = Math.max(...tareasSimples.map(t => t.id), 0) + 1;
+    tareasSimples.push({
+      id: nuevoId,
+      texto: texto,
+      completada: false
+    });
+    guardarTareasSimples();
+    input.value = '';
+    renderizarTareasSimples();
+    mostrarMensaje('✨ Tarea agregada');
+  }
+
+  function eliminarUltimaTareaSimple() {
+    if (tareasSimples.length === 0) {
+      alert('✨ No hay tareas para eliminar ✨');
+      return;
+    }
+    tareasSimples.pop();
+    guardarTareasSimples();
+    renderizarTareasSimples();
+    mostrarMensaje('🗑️ Última tarea eliminada');
+  }
+
+  // ── FUNCIONES PARA TAREAS POR DÍA DE LA SEMANA (Post 1) ─────
   const diasSemana = ['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo'];
   let tareasPorDia = {};
 
@@ -846,6 +989,7 @@
     input.value = '';
     fechaInput.value = '';
     renderizarTareasPorDia(dia);
+    mostrarMensage(`✨ Tarea agregada a ${dia}`);
   }
 
   function cambiarDia(dia) {
@@ -864,6 +1008,150 @@
     tareasPorDia[dia].pop();
     guardarTareasPorDia();
     renderizarTareasPorDia(dia);
+    mostrarMensaje(`🗑️ Última tarea eliminada de ${dia}`);
+  }
+
+  // ── FUNCIONES DE RESPALDO (Exportar/Importar) ───────────────
+  function exportarTodasLasTareas() {
+    const datosCompletos = {
+      tareasSimples: tareasSimples,
+      tareasPorDia: tareasPorDia,
+      fechaExportacion: new Date().toISOString()
+    };
+    
+    const dataStr = JSON.stringify(datosCompletos, null, 2);
+    const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+    const exportFileDefaultName = `mis-tareas-completas_${new Date().toISOString().slice(0,10)}.json`;
+    
+    const linkElement = document.createElement('a');
+    linkElement.setAttribute('href', dataUri);
+    linkElement.setAttribute('download', exportFileDefaultName);
+    linkElement.click();
+    
+    mostrarMensaje('📤 ¡Tareas exportadas correctamente!');
+  }
+
+  function importarTareas(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    
+    reader.onload = function(e) {
+      try {
+        const datosImportados = JSON.parse(e.target.result);
+        
+        // Validar y cargar tareas simples
+        if (datosImportados.tareasSimples && Array.isArray(datosImportados.tareasSimples)) {
+          tareasSimples = datosImportados.tareasSimples;
+          guardarTareasSimples();
+          renderizarTareasSimples();
+        }
+        
+        // Validar y cargar tareas por día
+        if (datosImportados.tareasPorDia && typeof datosImportados.tareasPorDia === 'object') {
+          tareasPorDia = datosImportados.tareasPorDia;
+          guardarTareasPorDia();
+          // Re-renderizar el día actual si está visible
+          const diaActivo = document.querySelector('.tab-btn.activo')?.getAttribute('data-dia');
+          if (diaActivo) {
+            renderizarTareasPorDia(diaActivo);
+          } else {
+            diasSemana.forEach(dia => renderizarTareasPorDia(dia));
+          }
+        }
+        
+        mostrarMensaje(`✅ ¡Importadas ${datosImportados.tareasSimples?.length || 0} tareas simples y tareas semanales!`);
+      } catch (error) {
+        alert('❌ Error al importar: archivo inválido');
+      }
+    };
+    
+    reader.readAsText(file);
+    event.target.value = '';
+  }
+
+  function generarEnlaceCompartir() {
+    const datosCompletos = {
+      tareasSimples: tareasSimples,
+      tareasPorDia: tareasPorDia,
+      fechaExportacion: new Date().toISOString()
+    };
+    
+    const datosJSON = JSON.stringify(datosCompletos);
+    const datosComprimidos = btoa(encodeURIComponent(datosJSON));
+    const urlActual = window.location.href.split('?')[0];
+    const urlCompartir = `${urlActual}?tareas=${datosComprimidos}`;
+    
+    // Mostrar modal con el enlace
+    mostrarModalCompartir(urlCompartir);
+  }
+
+  function mostrarModalCompartir(url) {
+    let modalCompartir = document.getElementById('modalCompartir');
+    if (!modalCompartir) {
+      modalCompartir = document.createElement('div');
+      modalCompartir.id = 'modalCompartir';
+      modalCompartir.className = 'modal-editar';
+      modalCompartir.innerHTML = `
+        <div class="modal-contenido">
+          <span class="cerrar-modal" onclick="cerrarModalCompartir()">&times;</span>
+          <h3>📱 Compartir tareas</h3>
+          <p style="margin-bottom:15px;">Comparte este enlace en tu celular:</p>
+          <input type="text" id="enlaceCompartir" style="width:100%; padding:10px; border-radius:15px; border:2px solid #F4C2D0; font-family:monospace; font-size:12px;" readonly>
+          <div class="modal-btns" style="margin-top:15px;">
+            <button class="btn-guardar" onclick="copiarEnlace()">📋 Copiar enlace</button>
+            <button class="btn-cancelar" onclick="cerrarModalCompartir()">Cerrar</button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(modalCompartir);
+    }
+    
+    document.getElementById('enlaceCompartir').value = url;
+    modalCompartir.classList.add('activo');
+  }
+
+  function cerrarModalCompartir() {
+    const modal = document.getElementById('modalCompartir');
+    if (modal) modal.classList.remove('activo');
+  }
+
+  function copiarEnlace() {
+    const input = document.getElementById('enlaceCompartir');
+    input.select();
+    document.execCommand('copy');
+    mostrarMensaje('📋 Enlace copiado al portapapeles');
+    cerrarModalCompartir();
+  }
+
+  function cargarTareasDesdeURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tareasParam = urlParams.get('tareas');
+    
+    if (tareasParam) {
+      try {
+        const datosJSON = decodeURIComponent(atob(tareasParam));
+        const datosImportados = JSON.parse(datosJSON);
+        
+        if (datosImportados.tareasSimples && Array.isArray(datosImportados.tareasSimples)) {
+          tareasSimples = datosImportados.tareasSimples;
+          guardarTareasSimples();
+        }
+        
+        if (datosImportados.tareasPorDia && typeof datosImportados.tareasPorDia === 'object') {
+          tareasPorDia = datosImportados.tareasPorDia;
+          guardarTareasPorDia();
+        }
+        
+        mostrarMensaje('🎉 ¡Tareas cargadas desde el enlace!');
+        
+        // Limpiar la URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+      } catch (e) {
+        console.log('No hay tareas en la URL');
+      }
+    }
   }
 
   function escapeHtml(text) {
@@ -902,45 +1190,31 @@
       autor: "Yo mismo",
       resumen: "Ojo muy importante.",
       contenido: `<p>Fisiología del trabajo de parto</p>
-
 <p>Las 4 etapas del trabajo de parto (dilatación, expulsivo, alumbramiento y posparto inmediato)</p>
 <p>Mecanismos del trabajo de parto (encajamiento, descenso, rotación, extensión, etc.)</p>
 <p>Diferencia entre trabajo de parto verdadero y falso</p>
 <p>Clasificación de la presentación fetal (cefálica, podálica, transversa)</p>
-
 <p>Monitoría fetal</p>
-
 <p>Cómo interpretar una cardiotocografía (CTG) básica</p>
 <p>Valores normales de la frecuencia cardíaca fetal (110–160 lpm)</p>
 <p>Reconocer desaceleraciones tempranas, tardías y variables</p>
-
 <p>Signos vitales y valoración materna</p>
-
 <p>Rangos normales en la gestante (TA, FC, temperatura)</p>
 <p>Señales de alarma: hipertensión, sangrado, fiebre, disminución del movimiento fetal</p>
-
-
 <p>💊 Farmacología básica en sala de partos</p>
-
 <p>Oxitocina: dosis, indicaciones, riesgos (hiperstimulación uterina)</p>
 <p>Misoprostol: uso en inducción y posparto</p>
 <p>Sulfato de magnesio: manejo de la preeclampsia severa, signos de toxicidad</p>
 <p>Ergometrina / metilergonovina: control del sangrado posparto</p>
 <p>Analgesia epidural: conceptos básicos, posición para el procedimiento</p>
-
-
 <p>🔬 Procedimientos que debes reconocer y/o apoyar</p>
-
 <p>Amniotomía (rotura artificial de membranas)</p>
 <p>Control de la dilatación cervical y borramiento</p>
 <p>Maniobras de Leopold</p>
 <p>Episiotomía y su reparación</p>
 <p>Alumbramiento activo (manejo activo de la tercera etapa)</p>
 <p>Atención inmediata del recién nacido: APGAR, ligadura del cordón, termorregulación</p>
-
-
 <p>⚠️ Emergencias obstétricas que debes conocer (aunque no vayas a manejarlas solas)</p>
-
 <p>Hemorragia posparto (HPP): la causa más frecuente es la atonía uterina</p>
 <p>Preeclampsia / eclampsia</p>
 <p>Distocia de hombros</p>
@@ -977,11 +1251,17 @@
 
     if (i === 0) {
       contenidoFinal = `
+        <div class="botones-sync-modal">
+          <button class="btn-sync" onclick="exportarTodasLasTareas()">📤 Exportar tareas</button>
+          <input type="file" id="importarArchivoGlobal" accept=".json" style="display:none" onchange="importarTareas(event)">
+          <button class="btn-sync importar" onclick="document.getElementById('importarArchivoGlobal').click()">📥 Importar tareas</button>
+          <button class="btn-sync compartir" onclick="generarEnlaceCompartir()">📱 Compartir enlace</button>
+        </div>
         <div class="tareas-controles">
           <div class="input-group">
             <input type="text" id="nueva-tarea-input" class="nueva-tarea-input" placeholder="Escribe una nueva tarea...">
-            <button class="btn-tarea" onclick="agregarTarea()">➕ Agregar</button>
-            <button class="btn-tarea btn-eliminar" onclick="eliminarUltimaTarea()">🗑️ Eliminar última</button>
+            <button class="btn-tarea" onclick="agregarTareaSimple()">➕ Agregar</button>
+            <button class="btn-tarea btn-eliminar" onclick="eliminarUltimaTareaSimple()">🗑️ Eliminar última</button>
           </div>
         </div>
         <div id="lista-tareas-container"></div>
@@ -1020,6 +1300,12 @@
       tabsHtml += '</div>';
       
       contenidoFinal = `
+        <div class="botones-sync-modal">
+          <button class="btn-sync" onclick="exportarTodasLasTareas()">📤 Exportar tareas</button>
+          <input type="file" id="importarArchivoGlobal2" accept=".json" style="display:none" onchange="importarTareas(event)">
+          <button class="btn-sync importar" onclick="document.getElementById('importarArchivoGlobal2').click()">📥 Importar tareas</button>
+          <button class="btn-sync compartir" onclick="generarEnlaceCompartir()">📱 Compartir enlace</button>
+        </div>
         ${tabsHtml}
         ${contenidoHtml}
         
@@ -1047,90 +1333,7 @@
     document.getElementById('modal').classList.add('activo');
     
     if (i === 0) {
-      window.guardarTareas = guardarTareas;
-      window.cargarTareas = cargarTareas;
-      window.renderizarTareas = renderizarTareas;
-      window.agregarTarea = agregarTarea;
-      window.eliminarUltimaTarea = eliminarUltimaTarea;
-      
-      function guardarTareas(tareas) {
-        localStorage.setItem('listaTareas', JSON.stringify(tareas));
-      }
-
-      function cargarTareas() {
-        const tareasGuardadas = localStorage.getItem('listaTareas');
-        if (tareasGuardadas) {
-          return JSON.parse(tareasGuardadas);
-        }
-        return [
-          { id: 1, texto: "Póster de P y P (Pasar a plantilla para mandar a imprimir en papel bond)", completada: false },
-          { id: 2, texto: "Empezar trabajo plan de atención de enfermería", completada: false }
-        ];
-      }
-
-      function renderizarTareas() {
-        const tareas = cargarTareas();
-        const container = document.getElementById('lista-tareas-container');
-        if (!container) return;
-        
-        if (tareas.length === 0) {
-          container.innerHTML = '<p style="text-align:center; color:#C97A9A;">✨ ¡No hay tareas pendientes! ✨</p>';
-          return;
-        }
-        
-        container.innerHTML = tareas.map(tarea => `
-          <label class="tarea-item">
-            <input type="checkbox" class="tarea-checkbox" data-id="${tarea.id}" ${tarea.completada ? 'checked' : ''}>
-            <span style="${tarea.completada ? 'text-decoration: line-through; color: #C97A9A;' : ''}">${escapeHtml(tarea.texto)}</span>
-          </label>
-        `).join('');
-        
-        document.querySelectorAll('.tarea-checkbox').forEach(checkbox => {
-          checkbox.addEventListener('change', function(e) {
-            const id = parseInt(this.getAttribute('data-id'));
-            const tareasActuales = cargarTareas();
-            const tarea = tareasActuales.find(t => t.id === id);
-            if (tarea) {
-              tarea.completada = this.checked;
-              guardarTareas(tareasActuales);
-              renderizarTareas();
-            }
-          });
-        });
-      }
-
-      function agregarTarea() {
-        const input = document.getElementById('nueva-tarea-input');
-        const texto = input.value.trim();
-        if (texto === '') {
-          alert('🌸 Por favor escribe una tarea 🌸');
-          return;
-        }
-        
-        const tareas = cargarTareas();
-        const nuevoId = Math.max(...tareas.map(t => t.id), 0) + 1;
-        tareas.push({
-          id: nuevoId,
-          texto: texto,
-          completada: false
-        });
-        guardarTareas(tareas);
-        input.value = '';
-        renderizarTareas();
-      }
-
-      function eliminarUltimaTarea() {
-        const tareas = cargarTareas();
-        if (tareas.length === 0) {
-          alert('✨ No hay tareas para eliminar ✨');
-          return;
-        }
-        tareas.pop();
-        guardarTareas(tareas);
-        renderizarTareas();
-      }
-
-      renderizarTareas();
+      cargarTareasSimples();
     } else if (i === 1) {
       cargarTareasPorDia();
       diasSemana.forEach(dia => renderizarTareasPorDia(dia));
@@ -1144,6 +1347,9 @@
   document.getElementById('modal').addEventListener('click', function(e) {
     if (e.target === this) cerrarModal();
   });
+
+  // Cargar tareas desde URL al iniciar
+  cargarTareasDesdeURL();
 </script>
 </body>
 </html>
