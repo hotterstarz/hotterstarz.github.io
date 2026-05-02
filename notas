@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mis Notas 📝</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Quicksand', 'Comic Neue', 'Comic Sans MS', cursive;
+      background: #FFF0F5;
+      color: #4A2B3D;
+    }
+
+    nav {
+      background: #D86F8B;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: .8rem;
+      flex-wrap: wrap;
+      margin: 1rem;
+      border-radius: 50px;
+    }
+    nav a {
+      color: #FFF0F5;
+      text-decoration: none;
+      font-size: .95rem;
+      font-weight: 600;
+      transition: color .2s;
+    }
+    nav a:hover { color: #FFE4B5; }
+
+    .contenedor {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    /* Header de notas */
+    .header-notas {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .header-notas h1 {
+      color: #B3416B;
+      font-size: 2rem;
+    }
+    .btn-crear {
+      background: #D86F8B;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-family: 'Quicksand', cursive;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-top: 1rem;
+      transition: all 0.3s ease;
+    }
+    .btn-crear:hover {
+      background: #B3416B;
+      transform: scale(1.05);
+    }
+
+    /* Grid de notas */
+    .grid-notas {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    /* Tarjeta de nota */
+    .tarjeta-nota {
+      background: #FFFFFF;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(216, 111, 139, 0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+    .tarjeta-nota:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(216, 111, 139, 0.25);
+    }
+    .tarjeta-header {
+      background: #D86F8B;
+      padding: 15px;
+      position: relative;
+    }
+    .tarjeta-header h3 {
+      color: white;
+      font-size: 1.1rem;
+      padding-right: 50px;
+    }
+    .fecha-nota {
+      font-size: 0.7rem;
+      color: #FFE4E8;
+      margin-top: 5px;
+      display: block;
+    }
+    .btn-eliminar-nota {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+    }
+    .btn-eliminar-nota:hover {
+      background: #ff4444;
+      transform: scale(1.1);
+    }
+    .tarjeta-contenido {
+      padding: 15px;
+      color: #5C3D4F;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      max-height: 100px;
+      overflow: hidden;
+    }
+    .tarjeta-footer {
+      padding: 10px 15px 15px 15px;
+      border-top: 1px solid #F4C2D0;
+      font-size: 0.7rem;
+      color: #C97A9A;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* Modal para crear/editar nota */
+    .modal-nota {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-nota.activo {
+      display: flex;
+    }
+    .modal-contenido {
+      background: white;
+      max-width: 600px;
+      width: 90%;
+      border-radius: 20px;
+      padding: 2rem;
+      position: relative;
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+    .modal-contenido h2 {
+      color: #B3416B;
+      margin-bottom: 1rem;
+    }
+    .modal-contenido input, 
+    .modal-contenido textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 2px solid #F4C2D0;
+      border-radius: 15px;
+      font-family: 'Quicksand', cursive;
+      font-size: 1rem;
+      resize: vertical;
+    }
+    .modal-contenido textarea {
+      min-height: 200px;
+    }
+    .modal-contenido input:focus, 
+    .modal-contenido textarea:focus {
+      outline: none;
+      border-color: #D86F8B;
+    }
+    .modal-btns {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+    .btn-guardar {
+      background: #D86F8B;
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-family: 'Quicksand', cursive;
+      font-weight: 600;
+    }
+    .btn-cancelar {
+      background: #E8A0B5;
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-family: 'Quicksand', cursive;
+      font-weight: 600;
+    }
+    .btn-guardar:hover { background: #B3416B; }
+    .btn-cancelar:hover { background: #D86F8B; }
+    .cerrar-modal {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: #D86F8B;
+    }
+
+    /* Mensaje vacío */
+    .mensaje-vacio {
+      text-align: center;
+      padding: 3rem;
+      background: #FFF5F7;
+      border-radius: 20px;
+      color: #C97A9A;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #4ECDC4;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 30px;
+      z-index: 1100;
+      animation: fadeOut 3s ease forwards;
+    }
+    @keyframes fadeOut {
+      0% { opacity: 1; }
+      70% { opacity: 1; }
+      100% { opacity: 0; visibility: hidden; }
+    }
+
+    footer {
+      background: #D86F8B;
+      color: #FFF0F5;
+      text-align: center;
+      padding: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 640px) {
+      .grid-notas {
+        grid-template-columns: 1fr;
+      }
+      .btn-crear {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html">🏠 Inicio</a>
+  <a href="#">Tecnología</a>
+  <a href="#">Viajes</a>
+  <a href="#">Música</a>
+  <a href="calendario.html">📅 Calendario</a>
+  <a href="notas.html" style="background:#B3416B; padding:0.3rem 1rem; border-radius:25px;">📝 Notas</a>
+</nav>
+
+<div class="contenedor">
+  <div class="header-notas">
+    <h1>📝 Mis Notas</h1>
+    <button class="btn-crear" onclick="abrirNuevaNota()">➕ Crear nueva nota</button>
+  </div>
+
+  <div id="gridNotas" class="grid-notas">
+    <!-- Las notas se cargarán aquí -->
+  </div>
+</div>
+
+<footer>
+  <p>🌸 © 2026 Mi Blog · Tus notas siempre guardadas 🌸</p>
+</footer>
+
+<!-- Modal para crear/editar nota -->
+<div id="modalNota" class="modal-nota">
+  <div class="modal-contenido">
+    <span class="cerrar-modal" onclick="cerrarModalNota()">&times;</span>
+    <h2 id="modalTitulo">📝 Nueva nota</h2>
+    <input type="text" id="tituloNota" placeholder="Título de la nota...">
+    <textarea id="contenidoNota" placeholder="Escribe aquí el contenido de tu nota..."></textarea>
+    <input type="text" id="tagsNota" placeholder="Etiquetas (separadas por comas) - opcional">
+    <div class="modal-btns">
+      <button class="btn-guardar" onclick="guardarNota()">💾 Guardar</button>
+      <button class="btn-cancelar" onclick="cerrarModalNota()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ============================================================
+  // 📝 SISTEMA DE NOTAS
+  // ============================================================
+  
+  let notas = [];
+  let notaEditandoId = null;
+
+  // Cargar notas de localStorage
+  function cargarNotas() {
+    const guardadas = localStorage.getItem('misNotas');
+    if (guardadas) {
+      notas = JSON.parse(guardadas);
+    } else {
+      // Notas de ejemplo
+      notas = [
+        {
+          id: Date.now(),
+          titulo: "¡Bienvenida a tus notas!",
+          contenido: "Esta es tu primera nota. Puedes crear, editar y eliminar notas libremente. Todas se guardan automáticamente en tu navegador.",
+          tags: ["bienvenida", "tutorial"],
+          fecha: new Date().toISOString(),
+          fechaModificacion: new Date().toISOString()
+        }
+      ];
+      guardarNotas();
+    }
+    renderizarNotas();
+  }
+
+  function guardarNotas() {
+    localStorage.setItem('misNotas', JSON.stringify(notas));
+  }
+
+  function renderizarNotas() {
+    const grid = document.getElementById('gridNotas');
+    
+    if (notas.length === 0) {
+      grid.innerHTML = `<div class="mensaje-vacio">✨ No hay notas aún. ¡Crea tu primera nota! ✨</div>`;
+      return;
+    }
+    
+    // Ordenar por fecha de modificación (más reciente primero)
+    const notasOrdenadas = [...notas].sort((a, b) => 
+      new Date(b.fechaModificacion) - new Date(a.fechaModificacion)
+    );
+    
+    grid.innerHTML = notasOrdenadas.map(nota => `
+      <div class="tarjeta-nota" onclick="editarNota(${nota.id})">
+        <div class="tarjeta-header">
+          <h3>${escapeHtml(nota.titulo)}</h3>
+          <span class="fecha-nota">📅 ${formatearFecha(nota.fechaModificacion)}</span>
+          <button class="btn-eliminar-nota" onclick="event.stopPropagation(); eliminarNota(${nota.id})">🗑️</button>
+        </div>
+        <div class="tarjeta-contenido">
+          ${escapeHtml(resumirTexto(nota.contenido, 120))}
+        </div>
+        <div class="tarjeta-footer">
+          <span>📝 ${nota.contenido.length} caracteres</span>
+          <span>${nota.tags && nota.tags.length ? `🏷️ ${nota.tags.slice(0,2).join(', ')}` : ''}</span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function resumirTexto(texto, max) {
+    if (texto.length <= max) return texto;
+    return texto.substring(0, max) + '...';
+  }
+
+  function formatearFecha(fechaISO) {
+    const fecha = new Date(fechaISO);
+    const hoy = new Date();
+    const diff = hoy - fecha;
+    const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+    
+    if (dias === 0) return 'Hoy';
+    if (dias === 1) return 'Ayer';
+    if (dias < 7) return `Hace ${dias} días`;
+    return fecha.toLocaleDateString('es-ES');
+  }
+
+  function abrirNuevaNota() {
+    notaEditandoId = null;
+    document.getElementById('modalTitulo').textContent = '📝 Nueva nota';
+    document.getElementById('tituloNota').value = '';
+    document.getElementById('contenidoNota').value = '';
+    document.getElementById('tagsNota').value = '';
+    document.getElementById('modalNota').classList.add('activo');
+  }
+
+  function editarNota(id) {
+    const nota = notas.find(n => n.id === id);
+    if (!nota) return;
+    
+    notaEditandoId = id;
+    document.getElementById('modalTitulo').textContent = '✏️ Editar nota';
+    document.getElementById('tituloNota').value = nota.titulo;
+    document.getElementById('contenidoNota').value = nota.contenido;
+    document.getElementById('tagsNota').value = nota.tags ? nota.tags.join(', ') : '';
+    document.getElementById('modalNota').classList.add('activo');
+  }
+
+  function guardarNota() {
+    const titulo = document.getElementById('tituloNota').value.trim();
+    const contenido = document.getElementById('contenidoNota').value.trim();
+    const tagsStr = document.getElementById('tagsNota').value.trim();
+    const tags = tagsStr ? tagsStr.split(',').map(t => t.trim()).filter(t => t) : [];
+    
+    if (titulo === '') {
+      mostrarToast('❌ El título no puede estar vacío');
+      return;
+    }
+    if (contenido === '') {
+      mostrarToast('❌ El contenido no puede estar vacío');
+      return;
+    }
+    
+    if (notaEditandoId) {
+      // Editar nota existente
+      const index = notas.findIndex(n => n.id === notaEditandoId);
+      if (index !== -1) {
+        notas[index] = {
+          ...notas[index],
+          titulo: titulo,
+          contenido: contenido,
+          tags: tags,
+          fechaModificacion: new Date().toISOString()
+        };
+        mostrarToast('✏️ Nota actualizada');
+      }
+    } else {
+      // Crear nueva nota
+      notas.push({
+        id: Date.now(),
+        titulo: titulo,
+        contenido: contenido,
+        tags: tags,
+        fecha: new Date().toISOString(),
+        fechaModificacion: new Date().toISOString()
+      });
+      mostrarToast('✅ Nota creada correctamente');
+    }
+    
+    guardarNotas();
+    renderizarNotas();
+    cerrarModalNota();
+  }
+
+  function eliminarNota(id) {
+    if (confirm('¿Estás segura de que quieres eliminar esta nota?')) {
+      notas = notas.filter(n => n.id !== id);
+      guardarNotas();
+      renderizarNotas();
+      mostrarToast('🗑️ Nota eliminada');
+    }
+  }
+
+  function cerrarModalNota() {
+    document.getElementById('modalNota').classList.remove('activo');
+    notaEditandoId = null;
+  }
+
+  function mostrarToast(mensaje) {
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = mensaje;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+  }
+
+  function escapeHtml(texto) {
+    const div = document.createElement('div');
+    div.textContent = texto;
+    return div.innerHTML;
+  }
+
+  // Cerrar modal haciendo clic fuera
+  document.getElementById('modalNota').addEventListener('click', function(e) {
+    if (e.target === this) cerrarModalNota();
+  });
+
+  // Inicializar
+  cargarNotas();
+</script>
+</body>
+</html>
