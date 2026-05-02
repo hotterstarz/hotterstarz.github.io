@@ -13,7 +13,6 @@
       color: #222;
     }
 
-    /* ── HEADER ── */
     header {
       background-image: url('chii.jpg');
       background-size: cover;
@@ -27,16 +26,12 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0,0,0,0.5);
     }
-    header h1, header p {
-      position: relative;
-      z-index: 1;
-    }
+    header h1, header p { position: relative; z-index: 1; }
     header h1 { font-size: 2.2rem; letter-spacing: 2px; }
     header p  { margin-top: .4rem; color: #aaa; font-style: italic; }
 
-    /* ── NAV ── */
     nav {
       background: #16213e;
       display: flex;
@@ -53,7 +48,6 @@
     }
     nav a:hover { color: #f0a500; }
 
-    /* ── LAYOUT ── */
     .contenedor {
       max-width: 900px;
       margin: 2rem auto;
@@ -63,7 +57,6 @@
       gap: 2rem;
     }
 
-    /* ── ARTÍCULOS ── */
     .articulo {
       background: white;
       border-radius: 8px;
@@ -74,7 +67,6 @@
     .articulo-img {
       width: 100%;
       height: 200px;
-      object-fit: cover;
       background: linear-gradient(135deg, #667eea, #764ba2);
       display: flex;
       align-items: center;
@@ -96,12 +88,7 @@
       letter-spacing: 1px;
     }
     .articulo h2 { font-size: 1.4rem; margin-bottom: .5rem; }
-    .meta {
-      font-size: .82rem;
-      color: #888;
-      font-family: sans-serif;
-      margin-bottom: .8rem;
-    }
+    .meta { font-size: .82rem; color: #888; font-family: sans-serif; margin-bottom: .8rem; }
     .articulo p { line-height: 1.7; color: #444; }
     .leer-mas {
       display: inline-block;
@@ -110,7 +97,6 @@
       color: white;
       padding: .5rem 1.2rem;
       border-radius: 4px;
-      text-decoration: none;
       font-family: sans-serif;
       font-size: .9rem;
       cursor: pointer;
@@ -119,7 +105,6 @@
     }
     .leer-mas:hover { background: #f0a500; }
 
-    /* ── MODAL ── */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -153,7 +138,6 @@
       color: #555;
     }
 
-    /* ── SIDEBAR ── */
     aside { display: flex; flex-direction: column; gap: 1.5rem; }
     .widget {
       background: white;
@@ -191,13 +175,12 @@
     }
     .tag:hover { background: #1a1a2e; color: white; }
 
-    /* ── SLIDESHOW ── */
     .slideshow {
       position: relative;
       width: 100%;
       aspect-ratio: 4/3;
       overflow: hidden;
-      border-radius: 8px;
+      border-radius: 8px 8px 0 0;
       background: #eee;
     }
     .slide {
@@ -206,44 +189,27 @@
       opacity: 0;
       transition: opacity .6s ease;
     }
-    .slide img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+    .slide img { width: 100%; height: 100%; object-fit: cover; }
     .slide.activo { opacity: 1; }
     .slide-btns {
       display: flex;
       justify-content: space-between;
-      margin-top: .6rem;
+      padding: .5rem;
+      background: white;
+      border-radius: 0 0 8px 8px;
     }
     .slide-btn {
       background: #1a1a2e;
       color: white;
       border: none;
-      padding: .3rem .8rem;
+      padding: .3rem .9rem;
       border-radius: 4px;
       cursor: pointer;
       font-size: 1rem;
       transition: background .2s;
     }
     .slide-btn:hover { background: #f0a500; }
-    .slide-dots {
-      display: flex;
-      justify-content: center;
-      gap: .4rem;
-      margin-top: .5rem;
-    }
-    .dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: #ccc;
-      cursor: pointer;
-      transition: background .2s;
-    }
-    .dot.activo { background: #1a1a2e; }
 
-    /* ── FOOTER ── */
     footer {
       background: #1a1a2e;
       color: #aaa;
@@ -277,13 +243,14 @@
 <div class="contenedor">
   <main id="posts"></main>
   <aside>
+
     <div class="widget" style="padding:0;overflow:hidden;border-radius:8px;">
       <div class="slideshow" id="slideshow">
         <div class="slide activo"><img src="chii.jpg" alt="Foto 1"></div>
         <div class="slide"><img src="umibe.jpg" alt="Foto 2"></div>
         <div class="slide"><img src="gwen.jpg" alt="Foto 3"></div>
       </div>
-      <div class="slide-btns" style="padding:.5rem;">
+      <div class="slide-btns">
         <button class="slide-btn" onclick="cambiarSlide(-1)">&#8592;</button>
         <button class="slide-btn" onclick="cambiarSlide(1)">&#8594;</button>
       </div>
@@ -316,6 +283,7 @@
         <span class="tag">Tecnología</span>
       </div>
     </div>
+
   </aside>
 </div>
 
@@ -334,10 +302,9 @@
 </footer>
 
 <script>
-  // ── SLIDESHOW ─────────────────────────────────────────────
+  // ── SLIDESHOW ──────────────────────────────────────────────
   const slides = document.querySelectorAll('.slide');
   let actual = 0, timer;
-  });
 
   function irA(n) {
     slides[actual].classList.remove('activo');
@@ -356,6 +323,7 @@
   reiniciarTimer();
 
   // ── POSTS ──────────────────────────────────────────────────
+  const posts = [
     {
       emoji: "💻",
       categoria: "Tecnología",
@@ -408,9 +376,11 @@
     document.getElementById('m-contenido').innerHTML = p.contenido;
     document.getElementById('modal').classList.add('activo');
   }
+
   function cerrarModal() {
     document.getElementById('modal').classList.remove('activo');
   }
+
   document.getElementById('modal').addEventListener('click', function(e) {
     if (e.target === this) cerrarModal();
   });
