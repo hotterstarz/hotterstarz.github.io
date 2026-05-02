@@ -284,7 +284,6 @@
         <div class="slide"><img src="gwen stacy _ spiderman _ marvel aesthetic.jpg" alt="Foto 3"></div>
       </div>
       <div class="slide-btns" style="padding:.5rem;">
-      <div class="slide-btns">
         <button class="slide-btn" onclick="cambiarSlide(-1)">&#8592;</button>
         <button class="slide-btn" onclick="cambiarSlide(1)">&#8594;</button>
       </div>
@@ -349,10 +348,8 @@
 
   function irA(n) {
     slides[actual].classList.remove('activo');
-    document.querySelectorAll('.dot')[actual].classList.remove('activo');
     actual = (n + slides.length) % slides.length;
     slides[actual].classList.add('activo');
-    document.querySelectorAll('.dot')[actual].classList.add('activo');
     reiniciarTimer();
   }
 
