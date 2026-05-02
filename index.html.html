@@ -11,17 +11,23 @@
       font-family: 'Quicksand', 'Comic Neue', 'Comic Sans MS', cursive;
       background: #FFF0F5;
       color: #4A2B3D;
+      display: flex;
+      min-height: 100vh;
     }
 
     nav {
       background: #D86F8B;
       display: flex;
-      justify-content: center;
-      gap: 2rem;
-      padding: .8rem;
-      flex-wrap: wrap;
-      margin: 1rem;
-      border-radius: 50px;
+      flex-direction: column;
+      gap: 0.5rem;
+      padding: 1.5rem 0;
+      width: 180px;
+      min-height: 100vh;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      align-items: stretch;
     }
     nav a {
       color: #FFF0F5;
@@ -29,8 +35,16 @@
       font-size: .95rem;
       font-weight: 600;
       transition: color .2s;
+      padding: 0.6rem 1.2rem;
     }
-    nav a:hover { color: #FFE4B5; }
+    nav a:hover { color: #FFE4B5; background: rgba(255,255,255,0.1); }
+
+    .page-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: auto;
+    }
 
     .contenedor {
       max-width: 900px;
@@ -39,6 +53,7 @@
       display: grid;
       grid-template-columns: 1fr 280px;
       gap: 2rem;
+      width: 100%;
     }
 
     .articulo {
@@ -94,7 +109,6 @@
     }
     .leer-mas:hover { background: #B3416B; }
 
-    /* Tablas */
     .seccion-tabla {
       background: #FFFFFF;
       border-radius: 16px;
@@ -245,9 +259,7 @@
       height: 100%;
       object-fit: cover;
     }
-    .slide-paisaje.activo {
-      opacity: 1;
-    }
+    .slide-paisaje.activo { opacity: 1; }
     .slideshow-paisajes-btns {
       display: flex;
       justify-content: space-between;
@@ -323,6 +335,9 @@
     }
 
     @media (max-width: 640px) {
+      body { flex-direction: column; }
+      nav { flex-direction: row; flex-wrap: wrap; width: 100%; min-height: auto; height: auto; position: relative; padding: 0.5rem; }
+      nav a { padding: 0.4rem 0.7rem; font-size: 0.8rem; }
       .contenedor { grid-template-columns: 1fr; }
       .musica-iframe { min-height: 180px; }
       .tabla-tareas th, .tabla-tareas td { font-size: 0.75rem; padding: 6px; }
@@ -339,98 +354,99 @@
   <a href="calendario.html">📅 Calendario</a>
 </nav>
 
-<div class="contenedor">
-  <main id="posts">
-    
-    <!-- TABLA DE TAREAS SIMPLES -->
-    <div class="seccion-tabla">
-      <div class="tabla-header">
-        <span class="categoria">( ꩜ ᯅ ꩜;)⁭</span>
-        <h2>Lista de tareas (˶ ´༥` ˶)୭</h2>
-        <p class="meta">📅 1 de mayo, 2026 &nbsp;·&nbsp; ✍️ Yo mismo</p>
-      </div>
-      <table class="tabla-tareas">
-        <thead><tr><th style="width:40px">✓</th><th>Tarea</th></tr></thead>
-        <tbody id="tbodySimples"></tbody>
-      </table>
-      <div class="nota-static">📝 Edita el array "tareasSimples" en el código JavaScript (línea ~250)</div>
-      <div class="motivacion-container">
-        <div class="motivacion-marco">
-          <img src="sevenseven.jpg" class="motivacion-imagen" onerror="this.src='https://via.placeholder.com/600x300/FFD1DC/B3416B?text=🌟+Tú+puedes+con+todo+🌟'">
+<div class="page-body">
+  <div class="contenedor">
+    <main id="posts">
+      
+      <div class="seccion-tabla">
+        <div class="tabla-header">
+          <span class="categoria">( ꩜ ᯅ ꩜;)⁭</span>
+          <h2>Lista de tareas (˶ ´༥` ˶)୭</h2>
+          <p class="meta">📅 1 de mayo, 2026 &nbsp;·&nbsp; ✍️ Yo mismo</p>
         </div>
-        <div class="motivacion-texto">✨ ¡Tú puedes hacerlo! ✨ ദ്ദി◝ ⩊ ◜.ᐟ</div>
-      </div>
-    </div>
-
-    <!-- TABLA DE TAREAS SEMANALES -->
-    <div class="seccion-tabla">
-      <div class="tabla-header">
-        <span class="categoria">₍^. .^₎⟆</span>
-        <h2>Tareas por día de la semana</h2>
-        <p class="meta">📅 20 de abril, 2026 &nbsp;·&nbsp; ✍️ Yo mismo</p>
-      </div>
-      <table class="tabla-tareas">
-        <thead><tr><th style="width:40px">✓</th><th>Día</th><th>Tarea</th></tr></thead>
-        <tbody id="tbodySemanales"></tbody>
-      </table>
-      <div class="nota-static">📝 Edita el array "tareasSemanales" en el código JavaScript (línea ~265)</div>
-      <div class="motivacion-container">
-        <div class="motivacion-marco">
-          <img src="Buddha.jpg" class="motivacion-imagen" onerror="this.src='https://via.placeholder.com/600x300/FFD1DC/B3416B?text=🌟+Organiza+tu+semana+con+cariño+🌟'">
+        <table class="tabla-tareas">
+          <thead><tr><th style="width:40px">✓</th><th>Tarea</th></tr></thead>
+          <tbody id="tbodySimples"></tbody>
+        </table>
+        <div class="nota-static">📝 Edita el array "tareasSimples" en el código JavaScript (línea ~250)</div>
+        <div class="motivacion-container">
+          <div class="motivacion-marco">
+            <img src="sevenseven.jpg" class="motivacion-imagen" onerror="this.src='https://via.placeholder.com/600x300/FFD1DC/B3416B?text=🌟+Tú+puedes+con+todo+🌟'">
+          </div>
+          <div class="motivacion-texto">✨ ¡Tú puedes hacerlo! ✨ ദ്ദി◝ ⩊ ◜.ᐟ</div>
         </div>
-        <div class="motivacion-texto">✨ ¡Cada día es una nueva oportunidad! ✨ 🌸</div>
       </div>
-    </div>
 
-    <!-- TERCER POST -->
-    <article class="articulo">
-      <div class="articulo-img"><img src="japan3.jpg" onerror="this.src='https://via.placeholder.com/800x400/E8A0B5/white?text=Imagen+no+encontrada'"></div>
-      <div class="articulo-body">
-        <span class="categoria">˚₊‧꒰ა ☆ ໒꒱ ‧₊˚</span>
-        <h2>QUE ESTUDIAR PARA ROTACIÓN DE PARTOS</h2>
-        <p class="meta">📅 10 de abril, 2026 &nbsp;·&nbsp; ✍️ Yo mismo</p>
-        <p>Ojo muy importante.</p>
-        <button class="leer-mas" onclick="abrirModalContenido()">Leer más →</button>
+      <div class="seccion-tabla">
+        <div class="tabla-header">
+          <span class="categoria">₍^. .^₎⟆</span>
+          <h2>Tareas por día de la semana</h2>
+          <p class="meta">📅 20 de abril, 2026 &nbsp;·&nbsp; ✍️ Yo mismo</p>
+        </div>
+        <table class="tabla-tareas">
+          <thead><tr><th style="width:40px">✓</th><th>Día</th><th>Tarea</th></tr></thead>
+          <tbody id="tbodySemanales"></tbody>
+        </table>
+        <div class="nota-static">📝 Edita el array "tareasSemanales" en el código JavaScript (línea ~265)</div>
+        <div class="motivacion-container">
+          <div class="motivacion-marco">
+            <img src="Buddha.jpg" class="motivacion-imagen" onerror="this.src='https://via.placeholder.com/600x300/FFD1DC/B3416B?text=🌟+Organiza+tu+semana+con+cariño+🌟'">
+          </div>
+          <div class="motivacion-texto">✨ ¡Cada día es una nueva oportunidad! ✨ 🌸</div>
+        </div>
       </div>
-    </article>
 
-  </main>
-  <aside>
+      <article class="articulo">
+        <div class="articulo-img"><img src="japan3.jpg" onerror="this.src='https://via.placeholder.com/800x400/E8A0B5/white?text=Imagen+no+encontrada'"></div>
+        <div class="articulo-body">
+          <span class="categoria">˚₊‧꒰ა ☆ ໒꒱ ‧₊˚</span>
+          <h2>QUE ESTUDIAR PARA ROTACIÓN DE PARTOS</h2>
+          <p class="meta">📅 10 de abril, 2026 &nbsp;·&nbsp; ✍️ Yo mismo</p>
+          <p>Ojo muy importante.</p>
+          <button class="leer-mas" onclick="abrirModalContenido()">Leer más →</button>
+        </div>
+      </article>
 
-    <div class="widget" style="padding:0;overflow:hidden;border-radius:16px;">
-      <div class="slideshow" id="slideshow">
-        <div class="slide activo"><img src="chii.jpg"></div>
-        <div class="slide"><img src="umibe.jpg"></div>
-        <div class="slide"><img src="gwen.jpg"></div>
-        <div class="slide"><img src="Isobe.jpg"></div>
+    </main>
+    <aside>
+
+      <div class="widget" style="padding:0;overflow:hidden;border-radius:16px;">
+        <div class="slideshow" id="slideshow">
+          <div class="slide activo"><img src="chii.jpg"></div>
+          <div class="slide"><img src="umibe.jpg"></div>
+          <div class="slide"><img src="gwen.jpg"></div>
+          <div class="slide"><img src="Isobe.jpg"></div>
+        </div>
+        <div class="slide-btns">
+          <button class="slide-btn" onclick="cambiarSlide(-1)">◀</button>
+          <button class="slide-btn" onclick="cambiarSlide(1)">▶</button>
+        </div>
       </div>
-      <div class="slide-btns">
-        <button class="slide-btn" onclick="cambiarSlide(-1)">◀</button>
-        <button class="slide-btn" onclick="cambiarSlide(1)">▶</button>
-      </div>
-    </div>
 
-    <div class="widget widget-paisajes">
-      <h3>🏔️ Paisajes que Inspiran 🌅</h3>
-      <div class="slideshow-paisajes" id="slideshowPaisajes">
-        <div class="slide-paisaje activo"><img src="Ipanema.jpg"></div>
-        <div class="slide-paisaje"><img src="Japan1.jpg"></div>
-        <div class="slide-paisaje"><img src="Japan2.jpg"></div>
+      <div class="widget widget-paisajes">
+        <h3>🏔️ Paisajes que Inspiran 🌅</h3>
+        <div class="slideshow-paisajes" id="slideshowPaisajes">
+          <div class="slide-paisaje activo"><img src="Ipanema.jpg"></div>
+          <div class="slide-paisaje"><img src="Japan1.jpg"></div>
+          <div class="slide-paisaje"><img src="Japan2.jpg"></div>
+        </div>
+        <div class="slideshow-paisajes-btns">
+          <button class="btn-paisaje" onclick="cambiarPaisaje(-1)">◀</button>
+          <button class="btn-paisaje" onclick="cambiarPaisaje(1)">▶</button>
+        </div>
+        <div class="indicadores-paisajes" id="indicadoresPaisajes"></div>
       </div>
-      <div class="slideshow-paisajes-btns">
-        <button class="btn-paisaje" onclick="cambiarPaisaje(-1)">◀</button>
-        <button class="btn-paisaje" onclick="cambiarPaisaje(1)">▶</button>
+
+      <div class="widget widget-musica">
+        <h3>🎵 Mi playlist favorita 🎵</h3>
+        <iframe class="musica-iframe" src="https://www.youtube.com/embed/videoseries?list=PLl4CgAo8Zq4hNkAEh5VOC-XgGnkk6yuPF" allowfullscreen></iframe>
+        <div class="musica-info">🎧 Mi playlist favorita 🎵</div>
       </div>
-      <div class="indicadores-paisajes" id="indicadoresPaisajes"></div>
-    </div>
 
-    <div class="widget widget-musica">
-      <h3>🎵 Mi playlist favorita 🎵</h3>
-      <iframe class="musica-iframe" src="https://www.youtube.com/embed/videoseries?list=PLl4CgAo8Zq4hNkAEh5VOC-XgGnkk6yuPF" allowfullscreen></iframe>
-      <div class="musica-info">🎧 Mi playlist favorita 🎵</div>
-    </div>
+    </aside>
+  </div>
 
-  </aside>
+  <footer>🌸 © 2026 Mi Blog · Hecho con 💖 y mucha ternura 🌸</footer>
 </div>
 
 <div class="modal-overlay" id="modal">
@@ -440,38 +456,23 @@
   </div>
 </div>
 
-<footer>🌸 © 2026 Mi Blog · Hecho con 💖 y mucha ternura 🌸</footer>
-
 <script>
-  // ============================================================
-  // ✏️ EDITA LAS TAREAS AQUÍ ABAJO ✏️
-  // ============================================================
-  
-  // LISTA DE TAREAS SIMPLES
   let tareasSimples = [
     { id: 1, texto: "Póster de P y P (Pasar a plantilla para mandar a imprimir en papel bond)", completada: false },
     { id: 2, texto: "Trabajo plan de atención de enfermería", completada: false }
   ];
 
-  // TAREAS POR DÍA DE LA SEMANA
   let tareasSemanales = [
-    // LUNES
     { id: 1, dia: "lunes", tarea: "Buscar artículo para caso de profundización", completada: false },
     { id: 2, dia: "lunes", tarea: "Parte 1 trabajo situación de enfermería", completada: false },
     { id: 3, dia: "lunes", tarea: "Arreglar ayudas para llevar a la rotación", completada: false },
     { id: 4, dia: "lunes", tarea: "Estudiar para la rotación de partos", completada: false },
-    // MARTES
     { id: 5, dia: "martes", tarea: "Parte 2 trabajo situación de enfermería", completada: false },
     { id: 6, dia: "martes", tarea: "Terminar de arreglar ayudas para llevar a la rotación", completada: false },
     { id: 7, dia: "martes", tarea: "Estudiar rotación de partos", completada: false },
     { id: 8, dia: "martes", tarea: "Estudiar parcial ecobiología", completada: false }
   ];
 
-  // ============================================================
-  // NO EDITES NADA DEBAJO DE ESTA LÍNEA
-  // ============================================================
-
-  // Slideshow principal
   const slides = document.querySelectorAll('.slide');
   let actualSlide = 0, timerPrincipal;
   function irA(n) { slides[actualSlide].classList.remove('activo'); actualSlide = (n + slides.length) % slides.length; slides[actualSlide].classList.add('activo'); reiniciarTimerPrincipal(); }
@@ -479,7 +480,6 @@
   function reiniciarTimerPrincipal() { clearInterval(timerPrincipal); timerPrincipal = setInterval(() => cambiarSlide(1), 4000); }
   reiniciarTimerPrincipal();
 
-  // Slideshow paisajes
   let slidesPaisajes = document.querySelectorAll('.slide-paisaje');
   let actualPaisaje = 0, timerPaisajes;
   function cargarImagenesPaisajes() {
@@ -504,7 +504,6 @@
   cargarImagenesPaisajes();
   reiniciarTimerPaisajes();
 
-  // Guardar/recuperar estado de completado
   function guardarTareasSimples() { localStorage.setItem('tareasSimples', JSON.stringify(tareasSimples)); }
   function guardarTareasSemanales() { localStorage.setItem('tareasSemanales', JSON.stringify(tareasSemanales)); }
   function cargarTareasSimples() { const g = localStorage.getItem('tareasSimples'); if (g) tareasSimples = JSON.parse(g); renderizarTablaSimples(); }
