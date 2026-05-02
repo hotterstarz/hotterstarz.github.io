@@ -339,7 +339,7 @@
       font-weight: 700;
     }
 
-    /* Widget de música */
+    /* Widget de música - VERSIÓN CORREGIDA */
     .widget-musica {
       background: linear-gradient(135deg, #FFE4E8, #FFD1DC);
     }
@@ -347,7 +347,8 @@
       width: 100%;
       border-radius: 12px;
       margin-top: 10px;
-      min-height: 200px;
+      min-height: 232px;
+      aspect-ratio: 16/9;
     }
     .musica-info {
       text-align: center;
@@ -438,6 +439,9 @@
       .tareas-controles {
         flex-direction: column;
       }
+      .musica-iframe {
+        min-height: 180px;
+      }
     }
   </style>
 </head>
@@ -467,19 +471,19 @@
       </div>
     </div>
 
-    <!-- Widget de YouTube Music -->
+    <!-- Widget de música - VERSIÓN QUE SÍ FUNCIONA CON YOUTUBE NORMAL -->
     <div class="widget widget-musica">
       <h3>🎵 Mi música 🎵</h3>
       <iframe class="musica-iframe" 
-        src="https://music.youtube.com/playlist?list=PLl4CgAo8Zq4jftH4qOIriBxgZkiB_ZyA0&si=XHnt1BakGv0w8Dz1" 
-        title="YouTube Music Player" 
+        src="https://www.youtube.com/watch?v=XbKLO9TbRRQ" 
+        title="YouTube" 
         frameborder="0" 
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
         referrerpolicy="strict-origin-when-cross-origin" 
         allowfullscreen>
       </iframe>
       <div class="musica-info">
-        🎧 Mi playlist favorita en YouTube Music
+        🎧 Mi playlist favorita 🎵
       </div>
     </div>
 
