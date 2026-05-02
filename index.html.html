@@ -8,7 +8,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: 'Georgia', serif;
+      font-family: 'Comic Neue', 'Comic Sans MS', 'Chalkboard SE', cursive, sans-serif;
       background: #f5f5f0;
       color: #222;
     }
@@ -29,7 +29,7 @@
       background: rgba(0,0,0,0.5);
     }
     header h1, header p { position: relative; z-index: 1; }
-    header h1 { font-size: 2.2rem; letter-spacing: 2px; }
+    header h1 { font-size: 2.2rem; letter-spacing: 2px; font-family: 'Comic Neue', 'Comic Sans MS', cursive; }
     header p  { margin-top: .4rem; color: #aaa; font-style: italic; }
 
     nav {
@@ -43,7 +43,7 @@
       color: #e0e0e0;
       text-decoration: none;
       font-size: .95rem;
-      font-family: sans-serif;
+      font-family: 'Comic Neue', 'Comic Sans MS', cursive;
       transition: color .2s;
     }
     nav a:hover { color: #f0a500; }
@@ -66,9 +66,9 @@
     }
     .articulo-img {
       width: 100%;
-      height: auto; /* Cambiado de 200px a auto */
-      min-height: 200px; /* Altura mínima */
-      max-height: 400px; /* Altura máxima */
+      height: auto;
+      min-height: 200px;
+      max-height: 400px;
       overflow: hidden;
       background: #f0f0f0;
       display: flex;
@@ -77,7 +77,7 @@
     }
     .articulo-img img {
       width: 100%;
-      height: auto; /* Cambiado para mantener proporción */
+      height: auto;
       display: block;
       transition: transform 0.3s ease;
     }
@@ -90,16 +90,16 @@
       background: #f0a500;
       color: white;
       font-size: .75rem;
-      font-family: sans-serif;
+      font-family: 'Comic Neue', 'Comic Sans MS', cursive;
       padding: .2rem .7rem;
       border-radius: 20px;
       margin-bottom: .8rem;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
-    .articulo h2 { font-size: 1.4rem; margin-bottom: .5rem; }
-    .meta { font-size: .82rem; color: #888; font-family: sans-serif; margin-bottom: .8rem; }
-    .articulo p { line-height: 1.7; color: #444; }
+    .articulo h2 { font-size: 1.4rem; margin-bottom: .5rem; font-family: 'Comic Neue', 'Comic Sans MS', cursive; }
+    .meta { font-size: .82rem; color: #888; font-family: 'Comic Neue', 'Comic Sans MS', cursive; margin-bottom: .8rem; }
+    .articulo p { line-height: 1.7; color: #444; font-family: 'Comic Neue', 'Comic Sans MS', cursive; }
     .leer-mas {
       display: inline-block;
       margin-top: 1rem;
@@ -107,13 +107,100 @@
       color: white;
       padding: .5rem 1.2rem;
       border-radius: 4px;
-      font-family: sans-serif;
+      font-family: 'Comic Neue', 'Comic Sans MS', cursive;
       font-size: .9rem;
       cursor: pointer;
       border: none;
       transition: background .2s;
     }
     .leer-mas:hover { background: #f0a500; }
+
+    /* Estilos para la lista de tareas */
+    .lista-tareas {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .tarea-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: #f8f8f8;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid #e0e0e0;
+    }
+
+    .tarea-item:hover {
+      background: #f0f0f0;
+      transform: translateX(5px);
+    }
+
+    .tarea-checkbox {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      accent-color: #f0a500;
+    }
+
+    .tarea-item span {
+      flex: 1;
+      font-size: 1rem;
+      color: #333;
+      transition: all 0.3s ease;
+      font-family: 'Comic Neue', 'Comic Sans MS', cursive;
+    }
+
+    .tarea-checkbox:checked + span {
+      text-decoration: line-through;
+      color: #888;
+    }
+
+    /* Botones para agregar/eliminar tareas */
+    .tareas-controles {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
+
+    .btn-tarea {
+      background: #f0a500;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: 'Comic Neue', 'Comic Sans MS', cursive;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+
+    .btn-tarea:hover {
+      background: #1a1a2e;
+      transform: scale(1.05);
+    }
+
+    .btn-eliminar {
+      background: #ff4444;
+    }
+
+    .btn-eliminar:hover {
+      background: #cc0000;
+    }
+
+    .nueva-tarea-input {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-family: 'Comic Neue', 'Comic Sans MS', cursive;
+      font-size: 0.9rem;
+    }
 
     .modal-overlay {
       display: none;
@@ -135,9 +222,9 @@
       max-height: 80vh;
       overflow-y: auto;
     }
-    .modal h2 { font-size: 1.6rem; margin-bottom: .5rem; }
+    .modal h2 { font-size: 1.6rem; margin-bottom: .5rem; font-family: 'Comic Neue', 'Comic Sans MS', cursive; }
     .modal .meta { margin-bottom: 1rem; }
-    .modal p { line-height: 1.8; color: #333; margin-bottom: 1rem; }
+    .modal p { line-height: 1.8; color: #333; margin-bottom: 1rem; font-family: 'Comic Neue', 'Comic Sans MS', cursive; }
     .cerrar {
       position: absolute;
       top: 1rem; right: 1.2rem;
@@ -170,7 +257,7 @@
       box-shadow: 0 2px 8px rgba(0,0,0,.08);
     }
     .widget h3 {
-      font-family: sans-serif;
+      font-family: 'Comic Neue', 'Comic Sans MS', cursive;
       font-size: 1rem;
       text-transform: uppercase;
       letter-spacing: 1px;
@@ -184,6 +271,7 @@
       border-bottom: 1px solid #eee;
       font-size: .9rem;
       color: #555;
+      font-family: 'Comic Neue', 'Comic Sans MS', cursive;
     }
     .widget ul li:last-child { border: none; }
     .tag-cloud { display: flex; flex-wrap: wrap; gap: .5rem; }
@@ -192,7 +280,7 @@
       padding: .3rem .8rem;
       border-radius: 20px;
       font-size: .8rem;
-      font-family: sans-serif;
+      font-family: 'Comic Neue', 'Comic Sans MS', cursive;
       color: #444;
       cursor: pointer;
       transition: background .2s;
@@ -231,6 +319,7 @@
       cursor: pointer;
       font-size: 1rem;
       transition: background .2s;
+      font-family: 'Comic Neue', 'Comic Sans MS', cursive;
     }
     .slide-btn:hover { background: #f0a500; }
 
@@ -240,7 +329,7 @@
       text-align: center;
       padding: 1.5rem;
       margin-top: 2rem;
-      font-family: sans-serif;
+      font-family: 'Comic Neue', 'Comic Sans MS', cursive;
       font-size: .85rem;
     }
 
@@ -285,7 +374,7 @@
 
     <div class="widget">
       <h3>Sobre mí</h3>
-      <p style="font-size:.9rem;color:#555;line-height:1.6">
+      <p style="font-size:.9rem;color:#555;line-height:1.6; font-family:'Comic Neue', 'Comic Sans MS', cursive">
         ¡Hola! Soy el autor de este blog. Aquí comparto mis ideas, aprendizajes y aventuras. 🎉
       </p>
     </div>
@@ -358,9 +447,8 @@
       fecha: "1 de mayo, 2026",
       autor: "Yo mismo",
       resumen: "Tareas pendientes pero que no puedo completar.",
-      contenido: `<p>ദ്ദി ˉ͈̀꒳ˉ͈́ )✧Póster de P y P (Pasar a plantilla para mandar a imprimir en papel bond)</p>
-                  <p>ദ്ദി ˉ͈̀꒳ˉ͈́ )✧Empezar trabajo plan de atención de enfermería</p>`,
-      gif: "Keep.gif"  // GIF para este post
+      contenido: ``,
+      gif: "Keep.gif"
     },
     {
       imagen: "https://via.placeholder.com/800x400/FF6B6B/white?text=Viajes",
@@ -370,7 +458,7 @@
       autor: "Yo mismo",
       resumen: "Pereira, Armenia, Manizales... una región llena de cultura, café y paisajes increíbles.",
       contenido: `<p>El Eje Cafetero es una de las regiones más bellas de Colombia. Sus montañas verdes, el aroma a café y la calidez de su gente lo hacen un destino único.</p><p>Empecé mi recorrido en <strong>Pereira</strong>, una ciudad vibrante con una gastronomía increíble.</p>`,
-      gif: null  // Sin GIF para este post
+      gif: null
     },
     {
       imagen: "https://via.placeholder.com/800x400/4ECDC4/white?text=Libros",
@@ -380,9 +468,93 @@
       autor: "Yo mismo",
       resumen: "Una lista de lecturas que me hicieron ver el mundo diferente. Desde novelas hasta libros de desarrollo personal.",
       contenido: `<p><strong>1. El Alquimista</strong> – Paulo Coelho</p><p><strong>2. Hábitos Atómicos</strong> – James Clear</p><p><strong>3. Sapiens</strong> – Yuval Noah Harari</p><p><strong>4. El Principito</strong> – Saint-Exupéry</p><p><strong>5. Deep Work</strong> – Cal Newport</p>`,
-      gif: null  // Sin GIF para este post
+      gif: null
     }
   ];
+
+  // Función para guardar las tareas en localStorage
+  function guardarTareas(tareas) {
+    localStorage.setItem('listaTareas', JSON.stringify(tareas));
+  }
+
+  // Función para cargar las tareas de localStorage
+  function cargarTareas() {
+    const tareasGuardadas = localStorage.getItem('listaTareas');
+    if (tareasGuardadas) {
+      return JSON.parse(tareasGuardadas);
+    }
+    // Tareas por defecto
+    return [
+      { id: 1, texto: "Póster de P y P (Pasar a plantilla para mandar a imprimir en papel bond)", completada: false },
+      { id: 2, texto: "Empezar trabajo plan de atención de enfermería", completada: false }
+    ];
+  }
+
+  // Función para renderizar las tareas
+  function renderizarTareas() {
+    const tareas = cargarTareas();
+    const container = document.getElementById('lista-tareas-container');
+    if (!container) return;
+    
+    if (tareas.length === 0) {
+      container.innerHTML = '<p style="text-align:center; color:#999;">✨ No hay tareas pendientes ✨</p>';
+      return;
+    }
+    
+    container.innerHTML = tareas.map(tarea => `
+      <label class="tarea-item">
+        <input type="checkbox" class="tarea-checkbox" data-id="${tarea.id}" ${tarea.completada ? 'checked' : ''}>
+        <span style="${tarea.completada ? 'text-decoration: line-through; color: #888;' : ''}">${tarea.texto}</span>
+      </label>
+    `).join('');
+    
+    // Agregar event listeners a los checkboxes
+    document.querySelectorAll('.tarea-checkbox').forEach(checkbox => {
+      checkbox.addEventListener('change', function(e) {
+        const id = parseInt(this.getAttribute('data-id'));
+        const tareasActuales = cargarTareas();
+        const tarea = tareasActuales.find(t => t.id === id);
+        if (tarea) {
+          tarea.completada = this.checked;
+          guardarTareas(tareasActuales);
+          renderizarTareas(); // Re-renderizar para actualizar estilos
+        }
+      });
+    });
+  }
+
+  // Función para agregar una nueva tarea
+  function agregarTarea() {
+    const input = document.getElementById('nueva-tarea-input');
+    const texto = input.value.trim();
+    if (texto === '') {
+      alert('Por favor escribe una tarea');
+      return;
+    }
+    
+    const tareas = cargarTareas();
+    const nuevoId = Math.max(...tareas.map(t => t.id), 0) + 1;
+    tareas.push({
+      id: nuevoId,
+      texto: texto,
+      completada: false
+    });
+    guardarTareas(tareas);
+    input.value = '';
+    renderizarTareas();
+  }
+
+  // Función para eliminar la última tarea
+  function eliminarUltimaTarea() {
+    const tareas = cargarTareas();
+    if (tareas.length === 0) {
+      alert('No hay tareas para eliminar');
+      return;
+    }
+    tareas.pop();
+    guardarTareas(tareas);
+    renderizarTareas();
+  }
 
   const main = document.getElementById('posts');
   posts.forEach((p, i) => {
@@ -409,48 +581,17 @@
 
     let contenidoFinal = '';
 
-    if (i === 0) { // Para el primer post con tareas
-    contenidoFinal = `
-      <div class="lista-tareas">
-        <label class="tarea-item">
-          <input type="checkbox" class="tarea-checkbox" data-tarea="1" ${localStorage.getItem('tarea1') === 'true' ? 'checked' : ''}>
-          <span>Póster de P y P (Pasar a plantilla para mandar a imprimir en papel bond)</span>
-        </label>
-        <label class="tarea-item">
-          <input type="checkbox" class="tarea-checkbox" data-tarea="2" ${localStorage.getItem('tarea2') === 'true' ? 'checked' : ''}>
-          <span>Empezar trabajo plan de atención de enfermería</span>
-        </label>
-      </div>
-    `;
-  } else if (p.gif && p.gif !== null) {
-    contenidoFinal = `
-      <div class="modal-gif-container">
-        <img src="${p.gif}" alt="GIF animado">
-      </div>
-      ${p.contenido}
-    `;
-  } else {
-    contenidoFinal = p.contenido;
-  }
-  
-  document.getElementById('m-contenido').innerHTML = contenidoFinal;
-  document.getElementById('modal').classList.add('activo');
-  
-  // Agregar event listeners para guardar el estado de los checkboxes
-  if (i === 0) {
-    const checkboxes = document.querySelectorAll('.tarea-checkbox');
-    checkboxes.forEach(checkbox => {
-      checkbox.addEventListener('change', function(e) {
-        const tareaId = this.getAttribute('data-tarea');
-        localStorage.setItem(`tarea${tareaId}`, this.checked);
-      });
-    });
-  }
-}
-    
-    // Construir contenido con GIF si existe
-    let contenidoFinal = '';
-    if (p.gif && p.gif !== null) {
+    if (i === 0) {
+      // Renderizar el gestor de tareas completo
+      contenidoFinal = `
+        <div class="tareas-controles">
+          <input type="text" id="nueva-tarea-input" class="nueva-tarea-input" placeholder="Escribe una nueva tarea...">
+          <button class="btn-tarea" onclick="agregarTarea()">➕ Agregar</button>
+          <button class="btn-tarea btn-eliminar" onclick="eliminarUltimaTarea()">🗑️ Eliminar última</button>
+        </div>
+        <div id="lista-tareas-container"></div>
+      `;
+    } else if (p.gif && p.gif !== null) {
       contenidoFinal = `
         <div class="modal-gif-container">
           <img src="${p.gif}" alt="GIF animado">
@@ -463,6 +604,11 @@
     
     document.getElementById('m-contenido').innerHTML = contenidoFinal;
     document.getElementById('modal').classList.add('activo');
+    
+    // Renderizar las tareas solo si es el primer post
+    if (i === 0) {
+      renderizarTareas();
+    }
   }
 
   function cerrarModal() {
