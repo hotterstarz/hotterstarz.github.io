@@ -3,13 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mis Notas 📝</title>
+  <title>Blogsillo pillo</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: 'Quicksand', 'Comic Neue', 'Comic Sans MS', cursive;
@@ -17,511 +13,533 @@
       color: #4A2B3D;
     }
 
-    /* Navegación consistente con el blog */
     nav {
       background: #D86F8B;
       display: flex;
-      justify-content: flex-start;
-      gap: 1.5rem;
-      padding: 1rem 2rem;
+      justify-content: center;
+      gap: 2rem;
+      padding: .8rem;
       flex-wrap: wrap;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      margin: 1rem;
+      border-radius: 50px;
     }
-
     nav a {
       color: #FFF0F5;
       text-decoration: none;
-      font-size: 0.95rem;
+      font-size: .95rem;
       font-weight: 600;
-      transition: all 0.2s;
-      padding: 0.4rem 1rem;
-      border-radius: 25px;
+      transition: color .2s;
     }
+    nav a:hover { color: #FFE4B5; }
 
-    nav a:hover {
-      background: rgba(255, 255, 255, 0.2);
-      color: #FFE4B5;
-    }
-
-    nav a.destacado {
-      background: #B3416B;
-    }
-
-    /* Contenedor principal */
     .contenedor {
-      max-width: 1000px;
+      max-width: 900px;
       margin: 2rem auto;
-      padding: 0 1.5rem;
-    }
-
-    /* Encabezado de notas */
-    .header-notas {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-
-    .header-notas h1 {
-      color: #B3416B;
-      font-size: 2rem;
-    }
-
-    .btn-crear {
-      background: #D86F8B;
-      color: white;
-      border: none;
-      padding: 10px 24px;
-      border-radius: 30px;
-      cursor: pointer;
-      font-family: 'Quicksand', cursive;
-      font-size: 0.9rem;
-      font-weight: 600;
-      margin-top: 1rem;
-      transition: all 0.3s ease;
-    }
-
-    .btn-crear:hover {
-      background: #B3416B;
-      transform: scale(1.02);
-    }
-
-    /* Grid de notas */
-    .grid-notas {
+      padding: 0 1rem;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
+      grid-template-columns: 1fr 280px;
+      gap: 2rem;
     }
 
-    /* Tarjeta de nota */
-    .tarjeta-nota {
+    .articulo {
       background: #FFFFFF;
-      border-radius: 20px;
+      border-radius: 16px;
       overflow: hidden;
+      margin-bottom: 2rem;
       box-shadow: 0 4px 12px rgba(216, 111, 139, 0.15);
-      transition: transform 0.3s ease;
-      cursor: pointer;
     }
-
-    .tarjeta-nota:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(216, 111, 139, 0.25);
+    .articulo-img {
+      width: 100%;
+      height: auto;
+      min-height: 200px;
+      max-height: 400px;
+      overflow: hidden;
+      background: #FFD1DC;
     }
-
-    .tarjeta-header {
-      background: #D86F8B;
-      padding: 12px;
-      position: relative;
-    }
-
-    .tarjeta-header h3 {
-      color: white;
-      font-size: 1rem;
-      padding-right: 40px;
-    }
-
-    .fecha-nota {
-      font-size: 0.6rem;
-      color: #FFE4E8;
-      margin-top: 4px;
+    .articulo-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       display: block;
     }
-
-    .btn-eliminar-nota {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      background: rgba(255, 255, 255, 0.2);
-      border: none;
+    .articulo-body { padding: 1.5rem; }
+    .categoria {
+      display: inline-block;
+      background: #F4A4B8;
       color: white;
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: all 0.3s ease;
-    }
-
-    .btn-eliminar-nota:hover {
-      background: #ff4444;
-      transform: scale(1.1);
-    }
-
-    .tarjeta-contenido {
-      padding: 12px;
-      color: #5C3D4F;
-      font-size: 0.8rem;
-      line-height: 1.5;
-      max-height: 80px;
-      overflow: hidden;
-    }
-
-    .tarjeta-footer {
-      padding: 8px 12px;
-      border-top: 1px solid #F4C2D0;
-      font-size: 0.6rem;
-      color: #C97A9A;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    /* Modal para crear/editar */
-    .modal-nota {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.6);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .modal-nota.activo {
-      display: flex;
-    }
-
-    .modal-contenido {
-      background: white;
-      max-width: 500px;
-      width: 90%;
+      font-size: .75rem;
+      padding: .2rem .7rem;
       border-radius: 20px;
-      padding: 1.5rem;
-      position: relative;
-      max-height: 85vh;
-      overflow-y: auto;
+      margin-bottom: .8rem;
     }
-
-    .modal-contenido h2 {
+    .articulo h2 { 
+      font-size: 1.4rem; 
+      margin-bottom: .5rem; 
       color: #B3416B;
-      margin-bottom: 1rem;
-      font-size: 1.3rem;
     }
+    .meta { 
+      font-size: .82rem; 
+      color: #C97A9A; 
+      margin-bottom: .8rem; 
+    }
+    .leer-mas {
+      display: inline-block;
+      margin-top: 1rem;
+      background: #D86F8B;
+      color: white;
+      padding: .5rem 1.2rem;
+      border-radius: 25px;
+      cursor: pointer;
+      border: none;
+    }
+    .leer-mas:hover { background: #B3416B; }
 
-    .modal-contenido input,
-    .modal-contenido textarea {
+    /* Tablas */
+    .seccion-tabla {
+      background: #FFFFFF;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 12px rgba(216, 111, 139, 0.15);
+    }
+    .tabla-header {
+      padding: 1rem 1.5rem 0 1.5rem;
+    }
+    .tabla-tareas {
       width: 100%;
+      border-collapse: collapse;
+    }
+    .tabla-tareas th {
+      background: #D86F8B;
+      color: white;
+      padding: 12px;
+      text-align: left;
+    }
+    .tabla-tareas td {
       padding: 10px;
-      margin-bottom: 12px;
+      border-bottom: 1px solid #F4C2D0;
+    }
+    .tabla-tareas tr:hover {
+      background: #FFF5F7;
+    }
+    .check-completada {
+      width: 20px;
+      height: 20px;
+      accent-color: #D86F8B;
+      cursor: pointer;
+    }
+    .tarea-completada {
+      text-decoration: line-through;
+      color: #C97A9A;
+    }
+    .nota-static {
+      background: #FFF5F7;
+      padding: 12px;
+      margin: 15px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      color: #C97A9A;
+      text-align: center;
+      border: 1px dashed #F4C2D0;
+    }
+
+    .motivacion-container {
+      margin-top: 25px;
+      text-align: center;
+      padding: 0 1.5rem 1.5rem 1.5rem;
+    }
+    .motivacion-marco {
+      background: #FFE4E8;
+      padding: 15px;
+      border-radius: 20px;
       border: 2px solid #F4C2D0;
-      border-radius: 15px;
-      font-family: 'Quicksand', cursive;
-      font-size: 0.9rem;
-      resize: vertical;
     }
-
-    .modal-contenido textarea {
-      min-height: 150px;
+    .motivacion-imagen {
+      width: 100%;
+      height: auto;
+      max-height: 300px;
+      object-fit: contain;
+      border-radius: 12px;
     }
-
-    .modal-contenido input:focus,
-    .modal-contenido textarea:focus {
-      outline: none;
-      border-color: #D86F8B;
-    }
-
-    .modal-btns {
-      display: flex;
-      gap: 10px;
-      justify-content: flex-end;
-    }
-
-    .btn-guardar {
-      background: #D86F8B;
-      color: white;
-      border: none;
-      padding: 8px 20px;
-      border-radius: 25px;
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-    .btn-cancelar {
-      background: #E8A0B5;
-      color: white;
-      border: none;
-      padding: 8px 20px;
-      border-radius: 25px;
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-    .btn-guardar:hover {
-      background: #B3416B;
-    }
-
-    .btn-cancelar:hover {
-      background: #D86F8B;
-    }
-
-    .cerrar-modal {
-      position: absolute;
-      top: 12px;
-      right: 15px;
-      font-size: 1.5rem;
-      cursor: pointer;
+    .motivacion-texto {
+      margin-top: 15px;
+      font-size: 1.3rem;
+      font-weight: bold;
       color: #D86F8B;
     }
 
-    /* Mensaje cuando no hay notas */
-    .mensaje-vacio {
-      text-align: center;
-      padding: 3rem;
-      background: #FFF5F7;
-      border-radius: 20px;
-      color: #C97A9A;
-    }
-
-    /* Toast */
-    .toast {
+    .modal-overlay {
+      display: none;
       position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #4ECDC4;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 30px;
-      z-index: 1100;
-      animation: fadeOut 3s ease forwards;
+      inset: 0;
+      background: rgba(0,0,0,.6);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.activo { display: flex; }
+    .modal {
+      background: #FFFFFF;
+      max-width: 650px;
+      width: 90%;
+      border-radius: 20px;
+      padding: 2rem;
+      position: relative;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    .cerrar {
+      position: absolute;
+      top: 1rem; right: 1.2rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: #D86F8B;
     }
 
-    @keyframes fadeOut {
-      0% {
-        opacity: 1;
-      }
+    aside { display: flex; flex-direction: column; gap: 1.5rem; }
+    .widget {
+      background: #FFFFFF;
+      border-radius: 16px;
+      padding: 1.2rem;
+      box-shadow: 0 4px 12px rgba(216, 111, 139, 0.1);
+    }
+    .widget h3 {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      padding-bottom: .5rem;
+      border-bottom: 2px solid #D86F8B;
+      color: #B3416B;
+    }
 
-      70% {
-        opacity: 1;
-      }
+    .widget-musica {
+      background: linear-gradient(135deg, #FFE4E8, #FFD1DC);
+    }
+    .musica-iframe {
+      width: 100%;
+      border-radius: 12px;
+      min-height: 232px;
+      aspect-ratio: 16/9;
+    }
 
-      100% {
-        opacity: 0;
-        visibility: hidden;
-      }
+    .widget-paisajes {
+      background: linear-gradient(135deg, #E8F4FD, #D1E8F5);
+    }
+    .slideshow-paisajes {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      border-radius: 12px;
+      background: #B8D4E3;
+    }
+    .slide-paisaje {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+    .slide-paisaje img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .slide-paisaje.activo {
+      opacity: 1;
+    }
+    .slideshow-paisajes-btns {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem;
+      background: #D86F8B;
+      border-radius: 0 0 12px 12px;
+    }
+    .btn-paisaje {
+      background: #FFFFFF;
+      color: #D86F8B;
+      border: none;
+      padding: 0.3rem 0.9rem;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+    .indicadores-paisajes {
+      text-align: center;
+      margin-top: 8px;
+    }
+    .dot {
+      height: 8px;
+      width: 8px;
+      background-color: #F4C2D0;
+      border-radius: 50%;
+      display: inline-block;
+      margin: 0 4px;
+      cursor: pointer;
+    }
+    .dot.activo {
+      background-color: #D86F8B;
+      width: 20px;
+      border-radius: 4px;
+    }
+
+    .slideshow {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      border-radius: 12px 12px 0 0;
+      background: #FFD1DC;
+    }
+    .slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity .6s ease;
+    }
+    .slide img { width: 100%; height: 100%; object-fit: cover; }
+    .slide.activo { opacity: 1; }
+    .slide-btns {
+      display: flex;
+      justify-content: space-between;
+      padding: .5rem;
+      background: #D86F8B;
+      border-radius: 0 0 12px 12px;
+    }
+    .slide-btn {
+      background: #FFFFFF;
+      color: #D86F8B;
+      border: none;
+      padding: .3rem .9rem;
+      border-radius: 20px;
+      cursor: pointer;
     }
 
     footer {
       background: #D86F8B;
       color: #FFF0F5;
       text-align: center;
-      padding: 1rem;
+      padding: 1.5rem;
       margin-top: 2rem;
-      font-size: 0.7rem;
     }
 
     @media (max-width: 640px) {
-      .grid-notas {
-        grid-template-columns: 1fr;
-      }
+      .contenedor { grid-template-columns: 1fr; }
+      .musica-iframe { min-height: 180px; }
+      .tabla-tareas th, .tabla-tareas td { font-size: 0.75rem; padding: 6px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Barra de navegación idéntica a la del blog principal -->
-  <nav>
-    <a href="index.html">🏠 Inicio</a>
-    <a href="#">Tecnología</a>
-    <a href="#">Viajes</a>
-    <a href="#">Música</a>
-    <a href="calendario.html">📅 Calendario</a>
-    <a href="notas.html" class="destacado">📝 Notas</a>
-  </nav>
+<nav>
+  <a href="#">Inicio</a>
+  <a href="#">Tecnología</a>
+  <a href="#">Viajes</a>
+  <a href="#">Música</a>
+  <a href="calendario.html">📅 Calendario</a>
+</nav>
 
-  <div class="contenedor">
-    <div class="header-notas">
-      <h1>📝 Mis Notas</h1>
-      <button class="btn-crear" onclick="abrirNuevaNota()">➕ Crear nueva nota</button>
-    </div>
-
-    <div id="gridNotas" class="grid-notas"></div>
-  </div>
-
-  <footer>🌸 © 2026 Mi Blog · Tus notas siempre guardadas 🌸</footer>
-
-  <!-- Modal para crear/editar notas -->
-  <div id="modalNota" class="modal-nota">
-    <div class="modal-contenido">
-      <span class="cerrar-modal" onclick="cerrarModalNota()">&times;</span>
-      <h2 id="modalTitulo">📝 Nueva nota</h2>
-      <input type="text" id="tituloNota" placeholder="Título de la nota...">
-      <textarea id="contenidoNota" placeholder="Escribe aquí el contenido de tu nota..."></textarea>
-      <input type="text" id="tagsNota" placeholder="Etiquetas (separadas por comas)">
-      <div class="modal-btns">
-        <button class="btn-guardar" onclick="guardarNota()">💾 Guardar</button>
-        <button class="btn-cancelar" onclick="cerrarModalNota()">Cancelar</button>
+<div class="contenedor">
+  <main id="posts">
+    
+    <!-- TABLA DE TAREAS SIMPLES -->
+    <div class="seccion-tabla">
+      <div class="tabla-header">
+        <span class="categoria">( ꩜ ᯅ ꩜;)⁭</span>
+        <h2>Lista de tareas (˶ ´༥` ˶)୭</h2>
+        <p class="meta">📅 1 de mayo, 2026 &nbsp;·&nbsp; ✍️ Yo mismo</p>
+      </div>
+      <table class="tabla-tareas">
+        <thead><tr><th style="width:40px">✓</th><th>Tarea</th></tr></thead>
+        <tbody id="tbodySimples"></tbody>
+      </table>
+      <div class="nota-static">📝 Edita el array "tareasSimples" en el código JavaScript (línea ~250)</div>
+      <div class="motivacion-container">
+        <div class="motivacion-marco">
+          <img src="sevenseven.jpg" class="motivacion-imagen" onerror="this.src='https://via.placeholder.com/600x300/FFD1DC/B3416B?text=🌟+Tú+puedes+con+todo+🌟'">
+        </div>
+        <div class="motivacion-texto">✨ ¡Tú puedes hacerlo! ✨ ദ്ദി◝ ⩊ ◜.ᐟ</div>
       </div>
     </div>
-  </div>
 
-  <script>
-    // Sistema de notas
-    let notas = [];
-    let notaEditandoId = null;
-
-    function cargarNotas() {
-      const guardadas = localStorage.getItem('misNotas');
-      if (guardadas) {
-        notas = JSON.parse(guardadas);
-      } else {
-        // Nota de ejemplo
-        notas = [{
-          id: Date.now(),
-          titulo: "¡Bienvenida a tus notas!",
-          contenido: "Esta es tu primera nota. Puedes crear, editar y eliminar notas libremente.",
-          tags: ["bienvenida"],
-          fecha: new Date().toISOString(),
-          fechaModificacion: new Date().toISOString()
-        }];
-        guardarNotas();
-      }
-      renderizarNotas();
-    }
-
-    function guardarNotas() {
-      localStorage.setItem('misNotas', JSON.stringify(notas));
-    }
-
-    function renderizarNotas() {
-      const grid = document.getElementById('gridNotas');
-      if (notas.length === 0) {
-        grid.innerHTML = '<div class="mensaje-vacio">✨ No hay notas aún. ¡Crea tu primera nota! ✨</div>';
-        return;
-      }
-
-      // Ordenar por fecha de modificación (más reciente primero)
-      const notasOrdenadas = [...notas].sort((a, b) => new Date(b.fechaModificacion) - new Date(a.fechaModificacion));
-
-      grid.innerHTML = notasOrdenadas.map(nota => `
-      <div class="tarjeta-nota" onclick="editarNota(${nota.id})">
-        <div class="tarjeta-header">
-          <h3>${escapeHtml(nota.titulo)}</h3>
-          <span class="fecha-nota">📅 ${formatearFecha(nota.fechaModificacion)}</span>
-          <button class="btn-eliminar-nota" onclick="event.stopPropagation(); eliminarNota(${nota.id})">🗑️</button>
-        </div>
-        <div class="tarjeta-contenido">${escapeHtml(resumirTexto(nota.contenido, 100))}</div>
-        <div class="tarjeta-footer">
-          <span>📝 ${nota.contenido.length} caracteres</span>
-          <span>${nota.tags?.length ? `🏷️ ${nota.tags[0]}` : ''}</span>
-        </div>
+    <!-- TABLA DE TAREAS SEMANALES -->
+    <div class="seccion-tabla">
+      <div class="tabla-header">
+        <span class="categoria">₍^. .^₎⟆</span>
+        <h2>Tareas por día de la semana</h2>
+        <p class="meta">📅 20 de abril, 2026 &nbsp;·&nbsp; ✍️ Yo mismo</p>
       </div>
-      `).join('');
+      <table class="tabla-tareas">
+        <thead><tr><th style="width:40px">✓</th><th>Día</th><th>Tarea</th></tr></thead>
+        <tbody id="tbodySemanales"></tbody>
+      </table>
+      <div class="nota-static">📝 Edita el array "tareasSemanales" en el código JavaScript (línea ~265)</div>
+      <div class="motivacion-container">
+        <div class="motivacion-marco">
+          <img src="Buddha.jpg" class="motivacion-imagen" onerror="this.src='https://via.placeholder.com/600x300/FFD1DC/B3416B?text=🌟+Organiza+tu+semana+con+cariño+🌟'">
+        </div>
+        <div class="motivacion-texto">✨ ¡Cada día es una nueva oportunidad! ✨ 🌸</div>
+      </div>
+    </div>
+
+    <!-- TERCER POST -->
+    <article class="articulo">
+      <div class="articulo-img"><img src="japan3.jpg" onerror="this.src='https://via.placeholder.com/800x400/E8A0B5/white?text=Imagen+no+encontrada'"></div>
+      <div class="articulo-body">
+        <span class="categoria">˚₊‧꒰ა ☆ ໒꒱ ‧₊˚</span>
+        <h2>QUE ESTUDIAR PARA ROTACIÓN DE PARTOS</h2>
+        <p class="meta">📅 10 de abril, 2026 &nbsp;·&nbsp; ✍️ Yo mismo</p>
+        <p>Ojo muy importante.</p>
+        <button class="leer-mas" onclick="abrirModalContenido()">Leer más →</button>
+      </div>
+    </article>
+
+  </main>
+  <aside>
+
+    <div class="widget" style="padding:0;overflow:hidden;border-radius:16px;">
+      <div class="slideshow" id="slideshow">
+        <div class="slide activo"><img src="chii.jpg"></div>
+        <div class="slide"><img src="umibe.jpg"></div>
+        <div class="slide"><img src="gwen.jpg"></div>
+        <div class="slide"><img src="Isobe.jpg"></div>
+      </div>
+      <div class="slide-btns">
+        <button class="slide-btn" onclick="cambiarSlide(-1)">◀</button>
+        <button class="slide-btn" onclick="cambiarSlide(1)">▶</button>
+      </div>
+    </div>
+
+    <div class="widget widget-paisajes">
+      <h3>🏔️ Paisajes que Inspiran 🌅</h3>
+      <div class="slideshow-paisajes" id="slideshowPaisajes">
+        <div class="slide-paisaje activo"><img src="Ipanema.jpg"></div>
+        <div class="slide-paisaje"><img src="Japan1.jpg"></div>
+        <div class="slide-paisaje"><img src="Japan2.jpg"></div>
+      </div>
+      <div class="slideshow-paisajes-btns">
+        <button class="btn-paisaje" onclick="cambiarPaisaje(-1)">◀</button>
+        <button class="btn-paisaje" onclick="cambiarPaisaje(1)">▶</button>
+      </div>
+      <div class="indicadores-paisajes" id="indicadoresPaisajes"></div>
+    </div>
+
+    <div class="widget widget-musica">
+      <h3>🎵 Mi playlist favorita 🎵</h3>
+      <iframe class="musica-iframe" src="https://www.youtube.com/embed/videoseries?list=PLl4CgAo8Zq4hNkAEh5VOC-XgGnkk6yuPF" allowfullscreen></iframe>
+      <div class="musica-info">🎧 Mi playlist favorita 🎵</div>
+    </div>
+
+  </aside>
+</div>
+
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="cerrar" onclick="cerrarModal()">✕</button>
+    <div id="m-contenido"></div>
+  </div>
+</div>
+
+<footer>🌸 © 2026 Mi Blog · Hecho con 💖 y mucha ternura 🌸</footer>
+
+<script>
+  // ============================================================
+  // ✏️ EDITA LAS TAREAS AQUÍ ABAJO ✏️
+  // ============================================================
+  
+  // LISTA DE TAREAS SIMPLES
+  let tareasSimples = [
+    { id: 1, texto: "Póster de P y P (Pasar a plantilla para mandar a imprimir en papel bond)", completada: false },
+    { id: 2, texto: "Trabajo plan de atención de enfermería", completada: false }
+  ];
+
+  // TAREAS POR DÍA DE LA SEMANA
+  let tareasSemanales = [
+    // LUNES
+    { id: 1, dia: "lunes", tarea: "Buscar artículo para caso de profundización", completada: false },
+    { id: 2, dia: "lunes", tarea: "Parte 1 trabajo situación de enfermería", completada: false },
+    { id: 3, dia: "lunes", tarea: "Arreglar ayudas para llevar a la rotación", completada: false },
+    { id: 4, dia: "lunes", tarea: "Estudiar para la rotación de partos", completada: false },
+    // MARTES
+    { id: 5, dia: "martes", tarea: "Parte 2 trabajo situación de enfermería", completada: false },
+    { id: 6, dia: "martes", tarea: "Terminar de arreglar ayudas para llevar a la rotación", completada: false },
+    { id: 7, dia: "martes", tarea: "Estudiar rotación de partos", completada: false },
+    { id: 8, dia: "martes", tarea: "Estudiar parcial ecobiología", completada: false }
+  ];
+
+  // ============================================================
+  // NO EDITES NADA DEBAJO DE ESTA LÍNEA
+  // ============================================================
+
+  // Slideshow principal
+  const slides = document.querySelectorAll('.slide');
+  let actualSlide = 0, timerPrincipal;
+  function irA(n) { slides[actualSlide].classList.remove('activo'); actualSlide = (n + slides.length) % slides.length; slides[actualSlide].classList.add('activo'); reiniciarTimerPrincipal(); }
+  function cambiarSlide(dir) { irA(actualSlide + dir); }
+  function reiniciarTimerPrincipal() { clearInterval(timerPrincipal); timerPrincipal = setInterval(() => cambiarSlide(1), 4000); }
+  reiniciarTimerPrincipal();
+
+  // Slideshow paisajes
+  let slidesPaisajes = document.querySelectorAll('.slide-paisaje');
+  let actualPaisaje = 0, timerPaisajes;
+  function cargarImagenesPaisajes() {
+    const imagenes = ["Ipanema.jpg", "Japan1.jpg", "Japan2.jpg"];
+    slidesPaisajes.forEach((s, i) => { if (i < imagenes.length) s.querySelector('img').src = imagenes[i]; });
+    crearIndicadores();
+  }
+  function crearIndicadores() {
+    const container = document.getElementById('indicadoresPaisajes');
+    container.innerHTML = '';
+    for (let i = 0; i < slidesPaisajes.length; i++) {
+      const dot = document.createElement('span'); dot.classList.add('dot');
+      if (i === actualPaisaje) dot.classList.add('activo');
+      dot.onclick = () => { slidesPaisajes[actualPaisaje].classList.remove('activo'); actualPaisaje = i; slidesPaisajes[actualPaisaje].classList.add('activo'); actualizarIndicadores(); reiniciarTimerPaisajes(); };
+      container.appendChild(dot);
     }
+  }
+  function actualizarIndicadores() { document.querySelectorAll('#indicadoresPaisajes .dot').forEach((d, i) => { if (i === actualPaisaje) d.classList.add('activo'); else d.classList.remove('activo'); }); }
+  function irAPaisaje(n) { slidesPaisajes[actualPaisaje].classList.remove('activo'); actualPaisaje = (n + slidesPaisajes.length) % slidesPaisajes.length; slidesPaisajes[actualPaisaje].classList.add('activo'); actualizarIndicadores(); reiniciarTimerPaisajes(); }
+  function cambiarPaisaje(dir) { irAPaisaje(actualPaisaje + dir); }
+  function reiniciarTimerPaisajes() { clearInterval(timerPaisajes); timerPaisajes = setInterval(() => cambiarPaisaje(1), 5000); }
+  cargarImagenesPaisajes();
+  reiniciarTimerPaisajes();
 
-    // Utilidades
-    function resumirTexto(texto, max) {
-      return texto.length <= max ? texto : texto.substring(0, max) + '...';
-    }
+  // Guardar/recuperar estado de completado
+  function guardarTareasSimples() { localStorage.setItem('tareasSimples', JSON.stringify(tareasSimples)); }
+  function guardarTareasSemanales() { localStorage.setItem('tareasSemanales', JSON.stringify(tareasSemanales)); }
+  function cargarTareasSimples() { const g = localStorage.getItem('tareasSimples'); if (g) tareasSimples = JSON.parse(g); renderizarTablaSimples(); }
+  function cargarTareasSemanales() { const g = localStorage.getItem('tareasSemanales'); if (g) tareasSemanales = JSON.parse(g); renderizarTablaSemanales(); }
 
-    function formatearFecha(fechaISO) {
-      const fecha = new Date(fechaISO);
-      const hoy = new Date();
-      const diff = hoy - fecha;
-      const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
-      if (dias === 0) return 'Hoy';
-      if (dias === 1) return 'Ayer';
-      if (dias < 7) return `Hace ${dias} días`;
-      return fecha.toLocaleDateString('es-ES');
-    }
+  function renderizarTablaSimples() {
+    const tbody = document.getElementById('tbodySimples');
+    tbody.innerHTML = tareasSimples.map(t => `<tr><td><input type="checkbox" class="check-simple" data-id="${t.id}" ${t.completada ? 'checked' : ''}></td><td class="${t.completada ? 'tarea-completada' : ''}">${escapeHtml(t.texto)}</td></tr>`).join('');
+    document.querySelectorAll('.check-simple').forEach(cb => cb.addEventListener('change', function() {
+      const t = tareasSimples.find(t => t.id == this.dataset.id);
+      if (t) { t.completada = this.checked; guardarTareasSimples(); renderizarTablaSimples(); }
+    }));
+  }
 
-    // Acciones del modal
-    function abrirNuevaNota() {
-      notaEditandoId = null;
-      document.getElementById('modalTitulo').textContent = '📝 Nueva nota';
-      document.getElementById('tituloNota').value = '';
-      document.getElementById('contenidoNota').value = '';
-      document.getElementById('tagsNota').value = '';
-      document.getElementById('modalNota').classList.add('activo');
-    }
+  function renderizarTablaSemanales() {
+    const diasEsp = { lunes: "Lunes", martes: "Martes", miércoles: "Miércoles", jueves: "Jueves", viernes: "Viernes", sábado: "Sábado", domingo: "Domingo" };
+    const tbody = document.getElementById('tbodySemanales');
+    tbody.innerHTML = tareasSemanales.map(t => `<tr><td><input type="checkbox" class="check-semanal" data-id="${t.id}" ${t.completada ? 'checked' : ''}></td><td><strong>${diasEsp[t.dia]}</strong></td><td class="${t.completada ? 'tarea-completada' : ''}">${escapeHtml(t.tarea)}</td></tr>`).join('');
+    document.querySelectorAll('.check-semanal').forEach(cb => cb.addEventListener('change', function() {
+      const t = tareasSemanales.find(t => t.id == this.dataset.id);
+      if (t) { t.completada = this.checked; guardarTareasSemanales(); renderizarTablaSemanales(); }
+    }));
+  }
 
-    function editarNota(id) {
-      const nota = notas.find(n => n.id === id);
-      if (!nota) return;
-      notaEditandoId = id;
-      document.getElementById('modalTitulo').textContent = '✏️ Editar nota';
-      document.getElementById('tituloNota').value = nota.titulo;
-      document.getElementById('contenidoNota').value = nota.contenido;
-      document.getElementById('tagsNota').value = nota.tags ? nota.tags.join(', ') : '';
-      document.getElementById('modalNota').classList.add('activo');
-    }
+  function escapeHtml(t) { return t.replace(/[&<>]/g, function(m) { if (m === '&') return '&amp;'; if (m === '<') return '&lt;'; if (m === '>') return '&gt;'; return m; }); }
 
-    function guardarNota() {
-      const titulo = document.getElementById('tituloNota').value.trim();
-      const contenido = document.getElementById('contenidoNota').value.trim();
-      const tagsStr = document.getElementById('tagsNota').value.trim();
-      const tags = tagsStr ? tagsStr.split(',').map(t => t.trim()).filter(t => t) : [];
+  function abrirModalContenido() {
+    document.getElementById('m-contenido').innerHTML = `<div class="modal-gif-container"><img src="keep.gif" alt="GIF"></div><p>Fisiología del trabajo de parto</p><p>Las 4 etapas del trabajo de parto</p><p>Mecanismos del trabajo de parto</p><p>Monitoría fetal</p><p>Signos vitales y valoración materna</p><p>💊 Farmacología básica en sala de partos</p><p>🔬 Procedimientos que debes reconocer</p><p>⚠️ Emergencias obstétricas</p>`;
+    document.getElementById('modal').classList.add('activo');
+  }
+  function cerrarModal() { document.getElementById('modal').classList.remove('activo'); }
+  document.getElementById('modal').addEventListener('click', function(e) { if (e.target === this) cerrarModal(); });
 
-      if (!titulo) {
-        mostrarToast('❌ El título no puede estar vacío');
-        return;
-      }
-      if (!contenido) {
-        mostrarToast('❌ El contenido no puede estar vacío');
-        return;
-      }
-
-      if (notaEditandoId) {
-        const index = notas.findIndex(n => n.id === notaEditandoId);
-        if (index !== -1) {
-          notas[index] = {
-            ...notas[index],
-            titulo,
-            contenido,
-            tags,
-            fechaModificacion: new Date().toISOString()
-          };
-          mostrarToast('✏️ Nota actualizada');
-        }
-      } else {
-        notas.push({
-          id: Date.now(),
-          titulo,
-          contenido,
-          tags,
-          fecha: new Date().toISOString(),
-          fechaModificacion: new Date().toISOString()
-        });
-        mostrarToast('✅ Nota creada');
-      }
-      guardarNotas();
-      renderizarNotas();
-      cerrarModalNota();
-    }
-
-    function eliminarNota(id) {
-      if (confirm('¿Eliminar esta nota?')) {
-        notas = notas.filter(n => n.id !== id);
-        guardarNotas();
-        renderizarNotas();
-        mostrarToast('🗑️ Nota eliminada');
-      }
-    }
-
-    function cerrarModalNota() {
-      document.getElementById('modalNota').classList.remove('activo');
-      notaEditandoId = null;
-    }
-
-    function mostrarToast(mensaje) {
-      const toast = document.createElement('div');
-      toast.className = 'toast';
-      toast.textContent = mensaje;
-      document.body.appendChild(toast);
-      setTimeout(() => toast.remove(), 3000);
-    }
-
-    function escapeHtml(texto) {
-      const div = document.createElement('div');
-      div.textContent = texto;
-      return div.innerHTML;
-    }
-
-    // Cerrar modal al hacer clic fuera
-    document.getElementById('modalNota').addEventListener('click', e => {
-      if (e.target === document.getElementById('modalNota')) cerrarModalNota();
-    });
-
-    // Iniciar
-    cargarNotas();
-  </script>
+  cargarTareasSimples();
+  cargarTareasSemanales();
+</script>
 </body>
 </html>
