@@ -13,97 +13,84 @@
       color: #4A2B3D;
     }
 
+    /* Navegación a la IZQUIERDA */
     nav {
       background: #D86F8B;
       display: flex;
-      justify-content: center;
-      gap: 2rem;
-      padding: .8rem;
+      justify-content: flex-start;
+      gap: 1.5rem;
+      padding: 1rem 2rem;
       flex-wrap: wrap;
-      margin: 1rem;
-      border-radius: 50px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
     nav a {
       color: #FFF0F5;
       text-decoration: none;
-      font-size: .95rem;
+      font-size: 0.95rem;
       font-weight: 600;
-      transition: color .2s;
+      transition: all 0.2s;
+      padding: 0.3rem 1rem;
+      border-radius: 25px;
     }
-    nav a:hover { color: #FFE4B5; }
+    nav a:hover {
+      background: rgba(255,255,255,0.2);
+      color: #FFE4B5;
+    }
+    nav a.destacado {
+      background: #B3416B;
+    }
 
+    /* Layout: CENTRO + DERECHA */
     .contenedor {
-      max-width: 900px;
+      max-width: 1200px;
       margin: 2rem auto;
-      padding: 0 1rem;
+      padding: 0 1.5rem;
       display: grid;
-      grid-template-columns: 1fr 280px;
+      grid-template-columns: 1fr 320px;
       gap: 2rem;
     }
 
-    .articulo {
-      background: #FFFFFF;
-      border-radius: 16px;
-      overflow: hidden;
-      margin-bottom: 2rem;
-      box-shadow: 0 4px 12px rgba(216, 111, 139, 0.15);
+    /* Columna CENTRAL - Tareas */
+    .columna-central {
+      min-width: 0;
     }
-    .articulo-img {
-      width: 100%;
-      height: auto;
-      min-height: 200px;
-      max-height: 400px;
-      overflow: hidden;
-      background: #FFD1DC;
-    }
-    .articulo-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .articulo-body { padding: 1.5rem; }
-    .categoria {
-      display: inline-block;
-      background: #F4A4B8;
-      color: white;
-      font-size: .75rem;
-      padding: .2rem .7rem;
-      border-radius: 20px;
-      margin-bottom: .8rem;
-    }
-    .articulo h2 { 
-      font-size: 1.4rem; 
-      margin-bottom: .5rem; 
-      color: #B3416B;
-    }
-    .meta { 
-      font-size: .82rem; 
-      color: #C97A9A; 
-      margin-bottom: .8rem; 
-    }
-    .leer-mas {
-      display: inline-block;
-      margin-top: 1rem;
-      background: #D86F8B;
-      color: white;
-      padding: .5rem 1.2rem;
-      border-radius: 25px;
-      cursor: pointer;
-      border: none;
-    }
-    .leer-mas:hover { background: #B3416B; }
 
-    /* Tablas */
+    /* Columna DERECHA - Widgets */
+    .columna-derecha {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    /* Tarjetas de tareas */
     .seccion-tabla {
       background: #FFFFFF;
-      border-radius: 16px;
+      border-radius: 20px;
       overflow: hidden;
       margin-bottom: 2rem;
       box-shadow: 0 4px 12px rgba(216, 111, 139, 0.15);
     }
     .tabla-header {
       padding: 1rem 1.5rem 0 1.5rem;
+    }
+    .categoria {
+      display: inline-block;
+      background: #F4A4B8;
+      color: white;
+      font-size: 0.7rem;
+      padding: 0.2rem 0.8rem;
+      border-radius: 20px;
+      margin-bottom: 0.8rem;
+    }
+    .seccion-tabla h2 {
+      font-size: 1.3rem;
+      color: #B3416B;
+      margin-bottom: 0.3rem;
+    }
+    .meta {
+      font-size: 0.75rem;
+      color: #C97A9A;
+      margin-bottom: 0.8rem;
     }
     .tabla-tareas {
       width: 100%;
@@ -112,19 +99,21 @@
     .tabla-tareas th {
       background: #D86F8B;
       color: white;
-      padding: 12px;
+      padding: 10px 12px;
       text-align: left;
+      font-size: 0.8rem;
     }
     .tabla-tareas td {
-      padding: 10px;
+      padding: 8px 12px;
       border-bottom: 1px solid #F4C2D0;
+      font-size: 0.85rem;
     }
     .tabla-tareas tr:hover {
       background: #FFF5F7;
     }
     .check-completada {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       accent-color: #D86F8B;
       cursor: pointer;
     }
@@ -134,96 +123,100 @@
     }
     .nota-static {
       background: #FFF5F7;
-      padding: 12px;
-      margin: 15px;
+      padding: 8px;
+      margin: 12px;
       border-radius: 12px;
-      font-size: 0.8rem;
+      font-size: 0.7rem;
       color: #C97A9A;
       text-align: center;
       border: 1px dashed #F4C2D0;
     }
-
     .motivacion-container {
-      margin-top: 25px;
+      margin-top: 15px;
       text-align: center;
       padding: 0 1.5rem 1.5rem 1.5rem;
     }
     .motivacion-marco {
       background: #FFE4E8;
-      padding: 15px;
+      padding: 12px;
       border-radius: 20px;
       border: 2px solid #F4C2D0;
     }
     .motivacion-imagen {
       width: 100%;
       height: auto;
-      max-height: 300px;
+      max-height: 180px;
       object-fit: contain;
       border-radius: 12px;
     }
     .motivacion-texto {
-      margin-top: 15px;
-      font-size: 1.3rem;
+      margin-top: 10px;
+      font-size: 1rem;
       font-weight: bold;
       color: #D86F8B;
     }
 
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.6);
-      z-index: 100;
-      align-items: center;
-      justify-content: center;
-    }
-    .modal-overlay.activo { display: flex; }
-    .modal {
+    /* Artículo de estudio */
+    .articulo {
       background: #FFFFFF;
-      max-width: 650px;
-      width: 90%;
       border-radius: 20px;
-      padding: 2rem;
-      position: relative;
-      max-height: 80vh;
-      overflow-y: auto;
+      overflow: hidden;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 12px rgba(216, 111, 139, 0.15);
     }
-    .cerrar {
-      position: absolute;
-      top: 1rem; right: 1.2rem;
-      font-size: 1.5rem;
+    .articulo-img {
+      width: 100%;
+      height: auto;
+      min-height: 180px;
+      max-height: 280px;
+      overflow: hidden;
+      background: #FFD1DC;
+    }
+    .articulo-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .articulo-body {
+      padding: 1.2rem;
+    }
+    .articulo-body h2 {
+      font-size: 1.2rem;
+      color: #B3416B;
+      margin-bottom: 0.3rem;
+    }
+    .leer-mas {
+      display: inline-block;
+      margin-top: 0.8rem;
+      background: #D86F8B;
+      color: white;
+      padding: 0.4rem 1rem;
+      border-radius: 25px;
       cursor: pointer;
-      background: none;
       border: none;
-      color: #D86F8B;
+      font-size: 0.8rem;
+      font-weight: 600;
     }
-    .modal-gif-container {
-      text-align: center;
-      margin: 20px 0;
-      padding: 10px;
-      background: #FFF5F7;
-      border-radius: 12px;
+    .leer-mas:hover {
+      background: #B3416B;
     }
 
-    aside { display: flex; flex-direction: column; gap: 1.5rem; }
+    /* Widgets columna derecha */
     .widget {
       background: #FFFFFF;
-      border-radius: 16px;
-      padding: 1.2rem;
+      border-radius: 20px;
+      padding: 1rem;
       box-shadow: 0 4px 12px rgba(216, 111, 139, 0.1);
     }
     .widget h3 {
-      font-size: 1rem;
-      margin-bottom: 1rem;
-      padding-bottom: .5rem;
+      font-size: 0.85rem;
+      margin-bottom: 0.8rem;
+      padding-bottom: 0.4rem;
       border-bottom: 2px solid #D86F8B;
       color: #B3416B;
-    }
-    .musica-info {
-      text-align: center;
-      margin-top: 10px;
-      font-size: 0.8rem;
-      color: #B3416B;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     .widget-musica {
@@ -232,8 +225,14 @@
     .musica-iframe {
       width: 100%;
       border-radius: 12px;
-      min-height: 232px;
+      min-height: 180px;
       aspect-ratio: 16/9;
+    }
+    .musica-info {
+      text-align: center;
+      margin-top: 6px;
+      font-size: 0.65rem;
+      color: #B3416B;
     }
 
     .widget-paisajes {
@@ -264,7 +263,7 @@
     .slideshow-paisajes-btns {
       display: flex;
       justify-content: space-between;
-      padding: 0.5rem;
+      padding: 0.3rem;
       background: #D86F8B;
       border-radius: 0 0 12px 12px;
     }
@@ -272,27 +271,28 @@
       background: #FFFFFF;
       color: #D86F8B;
       border: none;
-      padding: 0.3rem 0.9rem;
+      padding: 0.2rem 0.7rem;
       border-radius: 20px;
       cursor: pointer;
+      font-size: 0.7rem;
     }
     .indicadores-paisajes {
       text-align: center;
-      margin-top: 8px;
+      margin-top: 6px;
     }
     .dot {
-      height: 8px;
-      width: 8px;
+      height: 6px;
+      width: 6px;
       background-color: #F4C2D0;
       border-radius: 50%;
       display: inline-block;
-      margin: 0 4px;
+      margin: 0 3px;
       cursor: pointer;
     }
     .dot.activo {
       background-color: #D86F8B;
-      width: 20px;
-      border-radius: 4px;
+      width: 16px;
+      border-radius: 3px;
     }
 
     .slideshow {
@@ -300,21 +300,27 @@
       width: 100%;
       aspect-ratio: 4/3;
       overflow: hidden;
-      border-radius: 12px 12px 0 0;
+      border-radius: 12px;
       background: #FFD1DC;
     }
     .slide {
       position: absolute;
       inset: 0;
       opacity: 0;
-      transition: opacity .6s ease;
+      transition: opacity 0.6s ease;
     }
-    .slide img { width: 100%; height: 100%; object-fit: cover; }
-    .slide.activo { opacity: 1; }
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .slide.activo {
+      opacity: 1;
+    }
     .slide-btns {
       display: flex;
       justify-content: space-between;
-      padding: .5rem;
+      padding: 0.3rem;
       background: #D86F8B;
       border-radius: 0 0 12px 12px;
     }
@@ -322,39 +328,85 @@
       background: #FFFFFF;
       color: #D86F8B;
       border: none;
-      padding: .3rem .9rem;
+      padding: 0.2rem 0.7rem;
       border-radius: 20px;
       cursor: pointer;
+      font-size: 0.7rem;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.6);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.activo {
+      display: flex;
+    }
+    .modal {
+      background: #FFFFFF;
+      max-width: 600px;
+      width: 90%;
+      border-radius: 20px;
+      padding: 1.5rem;
+      position: relative;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    .cerrar {
+      position: absolute;
+      top: 0.8rem;
+      right: 1rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: #D86F8B;
+    }
+    .modal-gif-container {
+      text-align: center;
+      margin: 15px 0;
     }
 
     footer {
       background: #D86F8B;
       color: #FFF0F5;
       text-align: center;
-      padding: 1.5rem;
+      padding: 1rem;
       margin-top: 2rem;
+      font-size: 0.75rem;
     }
 
-    @media (max-width: 640px) {
-      .contenedor { grid-template-columns: 1fr; }
-      .musica-iframe { min-height: 180px; }
-      .tabla-tareas th, .tabla-tareas td { font-size: 0.75rem; padding: 6px; }
+    @media (max-width: 768px) {
+      .contenedor {
+        grid-template-columns: 1fr;
+      }
+      nav {
+        justify-content: center;
+      }
     }
   </style>
 </head>
 <body>
 
+<!-- Navegación a la IZQUIERDA -->
 <nav>
   <a href="index.html">🏠 Inicio</a>
   <a href="#">Tecnología</a>
   <a href="#">Viajes</a>
   <a href="#">Música</a>
   <a href="calendario.html">📅 Calendario</a>
-  <a href="notas.html" style="background:#B3416B; padding:0.3rem 1rem; border-radius:25px;">📝 Notas</a>
+  <a href="notas.html" class="destacado">📝 Notas</a>
 </nav>
 
 <div class="contenedor">
-  <main id="posts">
+  
+  <!-- COLUMNA CENTRAL: TAREAS -->
+  <div class="columna-central">
     
     <!-- TABLA DE TAREAS SIMPLES -->
     <div class="seccion-tabla">
@@ -366,11 +418,11 @@
       <table class="tabla-tareas">
         <thead><tr><th style="width:40px">✓</th><th>Tarea</th></tr></thead>
         <tbody id="tbodySimples"></tbody>
-      <table>
+      追赶
       <div class="nota-static">📝 Edita el array "tareasSimples" en el código JavaScript</div>
       <div class="motivacion-container">
         <div class="motivacion-marco">
-          <img src="sevenseven.jpg" class="motivacion-imagen" onerror="this.src='https://via.placeholder.com/600x300/FFD1DC/B3416B?text=🌟+Tú+puedes+con+todo+🌟'">
+          <img src="sevenseven.jpg" class="motivacion-imagen" onerror="this.src='https://via.placeholder.com/600x200/FFD1DC/B3416B?text=🌟+Tú+puedes+con+todo+🌟'">
         </div>
         <div class="motivacion-texto">✨ ¡Tú puedes hacerlo! ✨ ദ്ദി◝ ⩊ ◜.ᐟ</div>
       </div>
@@ -390,7 +442,7 @@
       <div class="nota-static">📝 Edita el array "tareasSemanales" en el código JavaScript</div>
       <div class="motivacion-container">
         <div class="motivacion-marco">
-          <img src="Buddha.jpg" class="motivacion-imagen" onerror="this.src='https://via.placeholder.com/600x300/FFD1DC/B3416B?text=🌟+Organiza+tu+semana+con+cariño+🌟'">
+          <img src="Buddha.jpg" class="motivacion-imagen" onerror="this.src='https://via.placeholder.com/600x200/FFD1DC/B3416B?text=🌟+Organiza+tu+semana+con+cariño+🌟'">
         </div>
         <div class="motivacion-texto">✨ ¡Cada día es una nueva oportunidad! ✨ 🌸</div>
       </div>
@@ -403,20 +455,22 @@
         <span class="categoria">˚₊‧꒰ა ☆ ໒꒱ ‧₊˚</span>
         <h2>QUE ESTUDIAR PARA ROTACIÓN DE PARTOS</h2>
         <p class="meta">📅 10 de abril, 2026 &nbsp;·&nbsp; ✍️ Yo mismo</p>
-        <p>Ojo muy importante.</p>
         <button class="leer-mas" onclick="abrirModalContenido()">Leer más →</button>
       </div>
     </article>
 
-  </main>
-  <aside>
+  </div>
 
-    <div class="widget" style="padding:0;overflow:hidden;border-radius:16px;">
+  <!-- COLUMNA DERECHA: WIDGETS -->
+  <div class="columna-derecha">
+
+    <!-- Widget slideshow personal -->
+    <div class="widget" style="padding:0;overflow:hidden;border-radius:20px;">
       <div class="slideshow" id="slideshow">
-        <div class="slide activo"><img src="chii.jpg"></div>
-        <div class="slide"><img src="umibe.jpg"></div>
-        <div class="slide"><img src="gwen.jpg"></div>
-        <div class="slide"><img src="Isobe.jpg"></div>
+        <div class="slide activo"><img src="chii.jpg" alt="Foto 1"></div>
+        <div class="slide"><img src="umibe.jpg" alt="Foto 2"></div>
+        <div class="slide"><img src="gwen.jpg" alt="Foto 3"></div>
+        <div class="slide"><img src="Isobe.jpg" alt="Foto 4"></div>
       </div>
       <div class="slide-btns">
         <button class="slide-btn" onclick="cambiarSlide(-1)">◀</button>
@@ -424,12 +478,13 @@
       </div>
     </div>
 
+    <!-- Widget paisajes -->
     <div class="widget widget-paisajes">
       <h3>🏔️ Paisajes que Inspiran 🌅</h3>
       <div class="slideshow-paisajes" id="slideshowPaisajes">
-        <div class="slide-paisaje activo"><img src="Ipanema.jpg"></div>
-        <div class="slide-paisaje"><img src="Japan1.jpg"></div>
-        <div class="slide-paisaje"><img src="Japan2.jpg"></div>
+        <div class="slide-paisaje activo"><img src="Ipanema.jpg" alt="Paisaje 1"></div>
+        <div class="slide-paisaje"><img src="Japan1.jpg" alt="Paisaje 2"></div>
+        <div class="slide-paisaje"><img src="Japan2.jpg" alt="Paisaje 3"></div>
       </div>
       <div class="slideshow-paisajes-btns">
         <button class="btn-paisaje" onclick="cambiarPaisaje(-1)">◀</button>
@@ -438,15 +493,17 @@
       <div class="indicadores-paisajes" id="indicadoresPaisajes"></div>
     </div>
 
+    <!-- Widget música -->
     <div class="widget widget-musica">
       <h3>🎵 Mi playlist favorita 🎵</h3>
       <iframe class="musica-iframe" src="https://www.youtube.com/embed/videoseries?list=PLl4CgAo8Zq4hNkAEh5VOC-XgGnkk6yuPF" allowfullscreen></iframe>
       <div class="musica-info">🎧 Mi playlist favorita 🎵</div>
     </div>
 
-  </aside>
+  </div>
 </div>
 
+<!-- Modal -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
     <button class="cerrar" onclick="cerrarModal()">✕</button>
@@ -461,26 +518,21 @@
   // ✏️ EDITA LAS TAREAS AQUÍ ABAJO ✏️
   // ============================================================
   
-  // LISTA DE TAREAS SIMPLES
   let tareasSimples = [
     { id: 1, texto: "Póster de P y P (Pasar a plantilla para mandar a imprimir en papel bond)", completada: false },
     { id: 2, texto: "Llenar datos subjetivos en PAE DE P Y P", completada: false },
     { id: 3, texto: "Trabajo plan de atención de enfermería", completada: false }
   ];
 
-  // TAREAS POR DÍA DE LA SEMANA
   let tareasSemanales = [
-    // SÁBADO
     { id: 1, dia: "sábado", tarea: "Buscar artículo para caso de profundización", completada: false },
     { id: 2, dia: "sábado", tarea: "Parte 1 trabajo situación de enfermería", completada: false },
-    { id: 3, dia: "sábado", tarea: "Arreglar ayudas para llevar a la rotación: pasar info a un tablero más pequeño", completada: false },
+    { id: 3, dia: "sábado", tarea: "Arreglar ayudas para llevar a la rotación", completada: false },
     { id: 4, dia: "sábado", tarea: "Estudiar para la rotación de partos", completada: false },
-    // DOMINGO
     { id: 5, dia: "domingo", tarea: "Parte 2 trabajo situación de enfermería", completada: false },
-    { id: 6, dia: "domingo", tarea: "Terminar de arreglar ayudas para llevar a la rotación: botellitas", completada: false },
+    { id: 6, dia: "domingo", tarea: "Terminar de arreglar ayudas", completada: false },
     { id: 7, dia: "domingo", tarea: "Estudiar rotación de partos", completada: false },
     { id: 8, dia: "domingo", tarea: "Estudiar parcial ecobiología", completada: false },
-    // LUNES
     { id: 9, dia: "lunes", tarea: "Tutoría de la GUETI", completada: false },
     { id: 10, dia: "lunes", tarea: "Estudiar para tema de profundización", completada: false },
     { id: 11, dia: "lunes", tarea: "Estudiar para rotación partos", completada: false },
@@ -488,12 +540,8 @@
   ];
 
   // ============================================================
-  // NO EDITES NADA DEBAJO DE ESTA LÍNEA
+  // NO EDITES NADA DEBAJO
   // ============================================================
-
-  // Limpiar localStorage si hay datos corruptos (opcional, solo para arreglar)
-  // localStorage.removeItem('tareasSimples');
-  // localStorage.removeItem('tareasSemanales');
 
   // Slideshow principal
   const slides = document.querySelectorAll('.slide');
@@ -508,11 +556,12 @@
   let actualPaisaje = 0, timerPaisajes;
   function cargarImagenesPaisajes() {
     const imagenes = ["Ipanema.jpg", "Japan1.jpg", "Japan2.jpg"];
-    slidesPaisajes.forEach((s, i) => { if (i < imagenes.length) s.querySelector('img').src = imagenes[i]; });
+    slidesPaisajes.forEach((s, i) => { if (i < imagenes.length && s.querySelector('img')) s.querySelector('img').src = imagenes[i]; });
     crearIndicadores();
   }
   function crearIndicadores() {
     const container = document.getElementById('indicadoresPaisajes');
+    if (!container) return;
     container.innerHTML = '';
     for (let i = 0; i < slidesPaisajes.length; i++) {
       const dot = document.createElement('span'); dot.classList.add('dot');
@@ -528,54 +577,26 @@
   cargarImagenesPaisajes();
   reiniciarTimerPaisajes();
 
-  // Limpiar localStorage viejo si está corrupto
-  function limpiarSiEsNecesario() {
-    try {
-      const testSimples = localStorage.getItem('tareasSimples');
-      if (testSimples) {
-        JSON.parse(testSimples);
-      }
-      const testSemanales = localStorage.getItem('tareasSemanales');
-      if (testSemanales) {
-        JSON.parse(testSemanales);
-      }
-    } catch(e) {
-      localStorage.removeItem('tareasSimples');
-      localStorage.removeItem('tareasSemanales');
-    }
-  }
-  limpiarSiEsNecesario();
-
-  // Guardar/recuperar estado de completado
+  // LocalStorage
   function guardarTareasSimples() { localStorage.setItem('tareasSimples', JSON.stringify(tareasSimples)); }
   function guardarTareasSemanales() { localStorage.setItem('tareasSemanales', JSON.stringify(tareasSemanales)); }
   
   function cargarTareasSimples() { 
     const g = localStorage.getItem('tareasSimples'); 
-    if (g) {
-      try {
-        const parsed = JSON.parse(g);
-        if (parsed && parsed.length > 0) tareasSimples = parsed;
-      } catch(e) {}
-    }
+    if (g) { try { const parsed = JSON.parse(g); if (parsed && parsed.length) tareasSimples = parsed; } catch(e) {} }
     renderizarTablaSimples(); 
   }
   
   function cargarTareasSemanales() { 
     const g = localStorage.getItem('tareasSemanales'); 
-    if (g) {
-      try {
-        const parsed = JSON.parse(g);
-        if (parsed && parsed.length > 0) tareasSemanales = parsed;
-      } catch(e) {}
-    }
+    if (g) { try { const parsed = JSON.parse(g); if (parsed && parsed.length) tareasSemanales = parsed; } catch(e) {} }
     renderizarTablaSemanales(); 
   }
 
   function renderizarTablaSimples() {
     const tbody = document.getElementById('tbodySimples');
     if (!tbody) return;
-    tbody.innerHTML = tareasSimples.map(t => `<tr><td style="text-align:center"><input type="checkbox" class="check-simple" data-id="${t.id}" ${t.completada ? 'checked' : ''}></td><td class="${t.completada ? 'tarea-completada' : ''}">${escapeHtml(t.texto)}</td>`).join('');
+    tbody.innerHTML = tareasSimples.map(t => `<tr><td style="text-align:center"><input type="checkbox" class="check-simple" data-id="${t.id}" ${t.completada ? 'checked' : ''}></td><td class="${t.completada ? 'tarea-completada' : ''}">${escapeHtml(t.texto)}<\/td></tr>`).join('');
     document.querySelectorAll('.check-simple').forEach(cb => cb.addEventListener('change', function() {
       const t = tareasSimples.find(t => t.id == this.dataset.id);
       if (t) { t.completada = this.checked; guardarTareasSimples(); renderizarTablaSimples(); }
@@ -586,7 +607,7 @@
     const diasEsp = { lunes: "Lunes", martes: "Martes", miércoles: "Miércoles", jueves: "Jueves", viernes: "Viernes", sábado: "Sábado", domingo: "Domingo" };
     const tbody = document.getElementById('tbodySemanales');
     if (!tbody) return;
-    tbody.innerHTML = tareasSemanales.map(t => `<td><td style="text-align:center"><input type="checkbox" class="check-semanal" data-id="${t.id}" ${t.completada ? 'checked' : ''}></td><td><strong>${diasEsp[t.dia]}</strong></td><td class="${t.completada ? 'tarea-completada' : ''}">${escapeHtml(t.tarea)}</td>`).join('');
+    tbody.innerHTML = tareasSemanales.map(t => `<tr><td style="text-align:center"><input type="checkbox" class="check-semanal" data-id="${t.id}" ${t.completada ? 'checked' : ''}></td><td><strong>${diasEsp[t.dia]}</strong></td><td class="${t.completada ? 'tarea-completada' : ''}">${escapeHtml(t.tarea)}<\/td></tr>`).join('');
     document.querySelectorAll('.check-semanal').forEach(cb => cb.addEventListener('change', function() {
       const t = tareasSemanales.find(t => t.id == this.dataset.id);
       if (t) { t.completada = this.checked; guardarTareasSemanales(); renderizarTablaSemanales(); }
@@ -595,36 +616,21 @@
 
   function escapeHtml(t) { 
     if (!t) return '';
-    return t.replace(/[&<>]/g, function(m) { 
-      if (m === '&') return '&amp;'; 
-      if (m === '<') return '&lt;'; 
-      if (m === '>') return '&gt;'; 
-      return m; 
-    }); 
+    const div = document.createElement('div');
+    div.textContent = t;
+    return div.innerHTML;
   }
 
   function abrirModalContenido() {
-    document.getElementById('m-contenido').innerHTML = `<div class="modal-gif-container"><img src="keep.gif" alt="GIF" style="max-width:100%"></div>
+    document.getElementById('m-contenido').innerHTML = `
+      <div class="modal-gif-container"><img src="keep.gif" alt="GIF" style="max-width:100%; border-radius:12px;"></div>
       <p><strong>📚 Fisiología del trabajo de parto</strong></p>
-      <p>• Las 4 etapas del trabajo de parto (dilatación, expulsivo, alumbramiento y posparto inmediato)</p>
-      <p>• Mecanismos del trabajo de parto (encajamiento, descenso, rotación, extensión, etc.)</p>
-      <p>• Diferencia entre trabajo de parto verdadero y falso</p>
-      <p>• Clasificación de la presentación fetal (cefálica, podálica, transversa)</p>
-      <p><strong>🩺 Monitoría fetal</strong></p>
-      <p>• Cómo interpretar una cardiotocografía (CTG) básica</p>
-      <p>• Valores normales de la frecuencia cardíaca fetal (110–160 lpm)</p>
-      <p>• Reconocer desaceleraciones tempranas, tardías y variables</p>
-      <p><strong>💊 Farmacología básica en sala de partos</strong></p>
-      <p>• Oxitocina: dosis, indicaciones, riesgos</p>
-      <p>• Misoprostol: uso en inducción y posparto</p>
-      <p>• Sulfato de magnesio: manejo de preeclampsia</p>
-      <p>• Analgesia epidural: conceptos básicos</p>
-      <p><strong>🔬 Procedimientos que debes reconocer</strong></p>
-      <p>• Amniotomía, Maniobras de Leopold, Episiotomía</p>
-      <p>• Atención inmediata del recién nacido: APGAR</p>
-      <p><strong>⚠️ Emergencias obstétricas</strong></p>
-      <p>• Hemorragia posparto, Preeclampsia/eclampsia</p>
-      <p>• Distocia de hombros, Prolapso de cordón</p>`;
+      <p>• Las 4 etapas del trabajo de parto</p>
+      <p>• Mecanismos del trabajo de parto</p>
+      <p>📊 Monitoría fetal</p>
+      <p>💊 Farmacología básica en sala de partos</p>
+      <p>🔬 Procedimientos que debes reconocer</p>
+      <p>⚠️ Emergencias obstétricas</p>`;
     document.getElementById('modal').classList.add('activo');
   }
   
