@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mi Calendario 📅</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Quicksand', 'Comic Neue', cursive;
+      background: #FFF0F5;
+      color: #4A2B3D;
+      padding: 20px;
+    }
+    .contenedor-calendario {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 4px 12px rgba(216, 111, 139, 0.15);
+    }
+    h1 {
+      color: #B3416B;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .btn-volver {
+      background: #D86F8B;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-family: 'Quicksand', cursive;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+      display: inline-block;
+      text-decoration: none;
+    }
+    .btn-volver:hover {
+      background: #B3416B;
+    }
+    .calendario-mes {
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #B3416B;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .btn-mes {
+      background: #D86F8B;
+      color: white;
+      border: none;
+      padding: 5px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+    .agregar-evento {
+      margin-bottom: 15px;
+      padding: 10px;
+      background: #FFF5F7;
+      border-radius: 12px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .agregar-evento input {
+      flex: 2;
+      padding: 8px;
+      border: 2px solid #F4C2D0;
+      border-radius: 20px;
+      font-family: 'Quicksand', cursive;
+    }
+    .btn-agregar {
+      background: #D86F8B;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+    .calendario-dias-semana {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+      font-weight: bold;
+      color: #D86F8B;
+      margin-bottom: 8px;
+    }
+    .calendario-dias {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+    }
+    .dia-calendario {
+      background: #FFF5F7;
+      border-radius: 8px;
+      padding: 10px 4px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid #F4C2D0;
+    }
+    .dia-calendario:hover {
+      background: #FFE4E8;
+      transform: scale(1.05);
+    }
+    .dia-calendario.tiene-tareas {
+      background: #FFD1DC;
+      font-weight: bold;
+    }
+    .tareas-del-dia {
+      margin-top: 20px;
+      padding-top: 15px;
+      border-top: 1px solid #F4C2D0;
+    }
+    .lista-tareas-fecha {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .tarea-fecha-item {
+      padding: 8px;
+      background: #FFF5F7;
+      border-radius: 8px;
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .checkbox-fecha {
+      width: 18px;
+      height: 18px;
+      accent-color: #D86F8B;
+    }
+    .btn-eliminar {
+      background: #ff4444;
+      color: white;
+      border: none;
+      padding: 4px 10px;
+      border-radius: 15px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="contenedor-calendario">
+    <a href="index.html" class="btn-volver">← Volver al Blog</a>
+    <h1>📅 Mi Calendario de Tareas</h1>
+    
+    <div class="calendario-mes">
+      <button class="btn-mes" onclick="cambiarMes(-1)">◀</button>
+      <span id="mesActual"></span>
+      <button class="btn-mes" onclick="cambiarMes(1)">▶</button>
+    </div>
+    
+    <div class="agregar-evento">
+      <input type="text" id="nueva-tarea" placeholder="Escribe una tarea...">
+      <input type="date" id="fecha-tarea">
+      <button class="btn-agregar" onclick="agregarTarea()">➕ Agregar</button>
+    </div>
+    
+    <div class="calendario-dias-semana">
+      <span>D</span><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span>
+    </div>
+    <div id="calendarioDias" class="calendario-dias"></div>
+    
+    <div class="tareas-del-dia">
+      <h3>✨ Tareas del día ✨</h3>
+      <div id="listaTareasFecha" class="lista-tareas-fecha"></div>
+    </div>
+  </div>
+
+  <script>
+    let fechaActual = new Date();
+    let todasLasTareas = [];
+
+    function cargarTareas() {
+      const guardadas = localStorage.getItem('tareasCalendario');
+      if (guardadas) {
+        todasLasTareas = JSON.parse(guardadas);
+      }
+      renderizarCalendario();
+    }
+
+    function guardarTareas() {
+      localStorage.setItem('tareasCalendario', JSON.stringify(todasLasTareas));
+    }
+
+    function agregarTarea() {
+      const input = document.getElementById('nueva-tarea');
+      const fechaInput = document.getElementById('fecha-tarea');
+      const texto = input.value.trim();
+      const fecha = fechaInput.value;
+      
+      if (texto === '') {
+        alert('🌸 Escribe una tarea');
+        return;
+      }
+      if (fecha === '') {
+        alert('📅 Selecciona una fecha');
+        return;
+      }
+      
+      todasLasTareas.push({
+        id: Date.now(),
+        texto: texto,
+        fecha: fecha,
+        completada: false
+      });
+      
+      guardarTareas();
+      input.value = '';
+      fechaInput.value = '';
+      renderizarCalendario();
+    }
+
+    function eliminarTarea(id) {
+      todasLasTareas = todasLasTareas.filter(t => t.id !== id);
+      guardarTareas();
+      renderizarCalendario();
+    }
+
+    function toggleCompletar(id) {
+      const tarea = todasLasTareas.find(t => t.id === id);
+      if (tarea) {
+        tarea.completada = !tarea.completada;
+        guardarTareas();
+        renderizarCalendario();
+      }
+    }
+
+    function renderizarCalendario() {
+      const year = fechaActual.getFullYear();
+      const month = fechaActual.getMonth();
+      
+      const primerDia = new Date(year, month, 1);
+      const ultimoDia = new Date(year, month + 1, 0);
+      const inicioSemana = primerDia.getDay();
+      
+      const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+      document.getElementById('mesActual').textContent = `${meses[month]} ${year}`;
+      
+      let html = '';
+      for (let i = 0; i < inicioSemana; i++) {
+        html += '<div class="dia-calendario"></div>';
+      }
+      
+      for (let dia = 1; dia <= ultimoDia.getDate(); dia++) {
+        const fechaStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
+        const tareasEnFecha = todasLasTareas.filter(t => t.fecha === fechaStr);
+        const tieneTareas = tareasEnFecha.length > 0;
+        
+        html += `<div class="dia-calendario ${tieneTareas ? 'tiene-tareas' : ''}" onclick="seleccionarFecha('${fechaStr}')">${dia}</div>`;
+      }
+      
+      document.getElementById('calendarioDias').innerHTML = html;
+      
+      const hoy = `${year}-${String(month + 1).padStart(2, '0')}-01`;
+      mostrarTareasPorFecha(hoy);
+    }
+
+    function seleccionarFecha(fecha) {
+      document.getElementById('fecha-tarea').value = fecha;
+      mostrarTareasPorFecha(fecha);
+    }
+
+    function mostrarTareasPorFecha(fecha) {
+      const tareasEnFecha = todasLasTareas.filter(t => t.fecha === fecha);
+      const container = document.getElementById('listaTareasFecha');
+      
+      if (tareasEnFecha.length === 0) {
+        container.innerHTML = '<p style="color:#C97A9A;">✨ No hay tareas para esta fecha ✨</p>';
+        return;
+      }
+      
+      container.innerHTML = tareasEnFecha.map(tarea => `
+        <div class="tarea-fecha-item ${tarea.completada ? 'completada' : ''}">
+          <input type="checkbox" class="checkbox-fecha" ${tarea.completada ? 'checked' : ''} onchange="toggleCompletar(${tarea.id})">
+          <span style="flex:1; ${tarea.completada ? 'text-decoration: line-through; color:#C97A9A;' : ''}">${escapeHtml(tarea.texto)}</span>
+          <button class="btn-eliminar" onclick="eliminarTarea(${tarea.id})">🗑️</button>
+        </div>
+      `).join('');
+    }
+
+    function cambiarMes(delta) {
+      fechaActual.setMonth(fechaActual.getMonth() + delta);
+      renderizarCalendario();
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    cargarTareas();
+  </script>
+</body>
+</html>
