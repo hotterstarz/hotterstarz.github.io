@@ -107,26 +107,20 @@
       color: #5C3D4F; 
       font-family: 'Quicksand', 'Comic Neue', cursive; 
     }
-    .leer-mas {
-      display: inline-block;
-      margin-top: 1rem;
-      background: #D86F8B;
-      color: white;
-      padding: .5rem 1.2rem;
-      border-radius: 25px;
-      font-family: 'Quicksand', 'Comic Neue', cursive;
-      font-size: .9rem;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-      transition: all 0.3s ease;
-    }
-    .leer-mas:hover { 
-      background: #B3416B;
-      transform: scale(1.05);
-    }
 
-    /* Estilos para tablas */
+    /* Estilos para tablas estáticas */
+    .seccion-tabla {
+      background: #FFFFFF;
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 12px rgba(216, 111, 139, 0.15);
+    }
+    .seccion-tabla h3 {
+      color: #B3416B;
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+    }
     .tabla-tareas {
       width: 100%;
       border-collapse: collapse;
@@ -169,68 +163,6 @@
       border: 1px dashed #F4C2D0;
     }
 
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.6);
-      z-index: 100;
-      align-items: center;
-      justify-content: center;
-    }
-    .modal-overlay.activo { display: flex; }
-    .modal {
-      background: #FFFFFF;
-      max-width: 650px;
-      width: 90%;
-      border-radius: 20px;
-      padding: 2rem;
-      position: relative;
-      max-height: 80vh;
-      overflow-y: auto;
-    }
-    .modal h2 { 
-      font-size: 1.6rem; 
-      margin-bottom: .5rem; 
-      font-family: 'Quicksand', 'Comic Neue', cursive;
-      color: #B3416B;
-    }
-    .modal .meta { margin-bottom: 1rem; }
-    .modal p { 
-      line-height: 1.8; 
-      color: #5C3D4F; 
-      margin-bottom: 1rem; 
-      font-family: 'Quicksand', 'Comic Neue', cursive; 
-    }
-    .cerrar {
-      position: absolute;
-      top: 1rem; right: 1.2rem;
-      font-size: 1.5rem;
-      cursor: pointer;
-      background: none;
-      border: none;
-      color: #D86F8B;
-      font-weight: bold;
-    }
-    .cerrar:hover {
-      color: #B3416B;
-    }
-
-    /* Estilos para el GIF en el modal */
-    .modal-gif-container {
-      text-align: center;
-      margin: 20px 0;
-      padding: 10px;
-      background: #FFF5F7;
-      border-radius: 12px;
-    }
-    .modal-gif-container img {
-      max-width: 100%;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-
-    /* Estilos para la imagen de motivación */
     .motivacion-container {
       margin-top: 25px;
       margin-bottom: 10px;
@@ -284,7 +216,6 @@
       font-weight: 700;
     }
 
-    /* Widget de música */
     .widget-musica {
       background: linear-gradient(135deg, #FFE4E8, #FFD1DC);
     }
@@ -303,7 +234,6 @@
       font-family: 'Quicksand', cursive;
     }
 
-    /* Widget de slideshow de paisajes */
     .widget-paisajes {
       background: linear-gradient(135deg, #E8F4FD, #D1E8F5);
     }
@@ -449,7 +379,55 @@
 </nav>
 
 <div class="contenedor">
-  <main id="posts"></main>
+  <main id="posts">
+    
+    <!-- TABLA DE TAREAS SIMPLES - DIRECTAMENTE EN LA PÁGINA -->
+    <div class="seccion-tabla">
+      <h2 class="categoria" style="display:inline-block; margin-bottom:15px;">📋 Lista de tareas</h2>
+      <table class="tabla-tareas" id="tablaSimples">
+        <thead>
+          <tr><th style="width: 40px">✓</th><th>Tarea</th></tr>
+        </thead>
+        <tbody id="tbodySimples">
+          <!-- Las filas se generarán con JavaScript -->
+        </tbody>
+      </table>
+      <div class="nota-static">
+        📝 Para modificar estas tareas, edita el array "tareasSimples" en el código JavaScript
+      </div>
+    </div>
+
+    <!-- TABLA DE TAREAS SEMANALES - DIRECTAMENTE EN LA PÁGINA -->
+    <div class="seccion-tabla">
+      <h2 class="categoria" style="display:inline-block; margin-bottom:15px;">📅 Tareas por día de la semana</h2>
+      <table class="tabla-tareas" id="tablaSemanales">
+        <thead>
+          <tr><th style="width: 40px">✓</th><th>Día</th><th>Tarea</th><th>Fecha Límite</th></tr>
+        </thead>
+        <tbody id="tbodySemanales">
+          <!-- Las filas se generarán con JavaScript -->
+        </tbody>
+      </table>
+      <div class="nota-static">
+        📝 Para modificar estas tareas, edita el array "tareasSemanales" en el código JavaScript
+      </div>
+    </div>
+
+    <!-- TERCER POST (contenido educativo) -->
+    <article class="articulo">
+      <div class="articulo-img">
+        <img src="japan3.jpg" alt="Estudio" onerror="this.src='https://via.placeholder.com/800x400/E8A0B5/white?text=Imagen+no+encontrada'">
+      </div>
+      <div class="articulo-body">
+        <span class="categoria">˚₊‧꒰ა ☆ ໒꒱ ‧₊˚</span>
+        <h2>QUE ESTUDIAR PARA ROTACIÓN DE PARTOS</h2>
+        <p class="meta">📅 10 de abril, 2026 &nbsp;·&nbsp; ✍️ Yo mismo</p>
+        <p>Ojo muy importante.</p>
+        <button class="leer-mas" onclick="abrirModalContenido()">Leer más →</button>
+      </div>
+    </article>
+
+  </main>
   <aside>
 
     <div class="widget" style="padding:0;overflow:hidden;border-radius:16px;">
@@ -593,11 +571,11 @@
   cargarImagenesPaisajes();
   reiniciarTimerPaisajes();
 
-  // ── DATOS ESTÁTICOS PARA TABLAS (EDITA AQUÍ) ─────────────────────
-  // ============================================================
-  // 🟢 LISTA DE TAREAS SIMPLES - Edita esta tabla
-  // Formato: { id: número, texto: "tarea", completada: true/false }
-  // ============================================================
+  // ── DATOS ESTÁTICOS PARA TABLAS (EDITA AQUÍ PARA MODIFICAR LAS TAREAS) ──
+  // ========================================================================
+  // 🟢 LISTA DE TAREAS SIMPLES - Modifica esta lista
+  // Formato: { id: número, texto: "descripción de la tarea", completada: true/false }
+  // ========================================================================
   let tareasSimples = [
     { id: 1, texto: "Póster de P y P (Pasar a plantilla para mandar a imprimir en papel bond)", completada: false },
     { id: 2, texto: "Empezar trabajo plan de atención de enfermería", completada: false },
@@ -605,10 +583,10 @@
     { id: 4, texto: "Comprar materiales para la práctica", completada: false }
   ];
 
-  // ============================================================
-  // 🟢 TAREAS POR DÍA DE LA SEMANA - Edita esta tabla
-  // Formato: { dia: "lunes", tarea: "descripción", fechaLimite: "2026-05-10", completada: false }
-  // ============================================================
+  // ========================================================================
+  // 🟢 TAREAS POR DÍA DE LA SEMANA - Modifica esta lista
+  // Formato: { id: número, dia: "lunes/martes/etc", tarea: "descripción", fechaLimite: "YYYY-MM-DD", completada: true/false }
+  // ========================================================================
   let tareasSemanales = [
     { id: 1, dia: "lunes", tarea: "Revisión de apuntes de obstetricia", fechaLimite: "2026-05-12", completada: false },
     { id: 2, dia: "martes", tarea: "Práctica de monitoría fetal", fechaLimite: "2026-05-13", completada: false },
@@ -629,6 +607,7 @@
     if (guardadas) {
       tareasSimples = JSON.parse(guardadas);
     }
+    renderizarTablaTareasSimples();
   }
 
   function guardarTareasSemanales() {
@@ -640,39 +619,25 @@
     if (guardadas) {
       tareasSemanales = JSON.parse(guardadas);
     }
+    renderizarTablaTareasSemanales();
   }
 
   // Renderizar tabla de tareas simples
   function renderizarTablaTareasSimples() {
-    const container = document.getElementById('tabla-tareas-container');
-    if (!container) return;
+    const tbody = document.getElementById('tbodySimples');
+    if (!tbody) return;
     
-    let html = `
-      <table class="tabla-tareas">
-        <thead>
-          <tr><th style="width: 40px">✓</th><th>Tarea</th></tr>
-        </thead>
-        <tbody>
-    `;
-    
+    let html = '';
     tareasSimples.forEach(tarea => {
       html += `
         <tr>
-          <td><input type="checkbox" class="check-simple" data-id="${tarea.id}" ${tarea.completada ? 'checked' : ''}></td>
+          <td style="text-align:center"><input type="checkbox" class="check-simple" data-id="${tarea.id}" ${tarea.completada ? 'checked' : ''}></td>
           <td class="${tarea.completada ? 'tarea-completada' : ''}">${escapeHtml(tarea.texto)}</td>
         </tr>
       `;
     });
     
-    html += `
-        </tbody>
-      </table>
-      <div class="nota-static">
-        📝 Para modificar estas tareas, edita el array "tareasSimples" en el código JavaScript
-      </div>
-    `;
-    
-    container.innerHTML = html;
+    tbody.innerHTML = html;
     
     document.querySelectorAll('.check-simple').forEach(checkbox => {
       checkbox.addEventListener('change', function(e) {
@@ -689,28 +654,20 @@
 
   // Renderizar tabla de tareas semanales
   function renderizarTablaTareasSemanales() {
-    const container = document.getElementById('tabla-semanas-container');
-    if (!container) return;
+    const tbody = document.getElementById('tbodySemanales');
+    if (!tbody) return;
     
-    // Traducir días
     const diasEsp = {
       lunes: "Lunes", martes: "Martes", miércoles: "Miércoles", 
       jueves: "Jueves", viernes: "Viernes", sábado: "Sábado", domingo: "Domingo"
     };
     
-    let html = `
-      <table class="tabla-tareas">
-        <thead>
-          <tr><th style="width: 40px">✓</th><th>Día</th><th>Tarea</th><th>Fecha Límite</th></tr>
-        </thead>
-        <tbody>
-    `;
-    
+    let html = '';
     tareasSemanales.forEach(tarea => {
       const fechaFormateada = tarea.fechaLimite ? tarea.fechaLimite : "Sin fecha";
       html += `
         <tr>
-          <td><input type="checkbox" class="check-semanal" data-id="${tarea.id}" ${tarea.completada ? 'checked' : ''}></td>
+          <td style="text-align:center"><input type="checkbox" class="check-semanal" data-id="${tarea.id}" ${tarea.completada ? 'checked' : ''}></td>
           <td><strong>${diasEsp[tarea.dia] || tarea.dia}</strong></td>
           <td class="${tarea.completada ? 'tarea-completada' : ''}">${escapeHtml(tarea.tarea)}</td>
           <td>📅 ${fechaFormateada}</td>
@@ -718,15 +675,7 @@
       `;
     });
     
-    html += `
-        </tbody>
-      </table>
-      <div class="nota-static">
-        📝 Para modificar estas tareas, edita el array "tareasSemanales" en el código JavaScript
-      </div>
-    `;
-    
-    container.innerHTML = html;
+    tbody.innerHTML = html;
     
     document.querySelectorAll('.check-semanal').forEach(checkbox => {
       checkbox.addEventListener('change', function(e) {
@@ -747,118 +696,27 @@
     return div.innerHTML;
   }
 
-  // ── POSTS ─────────────────────────────────────────────────
-  const posts = [
-    {
-      imagen: "Buddha.jpg",
-      categoria: "( ꩜ ᯅ ꩜;)⁭",
-      titulo: "Lista de tareas (˶ ´༥` ˶)୭",
-      fecha: "1 de mayo, 2026",
-      autor: "Yo mismo",
-      resumen: "Tareas pendientes que aún no puedo completar pero en las que puedo trabajar",
-      contenido: ``,
-      gif: "Keep.gif",
-      usarTabla: true
-    },
-    {
-      imagen: "alien.jpg",
-      categoria: "₍^. .^₎⟆",
-      titulo: "Tareas por día de la semana",
-      fecha: "20 de abril, 2026",
-      autor: "Yo mismo",
-      resumen: "Organiza tus tareas por cada día de la semana con fechas límite 🌸",
-      contenido: ``,
-      gif: null,
-      usarTabla: true
-    },
-    {
-      imagen: "japan3.jpg",
-      categoria: "˚₊‧꒰ა ☆ ໒꒱ ‧₊˚",
-      titulo: "QUE ESTUDIAR PARA ROTACIÓN DE PARTOS",
-      fecha: "10 de abril, 2026",
-      autor: "Yo mismo",
-      resumen: "Ojo muy importante.",
-      contenido: `<p>Fisiología del trabajo de parto</p>
-<p>Las 4 etapas del trabajo de parto</p>
-<p>Mecanismos del trabajo de parto</p>
-<p>Monitoría fetal</p>
-<p>Signos vitales y valoración materna</p>
-<p>💊 Farmacología básica en sala de partos</p>
-<p>🔬 Procedimientos que debes reconocer</p>
-<p>⚠️ Emergencias obstétricas</p>`,
-      gif: "keep.gif",
-    }
-  ];
-
-  const main = document.getElementById('posts');
-  posts.forEach((p, i) => {
-    main.innerHTML += `
-      <article class="articulo">
-        <div class="articulo-img">
-          <img src="${p.imagen}" alt="${p.categoria}" onerror="this.src='https://via.placeholder.com/800x400/F4A4B8/white?text=Imagen+no+encontrada'">
-        </div>
-        <div class="articulo-body">
-          <span class="categoria">${p.categoria}</span>
-          <h2>${p.titulo}</h2>
-          <p class="meta">📅 ${p.fecha} &nbsp;·&nbsp; ✍️ ${p.autor}</p>
-          <p>${p.resumen}</p>
-          <button class="leer-mas" onclick="abrirModal(${i})">Leer más →</button>
-        </div>
-      </article>`;
-  });
-
-  function abrirModal(i) {
-    const p = posts[i];
-    document.getElementById('m-cat').textContent = p.categoria;
-    document.getElementById('m-titulo').textContent = p.titulo;
-    document.getElementById('m-meta').textContent = `📅 ${p.fecha}  ·  ✍️ ${p.autor}`;
-
-    let contenidoFinal = '';
-
-    if (i === 0) {
-      // Cargar tareas estáticas y renderizar tabla
-      cargarTareasSimplesStatic();
-      renderizarTablaTareasSimples();
-      
-      contenidoFinal = `
-        <div id="tabla-tareas-container"></div>
-        <div class="motivacion-container">
-          <div class="motivacion-marco">
-            <img src="sevenseven.jpg" alt="Imagen de motivación" class="motivacion-imagen" onerror="this.src='https://via.placeholder.com/600x300/FFD1DC/B3416B?text=🌟+Tú+puedes+con+todo+🌟'">
-          </div>
-          <div class="motivacion-texto">
-            ✨ ¡Tú puedes hacerlo! ✨ ദ്ദി◝ ⩊ ◜.ᐟ
-          </div>
-        </div>
-      `;
-    } else if (i === 1) {
-      // Cargar tareas semanales estáticas y renderizar tabla
-      cargarTareasSemanalesStatic();
-      renderizarTablaTareasSemanales();
-      
-      contenidoFinal = `
-        <div id="tabla-semanas-container"></div>
-        <div class="motivacion-container">
-          <div class="motivacion-marco">
-            <img src="sevenseven.jpg" alt="Imagen de motivación" class="motivacion-imagen" onerror="this.src='https://via.placeholder.com/600x300/FFD1DC/B3416B?text=🌟+Organiza+tu+semana+con+cariño+🌟'">
-          </div>
-          <div class="motivacion-texto">
-            ✨ ¡Cada día es una nueva oportunidad! ✨ 🌸
-          </div>
-        </div>
-      `;
-    } else if (p.gif && p.gif !== null) {
-      contenidoFinal = `
-        <div class="modal-gif-container">
-          <img src="${p.gif}" alt="GIF animado">
-        </div>
-        ${p.contenido}
-      `;
-    } else {
-      contenidoFinal = p.contenido;
-    }
+  // Modal para el contenido del tercer post
+  function abrirModalContenido() {
+    document.getElementById('m-cat').textContent = "˚₊‧꒰ა ☆ ໒꒱ ‧₊˚";
+    document.getElementById('m-titulo').textContent = "QUE ESTUDIAR PARA ROTACIÓN DE PARTOS";
+    document.getElementById('m-meta').textContent = "📅 10 de abril, 2026  ·  ✍️ Yo mismo";
     
-    document.getElementById('m-contenido').innerHTML = contenidoFinal;
+    const contenido = `
+      <div class="modal-gif-container">
+        <img src="keep.gif" alt="GIF animado">
+      </div>
+      <p>Fisiología del trabajo de parto</p>
+      <p>Las 4 etapas del trabajo de parto</p>
+      <p>Mecanismos del trabajo de parto</p>
+      <p>Monitoría fetal</p>
+      <p>Signos vitales y valoración materna</p>
+      <p>💊 Farmacología básica en sala de partos</p>
+      <p>🔬 Procedimientos que debes reconocer</p>
+      <p>⚠️ Emergencias obstétricas</p>
+    `;
+    
+    document.getElementById('m-contenido').innerHTML = contenido;
     document.getElementById('modal').classList.add('activo');
   }
 
@@ -869,6 +727,10 @@
   document.getElementById('modal').addEventListener('click', function(e) {
     if (e.target === this) cerrarModal();
   });
+
+  // Inicializar tablas al cargar la página
+  cargarTareasSimplesStatic();
+  cargarTareasSemanalesStatic();
 </script>
 </body>
 </html>
