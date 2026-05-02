@@ -33,7 +33,6 @@
     }
     nav a:hover { color: #FFE4B5; }
 
-    /* Botones de sincronización en el modal */
     .botones-sync-modal {
       display: flex;
       gap: 10px;
@@ -62,14 +61,8 @@
     .btn-sync.importar {
       background: #4ECDC4;
     }
-    .btn-sync.importar:hover {
-      background: #44b3aa;
-    }
     .btn-sync.nube {
       background: #9B59B6;
-    }
-    .btn-sync.nube:hover {
-      background: #8E44AD;
     }
 
     .contenedor {
@@ -165,7 +158,6 @@
       transform: scale(1.05);
     }
 
-    /* Estilos para la lista de tareas */
     .lista-tareas {
       display: flex;
       flex-direction: column;
@@ -210,7 +202,6 @@
       color: #C97A9A;
     }
 
-    /* Estilos para tareas de días de la semana */
     .tareas-dia-container {
       margin-bottom: 20px;
     }
@@ -251,7 +242,6 @@
       transform: scale(1.05);
     }
 
-    /* Estilos para tareas con fecha */
     .tarea-fecha {
       font-size: 0.75rem;
       color: #D86F8B;
@@ -263,7 +253,6 @@
       color: #ff4444 !important;
     }
 
-    /* Botones para agregar/eliminar tareas */
     .tareas-controles {
       display: flex;
       gap: 10px;
@@ -330,7 +319,6 @@
       border-color: #D86F8B;
     }
 
-    /* Estilos para la imagen de motivación */
     .motivacion-container {
       margin-top: 25px;
       margin-bottom: 10px;
@@ -415,7 +403,6 @@
       color: #B3416B;
     }
 
-    /* Estilos para el GIF en el modal */
     .modal-gif-container {
       text-align: center;
       margin: 20px 0;
@@ -429,7 +416,6 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
-    /* Toast mensaje */
     .toast-mensaje {
       position: fixed;
       bottom: 20px;
@@ -469,7 +455,6 @@
       font-weight: 700;
     }
 
-    /* Widget de música */
     .widget-musica {
       background: linear-gradient(135deg, #FFE4E8, #FFD1DC);
     }
@@ -488,7 +473,6 @@
       font-family: 'Quicksand', cursive;
     }
 
-    /* Widget de slideshow de paisajes */
     .widget-paisajes {
       background: linear-gradient(135deg, #E8F4FD, #D1E8F5);
     }
@@ -605,7 +589,6 @@
       font-size: .85rem;
     }
 
-    /* Pestañas para días de la semana */
     .tabs-semana {
       display: flex;
       gap: 5px;
@@ -743,7 +726,7 @@
 </footer>
 
 <script>
-  // ── CONFIGURACIÓN DE JSONBIN (TUS CREDENCIALES) ───────────────────
+  // ── CONFIGURACIÓN DE JSONBIN ──────────────────────────────────────
   const JSONBIN_BIN_ID = "69f61b70aaba88219762c4ba";
   const JSONBIN_API_KEY = "$2a$10$0vs7OF.isD.9agxSUGSxFOVIPIAny8Ic.RvTQGKDyfIdxrktVxD02";
 
@@ -837,7 +820,7 @@
     setTimeout(() => mensaje.remove(), 3000);
   }
 
-  // ── FUNCIONES DE JSONBIN (NUBE) ────────────────────────────
+  // ── FUNCIONES DE JSONBIN (NUBE) con mejor manejo de errores ──
   async function guardarEnNube() {
     const datosCompletos = {
       tareasSimples: tareasSimples,
@@ -846,39 +829,49 @@
     };
     
     try {
+      mostrarMensaje('☁️ Guardando en la nube...');
+      
       const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'X-Master-Key': JSONBIN_API_KEY
+          'X-Master-Key': JSONBIN_API_KEY,
+          'X-Bin-Private': 'false'
         },
         body: JSON.stringify(datosCompletos)
       });
       
       if (response.ok) {
         console.log('✅ Guardado en la nube');
-        mostrarMensaje('☁️ Tareas guardadas en la nube');
+        mostrarMensaje('✅ ¡Tareas guardadas en la nube!');
         return true;
       } else {
-        console.error('Error al guardar:', response.status);
-        mostrarMensaje('❌ Error al guardar en la nube');
+        const errorText = await response.text();
+        console.error('Error al guardar:', response.status, errorText);
+        mostrarMensaje('⚠️ No se pudo guardar en la nube, pero las tareas están guardadas localmente');
         return false;
       }
     } catch (error) {
       console.error('Error de red:', error);
-      mostrarMensaje('❌ Error de conexión');
+      mostrarMensaje('⚠️ Sin conexión a internet. Las tareas se guardaron localmente.');
       return false;
     }
   }
 
   async function cargarDesdeNube() {
-    mostrarMensaje('☁️ Cargando tareas desde la nube...');
+    mostrarMensaje('☁️ Cargando desde la nube...');
     
     try {
-      const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`);
+      const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
+        method: 'GET',
+        headers: {
+          'X-Master-Key': JSONBIN_API_KEY
+        }
+      });
       
       if (!response.ok) {
         console.log('No se pudo cargar desde la nube');
+        mostrarMensaje('⚠️ No se encontraron tareas en la nube');
         return false;
       }
       
@@ -903,9 +896,8 @@
         }
         
         if (cambios) {
-          mostrarMensaje('☁️ Tareas cargadas desde la nube');
+          mostrarMensaje('✅ ¡Tareas cargadas desde la nube!');
           
-          // Actualizar vista de días si está visible
           if (typeof renderizarTareasPorDia === 'function') {
             const diaActivo = document.querySelector('.tab-btn.activo')?.getAttribute('data-dia');
             if (diaActivo) {
@@ -917,12 +909,12 @@
       }
     } catch (error) {
       console.error('Error cargando de la nube:', error);
+      mostrarMensaje('⚠️ Error al cargar desde la nube');
     }
     return false;
   }
 
   async function sincronizarConNube() {
-    mostrarMensaje('☁️ Sincronizando con la nube...');
     await guardarEnNube();
   }
 
@@ -963,20 +955,20 @@
     `).join('');
     
     document.querySelectorAll('.tarea-checkbox-simple').forEach(checkbox => {
-      checkbox.addEventListener('change', function(e) {
+      checkbox.addEventListener('change', async function(e) {
         const id = parseInt(this.getAttribute('data-id'));
         const tarea = tareasSimples.find(t => t.id === id);
         if (tarea) {
           tarea.completada = this.checked;
           guardarTareasSimples();
           renderizarTareasSimples();
-          guardarEnNube();
+          await guardarEnNube();
         }
       });
     });
   }
 
-  function agregarTareaSimple() {
+  async function agregarTareaSimple() {
     const input = document.getElementById('nueva-tarea-input');
     const texto = input.value.trim();
     if (texto === '') {
@@ -993,11 +985,11 @@
     guardarTareasSimples();
     input.value = '';
     renderizarTareasSimples();
-    mostrarMensaje('✨ Tarea agregada');
-    guardarEnNube();
+    mostrarMensaje('✨ Tarea agregada localmente');
+    await guardarEnNube();
   }
 
-  function eliminarUltimaTareaSimple() {
+  async function eliminarUltimaTareaSimple() {
     if (tareasSimples.length === 0) {
       alert('✨ No hay tareas para eliminar ✨');
       return;
@@ -1006,7 +998,7 @@
     guardarTareasSimples();
     renderizarTareasSimples();
     mostrarMensaje('🗑️ Última tarea eliminada');
-    guardarEnNube();
+    await guardarEnNube();
   }
 
   // ── FUNCIONES PARA TAREAS POR DÍA DE LA SEMANA (Post 1) ─────
@@ -1050,20 +1042,20 @@
     `).join('');
     
     document.querySelectorAll('.tarea-checkbox-dia').forEach(checkbox => {
-      checkbox.addEventListener('change', function(e) {
+      checkbox.addEventListener('change', async function(e) {
         const dia = this.getAttribute('data-dia');
         const index = parseInt(this.getAttribute('data-index'));
         if (tareasPorDia[dia] && tareasPorDia[dia][index]) {
           tareasPorDia[dia][index].completada = this.checked;
           guardarTareasPorDia();
           renderizarTareasPorDia(dia);
-          guardarEnNube();
+          await guardarEnNube();
         }
       });
     });
   }
 
-  function agregarTareaDia(dia) {
+  async function agregarTareaDia(dia) {
     const input = document.getElementById(`input-${dia}`);
     const fechaInput = document.getElementById(`fecha-${dia}`);
     const texto = input.value.trim();
@@ -1090,7 +1082,7 @@
     fechaInput.value = '';
     renderizarTareasPorDia(dia);
     mostrarMensaje(`✨ Tarea agregada a ${dia}`);
-    guardarEnNube();
+    await guardarEnNube();
   }
 
   function cambiarDia(dia) {
@@ -1101,7 +1093,7 @@
     renderizarTareasPorDia(dia);
   }
 
-  function eliminarUltimaTareaDia(dia) {
+  async function eliminarUltimaTareaDia(dia) {
     if (!tareasPorDia[dia] || tareasPorDia[dia].length === 0) {
       alert(`✨ No hay tareas para eliminar en ${dia} ✨`);
       return;
@@ -1110,7 +1102,7 @@
     guardarTareasPorDia();
     renderizarTareasPorDia(dia);
     mostrarMensaje(`🗑️ Última tarea eliminada de ${dia}`);
-    guardarEnNube();
+    await guardarEnNube();
   }
 
   // ── FUNCIONES DE EXPORTAR/IMPORTAR ─────────────────────────
@@ -1139,7 +1131,7 @@
     
     const reader = new FileReader();
     
-    reader.onload = function(e) {
+    reader.onload = async function(e) {
       try {
         const datosImportados = JSON.parse(e.target.result);
         
@@ -1161,7 +1153,7 @@
         }
         
         mostrarMensaje(`✅ ¡Importadas correctamente!`);
-        guardarEnNube();
+        await guardarEnNube();
       } catch (error) {
         alert('❌ Error al importar: archivo inválido');
       }
@@ -1207,36 +1199,13 @@
       autor: "Yo mismo",
       resumen: "Ojo muy importante.",
       contenido: `<p>Fisiología del trabajo de parto</p>
-<p>Las 4 etapas del trabajo de parto (dilatación, expulsivo, alumbramiento y posparto inmediato)</p>
-<p>Mecanismos del trabajo de parto (encajamiento, descenso, rotación, extensión, etc.)</p>
-<p>Diferencia entre trabajo de parto verdadero y falso</p>
-<p>Clasificación de la presentación fetal (cefálica, podálica, transversa)</p>
+<p>Las 4 etapas del trabajo de parto</p>
+<p>Mecanismos del trabajo de parto</p>
 <p>Monitoría fetal</p>
-<p>Cómo interpretar una cardiotocografía (CTG) básica</p>
-<p>Valores normales de la frecuencia cardíaca fetal (110–160 lpm)</p>
-<p>Reconocer desaceleraciones tempranas, tardías y variables</p>
 <p>Signos vitales y valoración materna</p>
-<p>Rangos normales en la gestante (TA, FC, temperatura)</p>
-<p>Señales de alarma: hipertensión, sangrado, fiebre, disminución del movimiento fetal</p>
 <p>💊 Farmacología básica en sala de partos</p>
-<p>Oxitocina: dosis, indicaciones, riesgos (hiperstimulación uterina)</p>
-<p>Misoprostol: uso en inducción y posparto</p>
-<p>Sulfato de magnesio: manejo de la preeclampsia severa, signos de toxicidad</p>
-<p>Ergometrina / metilergonovina: control del sangrado posparto</p>
-<p>Analgesia epidural: conceptos básicos, posición para el procedimiento</p>
-<p>🔬 Procedimientos que debes reconocer y/o apoyar</p>
-<p>Amniotomía (rotura artificial de membranas)</p>
-<p>Control de la dilatación cervical y borramiento</p>
-<p>Maniobras de Leopold</p>
-<p>Episiotomía y su reparación</p>
-<p>Alumbramiento activo (manejo activo de la tercera etapa)</p>
-<p>Atención inmediata del recién nacido: APGAR, ligadura del cordón, termorregulación</p>
-<p>⚠️ Emergencias obstétricas que debes conocer (aunque no vayas a manejarlas solas)</p>
-<p>Hemorragia posparto (HPP): la causa más frecuente es la atonía uterina</p>
-<p>Preeclampsia / eclampsia</p>
-<p>Distocia de hombros</p>
-<p>Prolapso de cordón</p>
-<p>Desprendimiento de placenta</p>`,
+<p>🔬 Procedimientos que debes reconocer</p>
+<p>⚠️ Emergencias obstétricas</p>`,
       gif: "keep.gif",
     }
   ];
@@ -1270,9 +1239,10 @@
       contenidoFinal = `
         <div class="botones-sync-modal">
           <button class="btn-sync nube" onclick="sincronizarConNube()">☁️ Guardar en nube</button>
-          <button class="btn-sync" onclick="exportarTodasLasTareas()">📤 Exportar tareas</button>
+          <button class="btn-sync" onclick="cargarDesdeNube()">📥 Cargar de nube</button>
+          <button class="btn-sync" onclick="exportarTodasLasTareas()">📤 Exportar</button>
           <input type="file" id="importarArchivoGlobal" accept=".json" style="display:none" onchange="importarTareas(event)">
-          <button class="btn-sync importar" onclick="document.getElementById('importarArchivoGlobal').click()">📥 Importar tareas</button>
+          <button class="btn-sync importar" onclick="document.getElementById('importarArchivoGlobal').click()">📥 Importar</button>
         </div>
         <div class="tareas-controles">
           <div class="input-group">
@@ -1319,9 +1289,10 @@
       contenidoFinal = `
         <div class="botones-sync-modal">
           <button class="btn-sync nube" onclick="sincronizarConNube()">☁️ Guardar en nube</button>
-          <button class="btn-sync" onclick="exportarTodasLasTareas()">📤 Exportar tareas</button>
+          <button class="btn-sync" onclick="cargarDesdeNube()">📥 Cargar de nube</button>
+          <button class="btn-sync" onclick="exportarTodasLasTareas()">📤 Exportar</button>
           <input type="file" id="importarArchivoGlobal2" accept=".json" style="display:none" onchange="importarTareas(event)">
-          <button class="btn-sync importar" onclick="document.getElementById('importarArchivoGlobal2').click()">📥 Importar tareas</button>
+          <button class="btn-sync importar" onclick="document.getElementById('importarArchivoGlobal2').click()">📥 Importar</button>
         </div>
         ${tabsHtml}
         ${contenidoHtml}
@@ -1356,7 +1327,7 @@
       diasSemana.forEach(dia => renderizarTareasPorDia(dia));
     }
     
-    // Cargar desde la nube automáticamente
+    // Intentar cargar desde la nube al abrir
     await cargarDesdeNube();
   }
 
