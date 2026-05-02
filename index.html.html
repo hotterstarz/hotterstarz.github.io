@@ -13,7 +13,7 @@
       color: #4A2B3D;
     }
 
-    /* Navegación a la IZQUIERDA */
+    /* Barra de navegación a la IZQUIERDA - sin centrar */
     nav {
       background: #D86F8B;
       display: flex;
@@ -29,7 +29,7 @@
       font-size: 0.95rem;
       font-weight: 600;
       transition: all 0.2s;
-      padding: 0.3rem 1rem;
+      padding: 0.4rem 1rem;
       border-radius: 25px;
     }
     nav a:hover {
@@ -40,29 +40,29 @@
       background: #B3416B;
     }
 
-    /* Layout: CENTRO + DERECHA */
+    /* Layout: CENTRO para tareas, DERECHA para widgets */
     .contenedor {
       max-width: 1200px;
       margin: 2rem auto;
       padding: 0 1.5rem;
       display: grid;
-      grid-template-columns: 1fr 320px;
+      grid-template-columns: 1fr 300px;
       gap: 2rem;
     }
 
-    /* Columna CENTRAL - Tareas */
+    /* Columna CENTRAL - Tareas principales */
     .columna-central {
       min-width: 0;
     }
 
-    /* Columna DERECHA - Widgets */
+    /* Columna DERECHA - Widgets secundarios */
     .columna-derecha {
       display: flex;
       flex-direction: column;
       gap: 1.5rem;
     }
 
-    /* Tarjetas de tareas */
+    /* Tarjeta de tareas */
     .seccion-tabla {
       background: #FFFFFF;
       border-radius: 20px;
@@ -80,17 +80,17 @@
       font-size: 0.7rem;
       padding: 0.2rem 0.8rem;
       border-radius: 20px;
-      margin-bottom: 0.8rem;
+      margin-bottom: 0.5rem;
     }
     .seccion-tabla h2 {
       font-size: 1.3rem;
       color: #B3416B;
-      margin-bottom: 0.3rem;
+      margin-bottom: 0.2rem;
     }
     .meta {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       color: #C97A9A;
-      margin-bottom: 0.8rem;
+      margin-bottom: 0.5rem;
     }
     .tabla-tareas {
       width: 100%;
@@ -126,32 +126,32 @@
       padding: 8px;
       margin: 12px;
       border-radius: 12px;
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       color: #C97A9A;
       text-align: center;
       border: 1px dashed #F4C2D0;
     }
     .motivacion-container {
-      margin-top: 15px;
+      margin-top: 10px;
       text-align: center;
-      padding: 0 1.5rem 1.5rem 1.5rem;
+      padding: 0 1.5rem 1.2rem 1.5rem;
     }
     .motivacion-marco {
       background: #FFE4E8;
-      padding: 12px;
+      padding: 10px;
       border-radius: 20px;
       border: 2px solid #F4C2D0;
     }
     .motivacion-imagen {
       width: 100%;
       height: auto;
-      max-height: 180px;
+      max-height: 150px;
       object-fit: contain;
       border-radius: 12px;
     }
     .motivacion-texto {
-      margin-top: 10px;
-      font-size: 1rem;
+      margin-top: 8px;
+      font-size: 0.9rem;
       font-weight: bold;
       color: #D86F8B;
     }
@@ -167,8 +167,8 @@
     .articulo-img {
       width: 100%;
       height: auto;
-      min-height: 180px;
-      max-height: 280px;
+      min-height: 150px;
+      max-height: 220px;
       overflow: hidden;
       background: #FFD1DC;
     }
@@ -179,23 +179,23 @@
       display: block;
     }
     .articulo-body {
-      padding: 1.2rem;
+      padding: 1rem;
     }
     .articulo-body h2 {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       color: #B3416B;
-      margin-bottom: 0.3rem;
+      margin-bottom: 0.2rem;
     }
     .leer-mas {
       display: inline-block;
-      margin-top: 0.8rem;
+      margin-top: 0.5rem;
       background: #D86F8B;
       color: white;
       padding: 0.4rem 1rem;
       border-radius: 25px;
       cursor: pointer;
       border: none;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       font-weight: 600;
     }
     .leer-mas:hover {
@@ -225,13 +225,13 @@
     .musica-iframe {
       width: 100%;
       border-radius: 12px;
-      min-height: 180px;
+      min-height: 160px;
       aspect-ratio: 16/9;
     }
     .musica-info {
       text-align: center;
-      margin-top: 6px;
-      font-size: 0.65rem;
+      margin-top: 5px;
+      font-size: 0.6rem;
       color: #B3416B;
     }
 
@@ -278,7 +278,7 @@
     }
     .indicadores-paisajes {
       text-align: center;
-      margin-top: 6px;
+      margin-top: 5px;
     }
     .dot {
       height: 6px;
@@ -349,19 +349,19 @@
     }
     .modal {
       background: #FFFFFF;
-      max-width: 600px;
+      max-width: 550px;
       width: 90%;
       border-radius: 20px;
-      padding: 1.5rem;
+      padding: 1.2rem;
       position: relative;
       max-height: 80vh;
       overflow-y: auto;
     }
     .cerrar {
       position: absolute;
-      top: 0.8rem;
-      right: 1rem;
-      font-size: 1.5rem;
+      top: 0.5rem;
+      right: 0.8rem;
+      font-size: 1.3rem;
       cursor: pointer;
       background: none;
       border: none;
@@ -369,7 +369,7 @@
     }
     .modal-gif-container {
       text-align: center;
-      margin: 15px 0;
+      margin: 10px 0;
     }
 
     footer {
@@ -378,22 +378,19 @@
       text-align: center;
       padding: 1rem;
       margin-top: 2rem;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
     }
 
     @media (max-width: 768px) {
       .contenedor {
         grid-template-columns: 1fr;
       }
-      nav {
-        justify-content: center;
-      }
     }
   </style>
 </head>
 <body>
 
-<!-- Navegación a la IZQUIERDA -->
+<!-- Barra rosada a la IZQUIERDA -->
 <nav>
   <a href="index.html">🏠 Inicio</a>
   <a href="#">Tecnología</a>
@@ -405,66 +402,77 @@
 
 <div class="contenedor">
   
-  <!-- COLUMNA CENTRAL: TAREAS -->
+  <!-- COLUMNA CENTRAL: TAREAS PRINCIPALES -->
   <div class="columna-central">
     
-    <!-- TABLA DE TAREAS SIMPLES -->
+    <!-- PRIMER RECUADRO: Lista de tareas simples -->
     <div class="seccion-tabla">
       <div class="tabla-header">
         <span class="categoria">( ꩜ ᯅ ꩜;)⁭</span>
-        <h2>Lista de tareas (˶ ´༥` ˶)୭</h2>
-        <p class="meta">📅 1 de mayo, 2026 &nbsp;·&nbsp; ✍️ Yo mismo</p>
+        <h2>Lista de tareas</h2>
+        <p class="meta">📅 1 de mayo, 2026 · Yo mismo</p>
       </div>
       <table class="tabla-tareas">
-        <thead><tr><th style="width:40px">✓</th><th>Tarea</th></tr></thead>
+        <thead>
+          <tr>
+            <th style="width:40px">✓</th>
+            <th>Tarea</th>
+          </tr>
+        </thead>
         <tbody id="tbodySimples"></tbody>
-      追赶
+      </table>
       <div class="nota-static">📝 Edita el array "tareasSimples" en el código JavaScript</div>
       <div class="motivacion-container">
         <div class="motivacion-marco">
-          <img src="sevenseven.jpg" class="motivacion-imagen" onerror="this.src='https://via.placeholder.com/600x200/FFD1DC/B3416B?text=🌟+Tú+puedes+con+todo+🌟'">
+          <img src="sevenseven.jpg" class="motivacion-imagen" onerror="this.src='https://via.placeholder.com/500x150/FFD1DC/B3416B?text=🌟+Tú+puedes+con+todo+🌟'">
         </div>
-        <div class="motivacion-texto">✨ ¡Tú puedes hacerlo! ✨ ദ്ദി◝ ⩊ ◜.ᐟ</div>
+        <div class="motivacion-texto">✨ ¡Tú puedes hacerlo! ✨</div>
       </div>
     </div>
 
-    <!-- TABLA DE TAREAS SEMANALES -->
+    <!-- SEGUNDO RECUADRO: Tareas por día de la semana -->
     <div class="seccion-tabla">
       <div class="tabla-header">
         <span class="categoria">₍^. .^₎⟆</span>
         <h2>Tareas por día de la semana</h2>
-        <p class="meta">📅 20 de abril, 2026 &nbsp;·&nbsp; ✍️ Yo mismo</p>
+        <p class="meta">📅 20 de abril, 2026 · Yo mismo</p>
       </div>
       <table class="tabla-tareas">
-        <thead><tr><th style="width:40px">✓</th><th>Día</th><th>Tarea</th></tr></thead>
+        <thead>
+          <tr>
+            <th style="width:40px">✓</th>
+            <th>Día</th>
+            <th>Tarea</th>
+          </tr>
+        </thead>
         <tbody id="tbodySemanales"></tbody>
       </table>
       <div class="nota-static">📝 Edita el array "tareasSemanales" en el código JavaScript</div>
       <div class="motivacion-container">
         <div class="motivacion-marco">
-          <img src="Buddha.jpg" class="motivacion-imagen" onerror="this.src='https://via.placeholder.com/600x200/FFD1DC/B3416B?text=🌟+Organiza+tu+semana+con+cariño+🌟'">
+          <img src="Buddha.jpg" class="motivacion-imagen" onerror="this.src='https://via.placeholder.com/500x150/FFD1DC/B3416B?text=🌟+Organiza+tu+semana+con+cariño+🌟'">
         </div>
         <div class="motivacion-texto">✨ ¡Cada día es una nueva oportunidad! ✨ 🌸</div>
       </div>
     </div>
 
-    <!-- TERCER POST -->
+    <!-- Artículo de estudio -->
     <article class="articulo">
       <div class="articulo-img"><img src="japan3.jpg" onerror="this.src='https://via.placeholder.com/800x400/E8A0B5/white?text=Imagen+no+encontrada'"></div>
       <div class="articulo-body">
         <span class="categoria">˚₊‧꒰ა ☆ ໒꒱ ‧₊˚</span>
         <h2>QUE ESTUDIAR PARA ROTACIÓN DE PARTOS</h2>
-        <p class="meta">📅 10 de abril, 2026 &nbsp;·&nbsp; ✍️ Yo mismo</p>
+        <p class="meta">📅 10 de abril, 2026 · Yo mismo</p>
         <button class="leer-mas" onclick="abrirModalContenido()">Leer más →</button>
       </div>
     </article>
 
   </div>
 
-  <!-- COLUMNA DERECHA: WIDGETS -->
+  <!-- COLUMNA DERECHA: WIDGETS (Paisajes, Fotos, Música) -->
   <div class="columna-derecha">
 
-    <!-- Widget slideshow personal -->
+    <!-- Slideshow de fotos personales -->
     <div class="widget" style="padding:0;overflow:hidden;border-radius:20px;">
       <div class="slideshow" id="slideshow">
         <div class="slide activo"><img src="chii.jpg" alt="Foto 1"></div>
@@ -478,7 +486,7 @@
       </div>
     </div>
 
-    <!-- Widget paisajes -->
+    <!-- Slideshow de paisajes -->
     <div class="widget widget-paisajes">
       <h3>🏔️ Paisajes que Inspiran 🌅</h3>
       <div class="slideshow-paisajes" id="slideshowPaisajes">
@@ -493,7 +501,7 @@
       <div class="indicadores-paisajes" id="indicadoresPaisajes"></div>
     </div>
 
-    <!-- Widget música -->
+    <!-- Reproductor de música -->
     <div class="widget widget-musica">
       <h3>🎵 Mi playlist favorita 🎵</h3>
       <iframe class="musica-iframe" src="https://www.youtube.com/embed/videoseries?list=PLl4CgAo8Zq4hNkAEh5VOC-XgGnkk6yuPF" allowfullscreen></iframe>
@@ -503,7 +511,7 @@
   </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal para contenido -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
     <button class="cerrar" onclick="cerrarModal()">✕</button>
@@ -518,12 +526,14 @@
   // ✏️ EDITA LAS TAREAS AQUÍ ABAJO ✏️
   // ============================================================
   
+  // LISTA DE TAREAS SIMPLES - PRIMER RECUADRO
   let tareasSimples = [
     { id: 1, texto: "Póster de P y P (Pasar a plantilla para mandar a imprimir en papel bond)", completada: false },
-    { id: 2, texto: "Llenar datos subjetivos en PAE DE P Y P", completada: false },
+    { id: 2, texto: "Llenar datos subjetivos en PAE DE P Y P", completada: true },
     { id: 3, texto: "Trabajo plan de atención de enfermería", completada: false }
   ];
 
+  // TAREAS POR DÍA DE LA SEMANA
   let tareasSemanales = [
     { id: 1, dia: "sábado", tarea: "Buscar artículo para caso de profundización", completada: false },
     { id: 2, dia: "sábado", tarea: "Parte 1 trabajo situación de enfermería", completada: false },
@@ -596,7 +606,12 @@
   function renderizarTablaSimples() {
     const tbody = document.getElementById('tbodySimples');
     if (!tbody) return;
-    tbody.innerHTML = tareasSimples.map(t => `<tr><td style="text-align:center"><input type="checkbox" class="check-simple" data-id="${t.id}" ${t.completada ? 'checked' : ''}></td><td class="${t.completada ? 'tarea-completada' : ''}">${escapeHtml(t.texto)}<\/td></tr>`).join('');
+    tbody.innerHTML = tareasSimples.map(t => `
+      <tr>
+        <td style="text-align:center"><input type="checkbox" class="check-simple" data-id="${t.id}" ${t.completada ? 'checked' : ''}></td>
+        <td class="${t.completada ? 'tarea-completada' : ''}">${escapeHtml(t.texto)}</td>
+      </tr>
+    `).join('');
     document.querySelectorAll('.check-simple').forEach(cb => cb.addEventListener('change', function() {
       const t = tareasSimples.find(t => t.id == this.dataset.id);
       if (t) { t.completada = this.checked; guardarTareasSimples(); renderizarTablaSimples(); }
@@ -607,7 +622,13 @@
     const diasEsp = { lunes: "Lunes", martes: "Martes", miércoles: "Miércoles", jueves: "Jueves", viernes: "Viernes", sábado: "Sábado", domingo: "Domingo" };
     const tbody = document.getElementById('tbodySemanales');
     if (!tbody) return;
-    tbody.innerHTML = tareasSemanales.map(t => `<tr><td style="text-align:center"><input type="checkbox" class="check-semanal" data-id="${t.id}" ${t.completada ? 'checked' : ''}></td><td><strong>${diasEsp[t.dia]}</strong></td><td class="${t.completada ? 'tarea-completada' : ''}">${escapeHtml(t.tarea)}<\/td></tr>`).join('');
+    tbody.innerHTML = tareasSemanales.map(t => `
+      <tr>
+        <td style="text-align:center"><input type="checkbox" class="check-semanal" data-id="${t.id}" ${t.completada ? 'checked' : ''}></td>
+        <td><strong>${diasEsp[t.dia]}</strong></td>
+        <td class="${t.completada ? 'tarea-completada' : ''}">${escapeHtml(t.tarea)}</td>
+      </tr>
+    `).join('');
     document.querySelectorAll('.check-semanal').forEach(cb => cb.addEventListener('change', function() {
       const t = tareasSemanales.find(t => t.id == this.dataset.id);
       if (t) { t.completada = this.checked; guardarTareasSemanales(); renderizarTablaSemanales(); }
