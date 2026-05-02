@@ -13,54 +13,6 @@
       color: #4A2B3D;
     }
 
-    /* Header completamente a la izquierda */
-    header {
-      position: relative;
-      color: white;
-      padding: 2rem;
-      text-align: left;
-      min-height: 280px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      margin: 1rem;
-      border-radius: 20px;
-    }
-    
-    header {
-      background-image: url('descarga.jpg');
-    }
-    
-    header::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,0.35);
-      border-radius: 20px;
-    }
-    header h1, header p { 
-      position: relative; 
-      z-index: 1; 
-      margin-left: 1rem;
-    }
-    header h1 { 
-      font-size: 2.5rem; 
-      letter-spacing: 2px; 
-      font-family: 'Quicksand', 'Comic Neue', cursive;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-      color: #FFE4E8;
-    }
-    header p  { 
-      margin-top: .5rem; 
-      color: #FFD1DC; 
-      font-style: italic; 
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-      font-size: 1.1rem;
-    }
-
     nav {
       background: #D86F8B;
       display: flex;
@@ -68,7 +20,7 @@
       gap: 2rem;
       padding: .8rem;
       flex-wrap: wrap;
-      margin: 0 1rem;
+      margin: 1rem;
       border-radius: 50px;
     }
     nav a {
@@ -307,30 +259,6 @@
       flex-wrap: wrap;
     }
 
-    /* Botón para cambiar imagen del header */
-    .customizar-header {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #D86F8B;
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 30px;
-      cursor: pointer;
-      font-family: 'Quicksand', 'Comic Neue', cursive;
-      font-size: 0.9rem;
-      font-weight: bold;
-      z-index: 1000;
-      box-shadow: 0 4px 15px rgba(216, 111, 139, 0.3);
-      transition: all 0.3s ease;
-    }
-
-    .customizar-header:hover {
-      background: #B3416B;
-      transform: scale(1.05);
-    }
-
     .modal-overlay {
       display: none;
       position: fixed;
@@ -510,35 +438,10 @@
       .tareas-controles {
         flex-direction: column;
       }
-      .customizar-header {
-        bottom: 10px;
-        right: 10px;
-        padding: 8px 15px;
-        font-size: 0.8rem;
-      }
-      header {
-        margin: 0.5rem;
-        padding: 1.5rem;
-        min-height: 200px;
-      }
-      header h1 {
-        font-size: 1.5rem;
-      }
-      header p {
-        font-size: 0.9rem;
-      }
     }
   </style>
 </head>
 <body>
-
-<!-- Header movido completamente a la izquierda -->
-<header id="main-header">
-  <div>
-    <h1>🌸 Blog de tareas</h1>
-    <p>~ organizando mi vida con estilo ~</p>
-  </div>
-</header>
 
 <nav>
   <a href="#">Inicio</a>
@@ -568,7 +471,7 @@
     <div class="widget widget-musica">
       <h3>🎵 Mi música 🎵</h3>
       <iframe class="musica-iframe" 
-        src="https://music.youtube.com/playlist?list=PLl4CgAo8Zq4jftH4qOIriBxgZkiB_ZyA0" 
+        src="https://www.youtube.com/playlist?list=PLl4CgAo8Zq4hNkAEh5VOC-XgGnkk6yuPF" 
         title="YouTube Music Player" 
         frameborder="0" 
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
@@ -621,33 +524,7 @@
   <p>🌸 © 2026 Mi Blog Rosado · Hecho con 💖 y mucha ternura 🌸</p>
 </footer>
 
-<!-- Botón para cambiar la imagen del header -->
-<button class="customizar-header" onclick="customizarHeader()">🎨 Cambiar imagen del header</button>
-
 <script>
-  // ── FUNCIÓN PARA CUSTOMIZAR EL HEADER ──────────────────────
-  function customizarHeader() {
-    const imageUrl = prompt('Ingresa la URL de tu imagen o el nombre del archivo (ej: mi-imagen.jpg):', 'descarga.jpg');
-    if (imageUrl && imageUrl.trim() !== '') {
-      const header = document.getElementById('main-header');
-      header.style.backgroundImage = `url('${imageUrl}')`;
-      header.style.backgroundSize = 'cover';
-      header.style.backgroundPosition = 'center';
-      header.style.backgroundRepeat = 'no-repeat';
-      
-      localStorage.setItem('headerImage', imageUrl);
-    }
-  }
-  
-  const imagenGuardada = localStorage.getItem('headerImage');
-  if (imagenGuardada) {
-    const header = document.getElementById('main-header');
-    header.style.backgroundImage = `url('${imagenGuardada}')`;
-    header.style.backgroundSize = 'cover';
-    header.style.backgroundPosition = 'center';
-    header.style.backgroundRepeat = 'no-repeat';
-  }
-
   // ── SLIDESHOW ──────────────────────────────────────────────
   const slides = document.querySelectorAll('.slide');
   let actual = 0, timer;
