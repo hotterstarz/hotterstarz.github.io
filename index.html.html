@@ -66,14 +66,19 @@
     }
     .articulo-img {
       width: 100%;
-      height: 200px;
+      height: auto; /* Cambiado de 200px a auto */
+      min-height: 200px; /* Altura mínima */
+      max-height: 400px; /* Altura máxima */
       overflow: hidden;
       background: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .articulo-img img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      height: auto; /* Cambiado para mantener proporción */
+      display: block;
       transition: transform 0.3s ease;
     }
     .articulo-img img:hover {
@@ -141,6 +146,20 @@
       background: none;
       border: none;
       color: #555;
+    }
+
+    /* Estilos para el GIF en el modal */
+    .modal-gif-container {
+      text-align: center;
+      margin: 20px 0;
+      padding: 10px;
+      background: #f5f5f0;
+      border-radius: 8px;
+    }
+    .modal-gif-container img {
+      max-width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
     aside { display: flex; flex-direction: column; gap: 1.5rem; }
@@ -227,6 +246,9 @@
 
     @media (max-width: 640px) {
       .contenedor { grid-template-columns: 1fr; }
+      .articulo-img {
+        max-height: 300px;
+      }
     }
   </style>
 </head>
@@ -327,36 +349,38 @@
 
   reiniciarTimer();
 
-  // ── POSTS CON IMÁGENES (cambié emoji por imagen) ───────────
+  // ── POSTS CON IMÁGENES ─────────────────────────────────────
   const posts = [
     {
-      imagen: "Buddha.jpg", 
+      imagen: "Buddha.jpg",
       categoria: "Tecnología",
       titulo: "Lista de tareas por hacer pendientes",
       fecha: "1 de mayo, 2026",
       autor: "Yo mismo",
       resumen: "Aprender a crear páginas web desde cero es más fácil de lo que crees. En este artículo te cuento mi experiencia paso a paso.",
       contenido: `<p>Póster de P y P (Pasar a plantilla para mandar a imprimir en papel bond)</p>
-                  <p>Empezar trabajo plan de atención de enfermería</p>`
-      gif: "Keep.gif" 
+                  <p>Empezar trabajo plan de atención de enfermería</p>`,
+      gif: "Keep.gif"  // GIF para este post
     },
     {
-      imagen: "https://via.placeholder.com/400x200/FF6B6B/white?text=Viajes",  // Imagen de ejemplo
+      imagen: "https://via.placeholder.com/800x400/FF6B6B/white?text=Viajes",
       categoria: "Viajes",
       titulo: "Eje Cafetero: el corazón de Colombia",
       fecha: "20 de abril, 2026",
       autor: "Yo mismo",
       resumen: "Pereira, Armenia, Manizales... una región llena de cultura, café y paisajes increíbles.",
-      contenido: `<p>El Eje Cafetero es una de las regiones más bellas de Colombia. Sus montañas verdes, el aroma a café y la calidez de su gente lo hacen un destino único.</p><p>Empecé mi recorrido en <strong>Pereira</strong>, una ciudad vibrante con una gastronomía increíble.</p>`
+      contenido: `<p>El Eje Cafetero es una de las regiones más bellas de Colombia. Sus montañas verdes, el aroma a café y la calidez de su gente lo hacen un destino único.</p><p>Empecé mi recorrido en <strong>Pereira</strong>, una ciudad vibrante con una gastronomía increíble.</p>`,
+      gif: null  // Sin GIF para este post
     },
     {
-      imagen: "https://via.placeholder.com/400x200/4ECDC4/white?text=Libros",  // Imagen de ejemplo
+      imagen: "https://via.placeholder.com/800x400/4ECDC4/white?text=Libros",
       categoria: "Libros",
       titulo: "5 libros que me cambiaron la vida",
       fecha: "10 de abril, 2026",
       autor: "Yo mismo",
       resumen: "Una lista de lecturas que me hicieron ver el mundo diferente. Desde novelas hasta libros de desarrollo personal.",
-      contenido: `<p><strong>1. El Alquimista</strong> – Paulo Coelho</p><p><strong>2. Hábitos Atómicos</strong> – James Clear</p><p><strong>3. Sapiens</strong> – Yuval Noah Harari</p><p><strong>4. El Principito</strong> – Saint-Exupéry</p><p><strong>5. Deep Work</strong> – Cal Newport</p>`
+      contenido: `<p><strong>1. El Alquimista</strong> – Paulo Coelho</p><p><strong>2. Hábitos Atómicos</strong> – James Clear</p><p><strong>3. Sapiens</strong> – Yuval Noah Harari</p><p><strong>4. El Principito</strong> – Saint-Exupéry</p><p><strong>5. Deep Work</strong> – Cal Newport</p>`,
+      gif: null  // Sin GIF para este post
     }
   ];
 
@@ -365,7 +389,7 @@
     main.innerHTML += `
       <article class="articulo">
         <div class="articulo-img">
-          <img src="${p.imagen}" alt="${p.categoria}" onerror="this.src='https://via.placeholder.com/400x200/CCCCCC/white?text=Imagen+no+encontrada'">
+          <img src="${p.imagen}" alt="${p.categoria}" onerror="this.src='https://via.placeholder.com/800x400/CCCCCC/white?text=Imagen+no+encontrada'">
         </div>
         <div class="articulo-body">
           <span class="categoria">${p.categoria}</span>
@@ -379,23 +403,26 @@
 
   function abrirModal(i) {
     const p = posts[i];
-    document.getElementById('m-cat').textContent     = p.categoria;
-    document.getElementById('m-titulo').textContent  = p.titulo;
-    document.getElementById('m-meta').textContent    = `📅 ${p.fecha}  ·  ✍️ ${p.autor}`;
-    document.getElementById('m-contenido').innerHTML = p.contenido;
+    document.getElementById('m-cat').textContent = p.categoria;
+    document.getElementById('m-titulo').textContent = p.titulo;
+    document.getElementById('m-meta').textContent = `📅 ${p.fecha}  ·  ✍️ ${p.autor}`;
+    
+    // Construir contenido con GIF si existe
+    let contenidoFinal = '';
+    if (p.gif && p.gif !== null) {
+      contenidoFinal = `
+        <div class="modal-gif-container">
+          <img src="${p.gif}" alt="GIF animado">
+        </div>
+        ${p.contenido}
+      `;
+    } else {
+      contenidoFinal = p.contenido;
+    }
+    
+    document.getElementById('m-contenido').innerHTML = contenidoFinal;
     document.getElementById('modal').classList.add('activo');
-
-    let gifHTML = '';
-  if (p.gif) {
-    gifHTML = `<div style="text-align: center; margin: 20px 0; padding: 10px; background: #f5f5f0; border-radius: 8px;">
-                <img src="${p.gif}" alt="GIF animado" style="max-width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-               </div>`;
   }
-
-    document.getElementById('m-contenido').innerHTML = gifHTML + p.contenido;
-  document.getElementById('modal').classList.add('activo');
-
-   }
 
   function cerrarModal() {
     document.getElementById('modal').classList.remove('activo');
