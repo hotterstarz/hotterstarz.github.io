@@ -123,26 +123,130 @@
       overflow-y: auto;
     }
     .tarea-fecha-item {
-      padding: 8px;
+      padding: 10px;
       background: #FFF5F7;
-      border-radius: 8px;
-      margin-bottom: 5px;
+      border-radius: 12px;
+      margin-bottom: 8px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid #F4C2D0;
+    }
+    .tarea-fecha-item:hover {
+      background: #FFE4E8;
+      transform: translateX(5px);
+    }
+    .tarea-info {
+      flex: 1;
+    }
+    .tarea-titulo {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .tarea-detalle {
+      font-size: 0.7rem;
+      color: #C97A9A;
+      margin-top: 3px;
+      display: block;
     }
     .checkbox-fecha {
       width: 18px;
       height: 18px;
       accent-color: #D86F8B;
+      cursor: pointer;
     }
     .btn-eliminar {
       background: #ff4444;
       color: white;
       border: none;
-      padding: 4px 10px;
-      border-radius: 15px;
+      padding: 5px 12px;
+      border-radius: 20px;
       cursor: pointer;
+      font-size: 0.7rem;
+    }
+    .btn-editar {
+      background: #D86F8B;
+      color: white;
+      border: none;
+      padding: 5px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.7rem;
+    }
+    .tarea-completada {
+      text-decoration: line-through;
+      color: #C97A9A;
+    }
+
+    /* Modal de edición */
+    .modal-editar {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-editar.activo {
+      display: flex;
+    }
+    .modal-contenido {
+      background: white;
+      border-radius: 20px;
+      padding: 25px;
+      max-width: 400px;
+      width: 90%;
+      position: relative;
+    }
+    .modal-contenido h3 {
+      color: #B3416B;
+      margin-bottom: 15px;
+    }
+    .modal-contenido input, .modal-contenido textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 2px solid #F4C2D0;
+      border-radius: 15px;
+      font-family: 'Quicksand', cursive;
+      resize: vertical;
+    }
+    .modal-contenido textarea {
+      min-height: 100px;
+    }
+    .modal-btns {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+    .modal-btns button {
+      padding: 8px 20px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-family: 'Quicksand', cursive;
+    }
+    .btn-guardar {
+      background: #D86F8B;
+      color: white;
+    }
+    .btn-cancelar {
+      background: #E8A0B5;
+      color: white;
+    }
+    .cerrar-modal {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #D86F8B;
     }
   </style>
 </head>
@@ -174,9 +278,24 @@
     </div>
   </div>
 
+  <!-- Modal de edición -->
+  <div id="modalEditar" class="modal-editar">
+    <div class="modal-contenido">
+      <span class="cerrar-modal" onclick="cerrarModal()">&times;</span>
+      <h3>✏️ Editar tarea</h3>
+      <input type="text" id="edit-titulo" placeholder="Título de la tarea">
+      <textarea id="edit-detalles" placeholder="Detalles de la tarea..."></textarea>
+      <div class="modal-btns">
+        <button class="btn-guardar" onclick="guardarEdicion()">💾 Guardar</button>
+        <button class="btn-cancelar" onclick="cerrarModal()">❌ Cancelar</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     let fechaActual = new Date();
     let todasLasTareas = [];
+    let tareaEditandoId = null;
 
     function cargarTareas() {
       const guardadas = localStorage.getItem('tareasCalendario');
@@ -208,6 +327,7 @@
       todasLasTareas.push({
         id: Date.now(),
         texto: texto,
+        detalles: '',
         fecha: fecha,
         completada: false
       });
@@ -219,9 +339,11 @@
     }
 
     function eliminarTarea(id) {
-      todasLasTareas = todasLasTareas.filter(t => t.id !== id);
-      guardarTareas();
-      renderizarCalendario();
+      if (confirm('¿Estás segura de que quieres eliminar esta tarea?')) {
+        todasLasTareas = todasLasTareas.filter(t => t.id !== id);
+        guardarTareas();
+        renderizarCalendario();
+      }
     }
 
     function toggleCompletar(id) {
@@ -231,6 +353,41 @@
         guardarTareas();
         renderizarCalendario();
       }
+    }
+
+    function abrirModalEditar(id) {
+      tareaEditandoId = id;
+      const tarea = todasLasTareas.find(t => t.id === id);
+      if (tarea) {
+        document.getElementById('edit-titulo').value = tarea.texto;
+        document.getElementById('edit-detalles').value = tarea.detalles || '';
+        document.getElementById('modalEditar').classList.add('activo');
+      }
+    }
+
+    function guardarEdicion() {
+      const nuevoTitulo = document.getElementById('edit-titulo').value.trim();
+      const nuevosDetalles = document.getElementById('edit-detalles').value;
+      
+      if (nuevoTitulo === '') {
+        alert('🌸 El título de la tarea no puede estar vacío');
+        return;
+      }
+      
+      const tarea = todasLasTareas.find(t => t.id === tareaEditandoId);
+      if (tarea) {
+        tarea.texto = nuevoTitulo;
+        tarea.detalles = nuevosDetalles;
+        guardarTareas();
+        renderizarCalendario();
+      }
+      
+      cerrarModal();
+    }
+
+    function cerrarModal() {
+      document.getElementById('modalEditar').classList.remove('activo');
+      tareaEditandoId = null;
     }
 
     function renderizarCalendario() {
@@ -273,15 +430,18 @@
       const container = document.getElementById('listaTareasFecha');
       
       if (tareasEnFecha.length === 0) {
-        container.innerHTML = '<p style="color:#C97A9A;">✨ No hay tareas para esta fecha ✨</p>';
+        container.innerHTML = '<p style="color:#C97A9A; text-align:center;">✨ No hay tareas para esta fecha ✨</p>';
         return;
       }
       
       container.innerHTML = tareasEnFecha.map(tarea => `
-        <div class="tarea-fecha-item ${tarea.completada ? 'completada' : ''}">
-          <input type="checkbox" class="checkbox-fecha" ${tarea.completada ? 'checked' : ''} onchange="toggleCompletar(${tarea.id})">
-          <span style="flex:1; ${tarea.completada ? 'text-decoration: line-through; color:#C97A9A;' : ''}">${escapeHtml(tarea.texto)}</span>
-          <button class="btn-eliminar" onclick="eliminarTarea(${tarea.id})">🗑️</button>
+        <div class="tarea-fecha-item" onclick="abrirModalEditar(${tarea.id})">
+          <input type="checkbox" class="checkbox-fecha" ${tarea.completada ? 'checked' : ''} onclick="event.stopPropagation(); toggleCompletar(${tarea.id})">
+          <div class="tarea-info">
+            <div class="tarea-titulo ${tarea.completada ? 'tarea-completada' : ''}">${escapeHtml(tarea.texto)}</div>
+            ${tarea.detalles ? `<div class="tarea-detalle">📝 ${escapeHtml(tarea.detalles.substring(0, 50))}${tarea.detalles.length > 50 ? '...' : ''}</div>` : '<div class="tarea-detalle" style="color:#E8A0B5;">✨ Haz clic para añadir detalles ✨</div>'}
+          </div>
+          <button class="btn-eliminar" onclick="event.stopPropagation(); eliminarTarea(${tarea.id})">🗑️</button>
         </div>
       `).join('');
     }
@@ -296,6 +456,11 @@
       div.textContent = text;
       return div.innerHTML;
     }
+
+    // Cerrar modal haciendo clic fuera
+    document.getElementById('modalEditar').addEventListener('click', function(e) {
+      if (e.target === this) cerrarModal();
+    });
 
     cargarTareas();
   </script>
