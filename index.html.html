@@ -171,6 +171,60 @@
       color: #C97A9A;
     }
 
+    /* Estilos para tareas de días de la semana */
+    .dia-semana {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #B3416B;
+      margin-top: 15px;
+      margin-bottom: 10px;
+      padding-bottom: 5px;
+      border-bottom: 2px solid #F4C2D0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .tareas-dia-container {
+      margin-bottom: 20px;
+    }
+
+    .agregar-tarea-dia {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    .input-pequeno {
+      flex: 2;
+      padding: 6px 10px;
+      border: 2px solid #F4C2D0;
+      border-radius: 20px;
+      font-family: 'Quicksand', cursive;
+      font-size: 0.8rem;
+      background: #FFF5F7;
+    }
+
+    .btn-pequeno {
+      background: #D86F8B;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-family: 'Quicksand', cursive;
+      font-size: 0.75rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-pequeno:hover {
+      background: #B3416B;
+      transform: scale(1.05);
+    }
+
     /* Estilos para tareas con fecha */
     .tarea-fecha {
       font-size: 0.75rem;
@@ -457,6 +511,46 @@
       font-size: .85rem;
     }
 
+    /* Pestañas para días de la semana */
+    .tabs-semana {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .tab-btn {
+      background: #FFF0F5;
+      border: 2px solid #F4C2D0;
+      padding: 8px 12px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-family: 'Quicksand', cursive;
+      font-weight: 600;
+      color: #D86F8B;
+      transition: all 0.3s ease;
+    }
+
+    .tab-btn.activo {
+      background: #D86F8B;
+      color: white;
+      border-color: #D86F8B;
+    }
+
+    .tab-btn:hover {
+      background: #F4A4B8;
+      color: white;
+    }
+
+    .contenido-dia {
+      display: none;
+    }
+
+    .contenido-dia.activo {
+      display: block;
+    }
+
     @media (max-width: 640px) {
       .contenedor { grid-template-columns: 1fr; }
       .articulo-img {
@@ -473,6 +567,10 @@
       }
       .input-group {
         flex-direction: column;
+      }
+      .tab-btn {
+        font-size: 0.7rem;
+        padding: 5px 8px;
       }
     }
   </style>
@@ -503,19 +601,19 @@
       </div>
     </div>
 
-    <!-- Widget de música - Video de YouTube CORREGIDO -->
+    <!-- Widget de música - PLAYLIST DE YOUTUBE CORREGIDA (usando embed correcto) -->
     <div class="widget widget-musica">
-      <h3>🎵 Mi canción favorita 🎵</h3>
+      <h3>🎵 Mi playlist favorita 🎵</h3>
       <iframe class="musica-iframe" 
-        src="https://www.youtube.com/watch?v=bGFZoBD0ktA&list=PLl4CgAo8Zq4hNkAEh5VOC-XgGnkk6yuPF" 
-        title="YouTube video player" 
+        src="https://www.youtube.com/embed/videoseries?list=PLl4CgAo8Zq4hNkAEh5VOC-XgGnkk6yuPF" 
+        title="YouTube Playlist" 
         frameborder="0" 
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
         referrerpolicy="strict-origin-when-cross-origin" 
         allowfullscreen>
       </iframe>
       <div class="musica-info">
-        🎧 Mi canción favorita 🎵
+        🎧 Mi playlist favorita 🎵
       </div>
     </div>
 
@@ -581,96 +679,119 @@
 
   reiniciarTimer();
 
-  // ── FUNCIONES PARA TAREAS CON FECHA ─────────────────────────
-  let tareasDia = [];
+  // ── FUNCIONES PARA TAREAS POR DÍA DE LA SEMANA ─────────────
+  const diasSemana = ['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo'];
+  let tareasPorDia = {};
 
-  function guardarTareasDia() {
-    localStorage.setItem('tareasDia', JSON.stringify(tareasDia));
+  function guardarTareasPorDia() {
+    localStorage.setItem('tareasPorDia', JSON.stringify(tareasPorDia));
   }
 
-  function cargarTareasDia() {
-    const tareasGuardadas = localStorage.getItem('tareasDia');
+  function cargarTareasPorDia() {
+    const tareasGuardadas = localStorage.getItem('tareasPorDia');
     if (tareasGuardadas) {
-      tareasDia = JSON.parse(tareasGuardadas);
+      tareasPorDia = JSON.parse(tareasGuardadas);
     } else {
-      tareasDia = [];
+      // Inicializar tareas por defecto para cada día
+      diasSemana.forEach(dia => {
+        tareasPorDia[dia] = [];
+      });
     }
-    renderizarTareasDia();
+    renderizarDiaActual();
   }
 
-  function renderizarTareasDia() {
-    const container = document.getElementById('lista-tareas-dia');
+  function renderizarDiaActual() {
+    const diaActual = document.querySelector('.tab-btn.activo')?.getAttribute('data-dia') || 'lunes';
+    renderizarTareasPorDia(diaActual);
+  }
+
+  function renderizarTareasPorDia(dia) {
+    const container = document.getElementById(`tareas-${dia}`);
     if (!container) return;
     
-    if (tareasDia.length === 0) {
-      container.innerHTML = '<p style="text-align:center; color:#C97A9A;">✨ No hay tareas para hoy ✨</p>';
+    const tareas = tareasPorDia[dia] || [];
+    
+    if (tareas.length === 0) {
+      container.innerHTML = '<p style="text-align:center; color:#C97A9A; padding:10px;">✨ No hay tareas para este día ✨</p>';
       return;
     }
     
-    const hoy = new Date();
-    hoy.setHours(0, 0, 0, 0);
+    container.innerHTML = tareas.map((tarea, index) => `
+      <label class="tarea-item">
+        <input type="checkbox" class="tarea-checkbox-dia" data-dia="${dia}" data-index="${index}" ${tarea.completada ? 'checked' : ''}>
+        <div style="flex: 1;">
+          <span style="${tarea.completada ? 'text-decoration: line-through; color: #C97A9A;' : ''}">${escapeHtml(tarea.texto)}</span>
+          ${tarea.fechaLimite ? `<div class="tarea-fecha">📅 ${tarea.fechaLimite}</div>` : ''}
+        </div>
+      </label>
+    `).join('');
     
-    container.innerHTML = tareasDia.map((tarea, index) => {
-      const fechaLimite = new Date(tarea.fechaLimite);
-      fechaLimite.setHours(0, 0, 0, 0);
-      const estaVencida = fechaLimite < hoy && !tarea.completada;
-      const fechaTexto = tarea.fechaLimite ? `📅 ${tarea.fechaLimite}` : '';
-      
-      return `
-        <label class="tarea-item">
-          <input type="checkbox" class="tarea-checkbox" data-index="${index}" ${tarea.completada ? 'checked' : ''}>
-          <div style="flex: 1;">
-            <span style="${tarea.completada ? 'text-decoration: line-through; color: #C97A9A;' : ''}">${escapeHtml(tarea.texto)}</span>
-            <div class="tarea-fecha ${estaVencida && !tarea.completada ? 'tarea-vencida' : ''}">${fechaTexto} ${estaVencida && !tarea.completada ? '⚠️ VENCIDA' : ''}</div>
-          </div>
-        </label>
-      `;
-    }).join('');
-    
-    document.querySelectorAll('.tarea-checkbox').forEach(checkbox => {
+    // Agregar event listeners a los checkboxes
+    document.querySelectorAll('.tarea-checkbox-dia').forEach(checkbox => {
       checkbox.addEventListener('change', function(e) {
+        const dia = this.getAttribute('data-dia');
         const index = parseInt(this.getAttribute('data-index'));
-        if (tareasDia[index]) {
-          tareasDia[index].completada = this.checked;
-          guardarTareasDia();
-          renderizarTareasDia();
+        if (tareasPorDia[dia] && tareasPorDia[dia][index]) {
+          tareasPorDia[dia][index].completada = this.checked;
+          guardarTareasPorDia();
+          renderizarTareasPorDia(dia);
         }
       });
     });
   }
 
-  function agregarTareaDia() {
-    const input = document.getElementById('nueva-tarea-dia');
-    const fechaInput = document.getElementById('fecha-limite');
+  function agregarTareaDia(dia) {
+    const input = document.getElementById(`input-${dia}`);
+    const fechaInput = document.getElementById(`fecha-${dia}`);
     const texto = input.value.trim();
     const fechaLimite = fechaInput.value;
     
     if (texto === '') {
-      alert('🌸 Por favor escribe una tarea 🌸');
+      alert(`🌸 Por favor escribe una tarea para el ${dia} 🌸`);
       return;
     }
     
-    tareasDia.push({
+    if (!tareasPorDia[dia]) {
+      tareasPorDia[dia] = [];
+    }
+    
+    tareasPorDia[dia].push({
       id: Date.now(),
       texto: texto,
       fechaLimite: fechaLimite,
       completada: false
     });
     
-    guardarTareasDia();
+    guardarTareasPorDia();
     input.value = '';
     fechaInput.value = '';
-    renderizarTareasDia();
+    renderizarTareasPorDia(dia);
   }
 
-  function eliminarUltimaTareaDia() {
-    if (tareasDia.length === 0) {
-      alert('✨ No hay tareas para eliminar ✨');
+  function cambiarDia(dia) {
+    // Actualizar pestañas activas
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.classList.remove('activo');
+    });
+    document.querySelector(`.tab-btn[data-dia="${dia}"]`).classList.add('activo');
+    
+    // Mostrar contenido del día seleccionado
+    document.querySelectorAll('.contenido-dia').forEach(contenido => {
+      contenido.classList.remove('activo');
+    });
+    document.getElementById(`dia-${dia}`).classList.add('activo');
+    
+    renderizarTareasPorDia(dia);
+  }
+
+  function eliminarUltimaTareaDia(dia) {
+    if (!tareasPorDia[dia] || tareasPorDia[dia].length === 0) {
+      alert(`✨ No hay tareas para eliminar en ${dia} ✨`);
       return;
     }
-    tareasDia.pop();
-    guardarTareasDia();
-    renderizarTareasDia();
+    tareasPorDia[dia].pop();
+    guardarTareasPorDia();
+    renderizarTareasPorDia(dia);
   }
 
   function escapeHtml(text) {
@@ -694,10 +815,10 @@
     {
       imagen: "alien.jpg",
       categoria: "Organización",
-      titulo: "Tareas por día",
+      titulo: "Tareas por día de la semana",
       fecha: "20 de abril, 2026",
       autor: "Yo mismo",
-      resumen: "Organiza tus tareas diarias con fechas límite para ser más productiva 🌸",
+      resumen: "Organiza tus tareas por cada día de la semana con fechas límite 🌸",
       contenido: ``,
       gif: null
     },
@@ -707,7 +828,7 @@
       titulo: "5 libros que me cambiaron la vida",
       fecha: "10 de abril, 2026",
       autor: "Yo mismo",
-      resumen: "Una lista de lecturas que me hicieron ver el mundo diferente. Desde novelas hasta libros de desarrollo personal.",
+      resumen: "Una lista de lecturas que me hicieron ver el mundo diferente.",
       contenido: `<p><strong>1. El Alquimista</strong> – Paulo Coelho</p><p><strong>2. Hábitos Atómicos</strong> – James Clear</p><p><strong>3. Sapiens</strong> – Yuval Noah Harari</p><p><strong>4. El Principito</strong> – Saint-Exupéry</p><p><strong>5. Deep Work</strong> – Cal Newport</p>`,
       gif: null
     }
@@ -759,25 +880,40 @@
         </div>
       `;
     } else if (i === 1) {
+      // Generar pestañas y contenido para cada día
+      let tabsHtml = '<div class="tabs-semana">';
+      let contenidoHtml = '';
+      
+      diasSemana.forEach((dia, idx) => {
+        const activo = idx === 0 ? 'activo' : '';
+        tabsHtml += `<button class="tab-btn ${activo}" data-dia="${dia}" onclick="cambiarDia('${dia}')">${dia.toUpperCase()}</button>`;
+        
+        contenidoHtml += `
+          <div id="dia-${dia}" class="contenido-dia ${activo}">
+            <div class="tareas-dia-container">
+              <div class="agregar-tarea-dia">
+                <input type="text" id="input-${dia}" class="input-pequeno" placeholder="Nueva tarea para ${dia}...">
+                <input type="date" id="fecha-${dia}" class="input-pequeno">
+                <button class="btn-pequeno" onclick="agregarTareaDia('${dia}')">➕ Agregar</button>
+                <button class="btn-pequeno btn-eliminar" onclick="eliminarUltimaTareaDia('${dia}')">🗑️</button>
+              </div>
+              <div id="tareas-${dia}"></div>
+            </div>
+          </div>
+        `;
+      });
+      tabsHtml += '</div>';
+      
       contenidoFinal = `
-        <div class="tareas-controles">
-          <div class="input-group">
-            <input type="text" id="nueva-tarea-dia" class="nueva-tarea-input" placeholder="Escribe una tarea...">
-            <input type="date" id="fecha-limite" class="fecha-input">
-          </div>
-          <div class="input-group">
-            <button class="btn-tarea" onclick="agregarTareaDia()">➕ Agregar tarea</button>
-            <button class="btn-tarea btn-eliminar" onclick="eliminarUltimaTareaDia()">🗑️ Eliminar última</button>
-          </div>
-        </div>
-        <div id="lista-tareas-dia"></div>
+        ${tabsHtml}
+        ${contenidoHtml}
         
         <div class="motivacion-container">
           <div class="motivacion-marco">
-            <img src="sevenseven.jpg" alt="Imagen de motivación" class="motivacion-imagen" onerror="this.src='https://via.placeholder.com/600x300/FFD1DC/B3416B?text=🌟+Organiza+tu+día+con+cariño+🌟'">
+            <img src="sevenseven.jpg" alt="Imagen de motivación" class="motivacion-imagen" onerror="this.src='https://via.placeholder.com/600x300/FFD1DC/B3416B?text=🌟+Organiza+tu+semana+con+cariño+🌟'">
           </div>
           <div class="motivacion-texto">
-            ✨ ¡Cada tarea completada es un logro! ✨ 🌸
+            ✨ ¡Cada día es una nueva oportunidad! ✨ 🌸
           </div>
         </div>
       `;
@@ -882,7 +1018,7 @@
 
       renderizarTareas();
     } else if (i === 1) {
-      cargarTareasDia();
+      cargarTareasPorDia();
     }
   }
 
