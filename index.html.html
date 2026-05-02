@@ -336,14 +336,7 @@
 <script>
   // ── SLIDESHOW ─────────────────────────────────────────────
   const slides = document.querySelectorAll('.slide');
-  const dotsEl = document.getElementById('dots');
   let actual = 0, timer;
-
-  slides.forEach((_, i) => {
-    const d = document.createElement('span');
-    d.className = 'dot' + (i === 0 ? ' activo' : '');
-    d.onclick = () => irA(i);
-    dotsEl.appendChild(d);
   });
 
   function irA(n) {
