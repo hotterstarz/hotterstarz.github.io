@@ -107,24 +107,39 @@
       color: #5C3D4F; 
       font-family: 'Quicksand', 'Comic Neue', cursive; 
     }
+    .leer-mas {
+      display: inline-block;
+      margin-top: 1rem;
+      background: #D86F8B;
+      color: white;
+      padding: .5rem 1.2rem;
+      border-radius: 25px;
+      font-family: 'Quicksand', 'Comic Neue', cursive;
+      font-size: .9rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s ease;
+    }
+    .leer-mas:hover { 
+      background: #B3416B;
+      transform: scale(1.05);
+    }
 
     /* Estilos para tablas estáticas */
     .seccion-tabla {
       background: #FFFFFF;
       border-radius: 16px;
-      padding: 1.5rem;
+      overflow: hidden;
       margin-bottom: 2rem;
       box-shadow: 0 4px 12px rgba(216, 111, 139, 0.15);
     }
-    .seccion-tabla h3 {
-      color: #B3416B;
-      margin-bottom: 1rem;
-      font-size: 1.2rem;
+    .tabla-header {
+      padding: 1rem 1.5rem 0 1.5rem;
     }
     .tabla-tareas {
       width: 100%;
       border-collapse: collapse;
-      margin: 1rem 0;
     }
     .tabla-tareas th {
       background: #D86F8B;
@@ -155,8 +170,8 @@
     .nota-static {
       background: #FFF5F7;
       padding: 12px;
+      margin: 15px;
       border-radius: 12px;
-      margin-top: 15px;
       font-size: 0.8rem;
       color: #C97A9A;
       text-align: center;
@@ -167,6 +182,7 @@
       margin-top: 25px;
       margin-bottom: 10px;
       text-align: center;
+      padding: 0 1.5rem 1.5rem 1.5rem;
     }
     .motivacion-marco {
       background: #FFE4E8;
@@ -195,6 +211,66 @@
       justify-content: center;
       gap: 8px;
       flex-wrap: wrap;
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.6);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.activo { display: flex; }
+    .modal {
+      background: #FFFFFF;
+      max-width: 650px;
+      width: 90%;
+      border-radius: 20px;
+      padding: 2rem;
+      position: relative;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    .modal h2 { 
+      font-size: 1.6rem; 
+      margin-bottom: .5rem; 
+      font-family: 'Quicksand', 'Comic Neue', cursive;
+      color: #B3416B;
+    }
+    .modal .meta { margin-bottom: 1rem; }
+    .modal p { 
+      line-height: 1.8; 
+      color: #5C3D4F; 
+      margin-bottom: 1rem; 
+      font-family: 'Quicksand', 'Comic Neue', cursive; 
+    }
+    .cerrar {
+      position: absolute;
+      top: 1rem; right: 1.2rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: #D86F8B;
+      font-weight: bold;
+    }
+    .cerrar:hover {
+      color: #B3416B;
+    }
+
+    .modal-gif-container {
+      text-align: center;
+      margin: 20px 0;
+      padding: 10px;
+      background: #FFF5F7;
+      border-radius: 12px;
+    }
+    .modal-gif-container img {
+      max-width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
     aside { display: flex; flex-direction: column; gap: 1.5rem; }
@@ -381,35 +457,57 @@
 <div class="contenedor">
   <main id="posts">
     
-    <!-- TABLA DE TAREAS SIMPLES - DIRECTAMENTE EN LA PÁGINA -->
+    <!-- TABLA DE TAREAS SIMPLES -->
     <div class="seccion-tabla">
-      <h2 class="categoria" style="display:inline-block; margin-bottom:15px;">📋 Lista de tareas</h2>
+      <div class="tabla-header">
+        <span class="categoria">( ꩜ ᯅ ꩜;)⁭</span>
+        <h2>Lista de tareas (˶ ´༥` ˶)୭</h2>
+        <p class="meta">📅 1 de mayo, 2026 &nbsp;·&nbsp; ✍️ Yo mismo</p>
+      </div>
       <table class="tabla-tareas" id="tablaSimples">
         <thead>
           <tr><th style="width: 40px">✓</th><th>Tarea</th></tr>
         </thead>
         <tbody id="tbodySimples">
-          <!-- Las filas se generarán con JavaScript -->
         </tbody>
       </table>
       <div class="nota-static">
         📝 Para modificar estas tareas, edita el array "tareasSimples" en el código JavaScript
       </div>
+      <div class="motivacion-container">
+        <div class="motivacion-marco">
+          <img src="sevenseven.jpg" alt="Imagen de motivación" class="motivacion-imagen" onerror="this.src='https://via.placeholder.com/600x300/FFD1DC/B3416B?text=🌟+Tú+puedes+con+todo+🌟'">
+        </div>
+        <div class="motivacion-texto">
+          ✨ ¡Tú puedes hacerlo! ✨ ദ്ദി◝ ⩊ ◜.ᐟ
+        </div>
+      </div>
     </div>
 
-    <!-- TABLA DE TAREAS SEMANALES - DIRECTAMENTE EN LA PÁGINA -->
+    <!-- TABLA DE TAREAS SEMANALES -->
     <div class="seccion-tabla">
-      <h2 class="categoria" style="display:inline-block; margin-bottom:15px;">📅 Tareas por día de la semana</h2>
+      <div class="tabla-header">
+        <span class="categoria">₍^. .^₎⟆</span>
+        <h2>Tareas por día de la semana</h2>
+        <p class="meta">📅 20 de abril, 2026 &nbsp;·&nbsp; ✍️ Yo mismo</p>
+      </div>
       <table class="tabla-tareas" id="tablaSemanales">
         <thead>
           <tr><th style="width: 40px">✓</th><th>Día</th><th>Tarea</th><th>Fecha Límite</th></tr>
         </thead>
         <tbody id="tbodySemanales">
-          <!-- Las filas se generarán con JavaScript -->
         </tbody>
       </table>
       <div class="nota-static">
         📝 Para modificar estas tareas, edita el array "tareasSemanales" en el código JavaScript
+      </div>
+      <div class="motivacion-container">
+        <div class="motivacion-marco">
+          <img src="sevenseven.jpg" alt="Imagen de motivación" class="motivacion-imagen" onerror="this.src='https://via.placeholder.com/600x300/FFD1DC/B3416B?text=🌟+Organiza+tu+semana+con+cariño+🌟'">
+        </div>
+        <div class="motivacion-texto">
+          ✨ ¡Cada día es una nueva oportunidad! ✨ 🌸
+        </div>
       </div>
     </div>
 
@@ -571,11 +669,11 @@
   cargarImagenesPaisajes();
   reiniciarTimerPaisajes();
 
-  // ── DATOS ESTÁTICOS PARA TABLAS (EDITA AQUÍ PARA MODIFICAR LAS TAREAS) ──
-  // ========================================================================
-  // 🟢 LISTA DE TAREAS SIMPLES - Modifica esta lista
-  // Formato: { id: número, texto: "descripción de la tarea", completada: true/false }
-  // ========================================================================
+  // ── DATOS ESTÁTICOS PARA TABLAS (EDITA AQUÍ) ─────────────────────
+  // ============================================================
+  // 🟢 LISTA DE TAREAS SIMPLES - Edita esta tabla
+  // Formato: { id: número, texto: "tarea", completada: true/false }
+  // ============================================================
   let tareasSimples = [
     { id: 1, texto: "Póster de P y P (Pasar a plantilla para mandar a imprimir en papel bond)", completada: false },
     { id: 2, texto: "Empezar trabajo plan de atención de enfermería", completada: false },
@@ -583,10 +681,10 @@
     { id: 4, texto: "Comprar materiales para la práctica", completada: false }
   ];
 
-  // ========================================================================
-  // 🟢 TAREAS POR DÍA DE LA SEMANA - Modifica esta lista
+  // ============================================================
+  // 🟢 TAREAS POR DÍA DE LA SEMANA - Edita esta tabla
   // Formato: { id: número, dia: "lunes/martes/etc", tarea: "descripción", fechaLimite: "YYYY-MM-DD", completada: true/false }
-  // ========================================================================
+  // ============================================================
   let tareasSemanales = [
     { id: 1, dia: "lunes", tarea: "Revisión de apuntes de obstetricia", fechaLimite: "2026-05-12", completada: false },
     { id: 2, dia: "martes", tarea: "Práctica de monitoría fetal", fechaLimite: "2026-05-13", completada: false },
@@ -707,13 +805,36 @@
         <img src="keep.gif" alt="GIF animado">
       </div>
       <p>Fisiología del trabajo de parto</p>
-      <p>Las 4 etapas del trabajo de parto</p>
-      <p>Mecanismos del trabajo de parto</p>
+      <p>Las 4 etapas del trabajo de parto (dilatación, expulsivo, alumbramiento y posparto inmediato)</p>
+      <p>Mecanismos del trabajo de parto (encajamiento, descenso, rotación, extensión, etc.)</p>
+      <p>Diferencia entre trabajo de parto verdadero y falso</p>
+      <p>Clasificación de la presentación fetal (cefálica, podálica, transversa)</p>
       <p>Monitoría fetal</p>
+      <p>Cómo interpretar una cardiotocografía (CTG) básica</p>
+      <p>Valores normales de la frecuencia cardíaca fetal (110–160 lpm)</p>
+      <p>Reconocer desaceleraciones tempranas, tardías y variables</p>
       <p>Signos vitales y valoración materna</p>
+      <p>Rangos normales en la gestante (TA, FC, temperatura)</p>
+      <p>Señales de alarma: hipertensión, sangrado, fiebre, disminución del movimiento fetal</p>
       <p>💊 Farmacología básica en sala de partos</p>
-      <p>🔬 Procedimientos que debes reconocer</p>
-      <p>⚠️ Emergencias obstétricas</p>
+      <p>Oxitocina: dosis, indicaciones, riesgos (hiperstimulación uterina)</p>
+      <p>Misoprostol: uso en inducción y posparto</p>
+      <p>Sulfato de magnesio: manejo de la preeclampsia severa, signos de toxicidad</p>
+      <p>Ergometrina / metilergonovina: control del sangrado posparto</p>
+      <p>Analgesia epidural: conceptos básicos, posición para el procedimiento</p>
+      <p>🔬 Procedimientos que debes reconocer y/o apoyar</p>
+      <p>Amniotomía (rotura artificial de membranas)</p>
+      <p>Control de la dilatación cervical y borramiento</p>
+      <p>Maniobras de Leopold</p>
+      <p>Episiotomía y su reparación</p>
+      <p>Alumbramiento activo (manejo activo de la tercera etapa)</p>
+      <p>Atención inmediata del recién nacido: APGAR, ligadura del cordón, termorregulación</p>
+      <p>⚠️ Emergencias obstétricas que debes conocer (aunque no vayas a manejarlas solas)</p>
+      <p>Hemorragia posparto (HPP): la causa más frecuente es la atonía uterina</p>
+      <p>Preeclampsia / eclampsia</p>
+      <p>Distocia de hombros</p>
+      <p>Prolapso de cordón</p>
+      <p>Desprendimiento de placenta</p>
     `;
     
     document.getElementById('m-contenido').innerHTML = contenido;
