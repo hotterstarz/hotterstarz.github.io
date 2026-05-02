@@ -68,6 +68,12 @@
     .btn-sync.compartir {
       background: #95A5A6;
     }
+    .btn-sync.nube {
+      background: #9B59B6;
+    }
+    .btn-sync.nube:hover {
+      background: #8E44AD;
+    }
 
     .contenedor {
       max-width: 900px;
@@ -740,6 +746,11 @@
 </footer>
 
 <script>
+  // ── CONFIGURACIÓN DE JSONBIN ──────────────────────────────────────
+  // ⚠️ ¡¡¡REEMPLAZA ESTOS VALORES CON LOS TUYOS!!!
+  const JSONBIN_BIN_ID = "TU_BIN_ID_AQUI";  // Ej: "65a1b2c3d4e5f6g7h8i9j0k"
+  const JSONBIN_API_KEY = "$2a$10$TU_API_KEY_AQUI";  // Ej: "$2a$10$abc123def456ghi789jkl"
+
   // ── SLIDESHOW PRINCIPAL ──────────────────────────────────────────
   const slides = document.querySelectorAll('.slide');
   let actualSlide = 0, timerPrincipal;
@@ -830,6 +841,93 @@
     setTimeout(() => mensaje.remove(), 3000);
   }
 
+  // ── FUNCIONES DE JSONBIN (NUBE) ────────────────────────────
+  async function guardarEnNube() {
+    const datosCompletos = {
+      tareasSimples: tareasSimples,
+      tareasPorDia: tareasPorDia,
+      ultimaActualizacion: new Date().toISOString()
+    };
+    
+    try {
+      const response = await fetch(`https://api.jsonbin.io/v3/b/${https://api.jsonbin.io/v3/b/69f61b70aaba88219762c4ba}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Master-Key': $2a$10$0vs7OF.isD.9agxSUGSxFOVIPIAny8Ic.RvTQGKDyfIdxrktVxD02
+        },
+        body: JSON.stringify(datosCompletos)
+      });
+      
+      if (response.ok) {
+        console.log('✅ Guardado en la nube');
+        mostrarMensaje('☁️ Tareas guardadas en la nube');
+        return true;
+      } else {
+        console.error('Error al guardar:', response.status);
+        return false;
+      }
+    } catch (error) {
+      console.error('Error de red:', error);
+      return false;
+    }
+  }
+
+  async function cargarDesdeNube() {
+    mostrarMensaje('☁️ Cargando tareas desde la nube...');
+    
+    try {
+      const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`);
+      
+      if (!response.ok) {
+        console.log('No se pudo cargar desde la nube');
+        return false;
+      }
+      
+      const data = await response.json();
+      
+      if (data.record) {
+        let cambios = false;
+        
+        if (data.record.tareasSimples && Array.isArray(data.record.tareasSimples)) {
+          tareasSimples = data.record.tareasSimples;
+          guardarTareasSimples();
+          if (typeof renderizarTareasSimples === 'function') {
+            renderizarTareasSimples();
+          }
+          cambios = true;
+        }
+        
+        if (data.record.tareasPorDia && typeof data.record.tareasPorDia === 'object') {
+          tareasPorDia = data.record.tareasPorDia;
+          guardarTareasPorDia();
+          cambios = true;
+        }
+        
+        if (cambios) {
+          mostrarMensaje('☁️ Tareas cargadas desde la nube');
+          
+          // Actualizar vista de días si está visible
+          if (typeof renderizarTareasPorDia === 'function') {
+            const diaActivo = document.querySelector('.tab-btn.activo')?.getAttribute('data-dia');
+            if (diaActivo) {
+              renderizarTareasPorDia(diaActivo);
+            }
+          }
+        }
+        return true;
+      }
+    } catch (error) {
+      console.error('Error cargando de la nube:', error);
+    }
+    return false;
+  }
+
+  async function sincronizarConNube() {
+    mostrarMensaje('☁️ Sincronizando con la nube...');
+    await guardarEnNube();
+  }
+
   // ── FUNCIONES PARA TAREAS SIMPLES (Post 0) ─────────────────
   let tareasSimples = [];
 
@@ -874,6 +972,7 @@
           tarea.completada = this.checked;
           guardarTareasSimples();
           renderizarTareasSimples();
+          guardarEnNube(); // Guardar en la nube automáticamente
         }
       });
     });
@@ -897,6 +996,7 @@
     input.value = '';
     renderizarTareasSimples();
     mostrarMensaje('✨ Tarea agregada');
+    guardarEnNube(); // Guardar en la nube automáticamente
   }
 
   function eliminarUltimaTareaSimple() {
@@ -908,6 +1008,7 @@
     guardarTareasSimples();
     renderizarTareasSimples();
     mostrarMensaje('🗑️ Última tarea eliminada');
+    guardarEnNube(); // Guardar en la nube automáticamente
   }
 
   // ── FUNCIONES PARA TAREAS POR DÍA DE LA SEMANA (Post 1) ─────
@@ -958,6 +1059,7 @@
           tareasPorDia[dia][index].completada = this.checked;
           guardarTareasPorDia();
           renderizarTareasPorDia(dia);
+          guardarEnNube(); // Guardar en la nube automáticamente
         }
       });
     });
@@ -989,7 +1091,8 @@
     input.value = '';
     fechaInput.value = '';
     renderizarTareasPorDia(dia);
-    mostrarMensage(`✨ Tarea agregada a ${dia}`);
+    mostrarMensaje(`✨ Tarea agregada a ${dia}`);
+    guardarEnNube(); // Guardar en la nube automáticamente
   }
 
   function cambiarDia(dia) {
@@ -1009,9 +1112,10 @@
     guardarTareasPorDia();
     renderizarTareasPorDia(dia);
     mostrarMensaje(`🗑️ Última tarea eliminada de ${dia}`);
+    guardarEnNube(); // Guardar en la nube automáticamente
   }
 
-  // ── FUNCIONES DE RESPALDO (Exportar/Importar) ───────────────
+  // ── FUNCIONES DE EXPORTAR/IMPORTAR (respaldo local) ───────────────
   function exportarTodasLasTareas() {
     const datosCompletos = {
       tareasSimples: tareasSimples,
@@ -1041,18 +1145,15 @@
       try {
         const datosImportados = JSON.parse(e.target.result);
         
-        // Validar y cargar tareas simples
         if (datosImportados.tareasSimples && Array.isArray(datosImportados.tareasSimples)) {
           tareasSimples = datosImportados.tareasSimples;
           guardarTareasSimples();
           renderizarTareasSimples();
         }
         
-        // Validar y cargar tareas por día
         if (datosImportados.tareasPorDia && typeof datosImportados.tareasPorDia === 'object') {
           tareasPorDia = datosImportados.tareasPorDia;
           guardarTareasPorDia();
-          // Re-renderizar el día actual si está visible
           const diaActivo = document.querySelector('.tab-btn.activo')?.getAttribute('data-dia');
           if (diaActivo) {
             renderizarTareasPorDia(diaActivo);
@@ -1061,7 +1162,8 @@
           }
         }
         
-        mostrarMensaje(`✅ ¡Importadas ${datosImportados.tareasSimples?.length || 0} tareas simples y tareas semanales!`);
+        mostrarMensaje(`✅ ¡Importadas correctamente!`);
+        guardarEnNube(); // Guardar en la nube después de importar
       } catch (error) {
         alert('❌ Error al importar: archivo inválido');
       }
@@ -1069,89 +1171,6 @@
     
     reader.readAsText(file);
     event.target.value = '';
-  }
-
-  function generarEnlaceCompartir() {
-    const datosCompletos = {
-      tareasSimples: tareasSimples,
-      tareasPorDia: tareasPorDia,
-      fechaExportacion: new Date().toISOString()
-    };
-    
-    const datosJSON = JSON.stringify(datosCompletos);
-    const datosComprimidos = btoa(encodeURIComponent(datosJSON));
-    const urlActual = window.location.href.split('?')[0];
-    const urlCompartir = `${urlActual}?tareas=${datosComprimidos}`;
-    
-    // Mostrar modal con el enlace
-    mostrarModalCompartir(urlCompartir);
-  }
-
-  function mostrarModalCompartir(url) {
-    let modalCompartir = document.getElementById('modalCompartir');
-    if (!modalCompartir) {
-      modalCompartir = document.createElement('div');
-      modalCompartir.id = 'modalCompartir';
-      modalCompartir.className = 'modal-editar';
-      modalCompartir.innerHTML = `
-        <div class="modal-contenido">
-          <span class="cerrar-modal" onclick="cerrarModalCompartir()">&times;</span>
-          <h3>📱 Compartir tareas</h3>
-          <p style="margin-bottom:15px;">Comparte este enlace en tu celular:</p>
-          <input type="text" id="enlaceCompartir" style="width:100%; padding:10px; border-radius:15px; border:2px solid #F4C2D0; font-family:monospace; font-size:12px;" readonly>
-          <div class="modal-btns" style="margin-top:15px;">
-            <button class="btn-guardar" onclick="copiarEnlace()">📋 Copiar enlace</button>
-            <button class="btn-cancelar" onclick="cerrarModalCompartir()">Cerrar</button>
-          </div>
-        </div>
-      `;
-      document.body.appendChild(modalCompartir);
-    }
-    
-    document.getElementById('enlaceCompartir').value = url;
-    modalCompartir.classList.add('activo');
-  }
-
-  function cerrarModalCompartir() {
-    const modal = document.getElementById('modalCompartir');
-    if (modal) modal.classList.remove('activo');
-  }
-
-  function copiarEnlace() {
-    const input = document.getElementById('enlaceCompartir');
-    input.select();
-    document.execCommand('copy');
-    mostrarMensaje('📋 Enlace copiado al portapapeles');
-    cerrarModalCompartir();
-  }
-
-  function cargarTareasDesdeURL() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const tareasParam = urlParams.get('tareas');
-    
-    if (tareasParam) {
-      try {
-        const datosJSON = decodeURIComponent(atob(tareasParam));
-        const datosImportados = JSON.parse(datosJSON);
-        
-        if (datosImportados.tareasSimples && Array.isArray(datosImportados.tareasSimples)) {
-          tareasSimples = datosImportados.tareasSimples;
-          guardarTareasSimples();
-        }
-        
-        if (datosImportados.tareasPorDia && typeof datosImportados.tareasPorDia === 'object') {
-          tareasPorDia = datosImportados.tareasPorDia;
-          guardarTareasPorDia();
-        }
-        
-        mostrarMensaje('🎉 ¡Tareas cargadas desde el enlace!');
-        
-        // Limpiar la URL
-        window.history.replaceState({}, document.title, window.location.pathname);
-      } catch (e) {
-        console.log('No hay tareas en la URL');
-      }
-    }
   }
 
   function escapeHtml(text) {
@@ -1241,7 +1260,7 @@
       </article>`;
   });
 
-  function abrirModal(i) {
+  async function abrirModal(i) {
     const p = posts[i];
     document.getElementById('m-cat').textContent = p.categoria;
     document.getElementById('m-titulo').textContent = p.titulo;
@@ -1252,10 +1271,10 @@
     if (i === 0) {
       contenidoFinal = `
         <div class="botones-sync-modal">
+          <button class="btn-sync nube" onclick="sincronizarConNube()">☁️ Guardar en nube</button>
           <button class="btn-sync" onclick="exportarTodasLasTareas()">📤 Exportar tareas</button>
           <input type="file" id="importarArchivoGlobal" accept=".json" style="display:none" onchange="importarTareas(event)">
           <button class="btn-sync importar" onclick="document.getElementById('importarArchivoGlobal').click()">📥 Importar tareas</button>
-          <button class="btn-sync compartir" onclick="generarEnlaceCompartir()">📱 Compartir enlace</button>
         </div>
         <div class="tareas-controles">
           <div class="input-group">
@@ -1301,10 +1320,10 @@
       
       contenidoFinal = `
         <div class="botones-sync-modal">
+          <button class="btn-sync nube" onclick="sincronizarConNube()">☁️ Guardar en nube</button>
           <button class="btn-sync" onclick="exportarTodasLasTareas()">📤 Exportar tareas</button>
           <input type="file" id="importarArchivoGlobal2" accept=".json" style="display:none" onchange="importarTareas(event)">
           <button class="btn-sync importar" onclick="document.getElementById('importarArchivoGlobal2').click()">📥 Importar tareas</button>
-          <button class="btn-sync compartir" onclick="generarEnlaceCompartir()">📱 Compartir enlace</button>
         </div>
         ${tabsHtml}
         ${contenidoHtml}
@@ -1338,6 +1357,9 @@
       cargarTareasPorDia();
       diasSemana.forEach(dia => renderizarTareasPorDia(dia));
     }
+    
+    // Intentar cargar desde la nube automáticamente
+    await cargarDesdeNube();
   }
 
   function cerrarModal() {
@@ -1347,9 +1369,6 @@
   document.getElementById('modal').addEventListener('click', function(e) {
     if (e.target === this) cerrarModal();
   });
-
-  // Cargar tareas desde URL al iniciar
-  cargarTareasDesdeURL();
 </script>
 </body>
 </html>
