@@ -33,38 +33,6 @@
     }
     nav a:hover { color: #FFE4B5; }
 
-    .botones-sync-modal {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 15px;
-      justify-content: center;
-      flex-wrap: wrap;
-      padding: 10px;
-      background: #FFF5F7;
-      border-radius: 16px;
-    }
-    .btn-sync {
-      background: #D86F8B;
-      color: white;
-      border: none;
-      padding: 8px 15px;
-      border-radius: 25px;
-      cursor: pointer;
-      font-family: 'Quicksand', cursive;
-      font-size: 0.8rem;
-      transition: all 0.3s ease;
-    }
-    .btn-sync:hover {
-      background: #B3416B;
-      transform: scale(1.05);
-    }
-    .btn-sync.importar {
-      background: #4ECDC4;
-    }
-    .btn-sync.nube {
-      background: #9B59B6;
-    }
-
     .contenedor {
       max-width: 900px;
       margin: 2rem auto;
@@ -158,202 +126,47 @@
       transform: scale(1.05);
     }
 
-    .lista-tareas {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
+    /* Estilos para tablas */
+    .tabla-tareas {
+      width: 100%;
+      border-collapse: collapse;
       margin: 1rem 0;
     }
-
-    .tarea-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
+    .tabla-tareas th {
+      background: #D86F8B;
+      color: white;
       padding: 12px;
+      text-align: left;
+      font-family: 'Quicksand', cursive;
+      font-weight: 600;
+    }
+    .tabla-tareas td {
+      padding: 10px;
+      border-bottom: 1px solid #F4C2D0;
+      font-family: 'Quicksand', cursive;
+    }
+    .tabla-tareas tr:hover {
       background: #FFF5F7;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      border: 1px solid #F4C2D0;
     }
-
-    .tarea-item:hover {
-      background: #FFE4E8;
-      transform: translateX(5px);
-    }
-
-    .tarea-checkbox {
+    .check-completada {
       width: 20px;
       height: 20px;
-      cursor: pointer;
       accent-color: #D86F8B;
+      cursor: pointer;
     }
-
-    .tarea-item span {
-      flex: 1;
-      font-size: 1rem;
-      color: #4A2B3D;
-      transition: all 0.3s ease;
-      font-family: 'Quicksand', 'Comic Neue', cursive;
-    }
-
-    .tarea-checkbox:checked + span {
+    .tarea-completada {
       text-decoration: line-through;
       color: #C97A9A;
     }
-
-    .tareas-dia-container {
-      margin-bottom: 20px;
-    }
-
-    .agregar-tarea-dia {
-      display: flex;
-      gap: 8px;
-      margin-top: 8px;
-      margin-bottom: 8px;
-      flex-wrap: wrap;
-    }
-
-    .input-pequeno {
-      flex: 2;
-      padding: 6px 10px;
-      border: 2px solid #F4C2D0;
-      border-radius: 20px;
-      font-family: 'Quicksand', cursive;
-      font-size: 0.8rem;
+    .nota-static {
       background: #FFF5F7;
-    }
-
-    .btn-pequeno {
-      background: #D86F8B;
-      color: white;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-family: 'Quicksand', cursive;
-      font-size: 0.75rem;
-      font-weight: 600;
-      transition: all 0.3s ease;
-    }
-
-    .btn-pequeno:hover {
-      background: #B3416B;
-      transform: scale(1.05);
-    }
-
-    .tarea-fecha {
-      font-size: 0.75rem;
-      color: #D86F8B;
-      margin-left: 10px;
-      font-weight: 500;
-    }
-
-    .tarea-vencida {
-      color: #ff4444 !important;
-    }
-
-    .tareas-controles {
-      display: flex;
-      gap: 10px;
-      margin-top: 15px;
-      margin-bottom: 15px;
-      flex-wrap: wrap;
-      flex-direction: column;
-    }
-
-    .input-group {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .btn-tarea {
-      background: #D86F8B;
-      color: white;
-      border: none;
-      padding: 8px 15px;
-      border-radius: 25px;
-      cursor: pointer;
-      font-family: 'Quicksand', 'Comic Neue', cursive;
-      font-size: 0.9rem;
-      font-weight: 600;
-      transition: all 0.3s ease;
-    }
-
-    .btn-tarea:hover {
-      background: #B3416B;
-      transform: scale(1.05);
-    }
-
-    .btn-eliminar {
-      background: #E8A0B5;
-    }
-
-    .btn-eliminar:hover {
-      background: #D86F8B;
-    }
-
-    .nueva-tarea-input {
-      flex: 2;
-      padding: 8px 12px;
-      border: 2px solid #F4C2D0;
-      border-radius: 25px;
-      font-family: 'Quicksand', 'Comic Neue', cursive;
-      font-size: 0.9rem;
-      background: #FFF5F7;
-    }
-
-    .fecha-input {
-      flex: 1;
-      padding: 8px 12px;
-      border: 2px solid #F4C2D0;
-      border-radius: 25px;
-      font-family: 'Quicksand', 'Comic Neue', cursive;
-      font-size: 0.9rem;
-      background: #FFF5F7;
-    }
-
-    .nueva-tarea-input:focus, .fecha-input:focus {
-      outline: none;
-      border-color: #D86F8B;
-    }
-
-    .motivacion-container {
-      margin-top: 25px;
-      margin-bottom: 10px;
-      text-align: center;
-    }
-
-    .motivacion-marco {
-      background: #FFE4E8;
-      padding: 15px;
-      border-radius: 20px;
-      display: block;
-      width: 100%;
-      border: 2px solid #F4C2D0;
-    }
-
-    .motivacion-imagen {
-      width: 100%;
-      height: auto;
-      max-height: 300px;
-      object-fit: contain;
+      padding: 12px;
       border-radius: 12px;
-      display: block;
-    }
-
-    .motivacion-texto {
       margin-top: 15px;
-      font-size: 1.3rem;
-      font-weight: bold;
-      color: #D86F8B;
-      font-family: 'Quicksand', 'Comic Neue', cursive;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      flex-wrap: wrap;
+      font-size: 0.8rem;
+      color: #C97A9A;
+      text-align: center;
+      border: 1px dashed #F4C2D0;
     }
 
     .modal-overlay {
@@ -403,6 +216,7 @@
       color: #B3416B;
     }
 
+    /* Estilos para el GIF en el modal */
     .modal-gif-container {
       text-align: center;
       margin: 20px 0;
@@ -416,24 +230,39 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
-    .toast-mensaje {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #4ECDC4;
-      color: white;
-      padding: 12px 24px;
-      border-radius: 30px;
-      font-family: 'Quicksand', cursive;
-      font-size: 0.9rem;
-      z-index: 1100;
-      animation: fadeOut 3s ease forwards;
+    /* Estilos para la imagen de motivación */
+    .motivacion-container {
+      margin-top: 25px;
+      margin-bottom: 10px;
+      text-align: center;
     }
-    @keyframes fadeOut {
-      0% { opacity: 1; }
-      70% { opacity: 1; }
-      100% { opacity: 0; visibility: hidden; }
+    .motivacion-marco {
+      background: #FFE4E8;
+      padding: 15px;
+      border-radius: 20px;
+      display: block;
+      width: 100%;
+      border: 2px solid #F4C2D0;
+    }
+    .motivacion-imagen {
+      width: 100%;
+      height: auto;
+      max-height: 300px;
+      object-fit: contain;
+      border-radius: 12px;
+      display: block;
+    }
+    .motivacion-texto {
+      margin-top: 15px;
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #D86F8B;
+      font-family: 'Quicksand', 'Comic Neue', cursive;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
     aside { display: flex; flex-direction: column; gap: 1.5rem; }
@@ -455,6 +284,7 @@
       font-weight: 700;
     }
 
+    /* Widget de música */
     .widget-musica {
       background: linear-gradient(135deg, #FFE4E8, #FFD1DC);
     }
@@ -473,6 +303,7 @@
       font-family: 'Quicksand', cursive;
     }
 
+    /* Widget de slideshow de paisajes */
     .widget-paisajes {
       background: linear-gradient(135deg, #E8F4FD, #D1E8F5);
     }
@@ -589,45 +420,6 @@
       font-size: .85rem;
     }
 
-    .tabs-semana {
-      display: flex;
-      gap: 5px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .tab-btn {
-      background: #FFF0F5;
-      border: 2px solid #F4C2D0;
-      padding: 8px 12px;
-      border-radius: 25px;
-      cursor: pointer;
-      font-family: 'Quicksand', cursive;
-      font-weight: 600;
-      color: #D86F8B;
-      transition: all 0.3s ease;
-    }
-
-    .tab-btn.activo {
-      background: #D86F8B;
-      color: white;
-      border-color: #D86F8B;
-    }
-
-    .tab-btn:hover {
-      background: #F4A4B8;
-      color: white;
-    }
-
-    .contenido-dia {
-      display: none;
-    }
-
-    .contenido-dia.activo {
-      display: block;
-    }
-
     @media (max-width: 640px) {
       .contenedor { grid-template-columns: 1fr; }
       .articulo-img {
@@ -636,18 +428,12 @@
       .motivacion-texto {
         font-size: 1rem;
       }
-      .tareas-controles {
-        flex-direction: column;
-      }
       .musica-iframe {
         min-height: 180px;
       }
-      .input-group {
-        flex-direction: column;
-      }
-      .tab-btn {
-        font-size: 0.7rem;
-        padding: 5px 8px;
+      .tabla-tareas th, .tabla-tareas td {
+        font-size: 0.75rem;
+        padding: 6px;
       }
     }
   </style>
@@ -726,10 +512,6 @@
 </footer>
 
 <script>
-  // ── CONFIGURACIÓN DE JSONBIN ──────────────────────────────────────
-  const JSONBIN_BIN_ID = "69f61b70aaba88219762c4ba";
-  const JSONBIN_API_KEY = "$2a$10$0vs7OF.isD.9agxSUGSxFOVIPIAny8Ic.RvTQGKDyfIdxrktVxD02";
-
   // ── SLIDESHOW PRINCIPAL ──────────────────────────────────────────
   const slides = document.querySelectorAll('.slide');
   let actualSlide = 0, timerPrincipal;
@@ -811,356 +593,152 @@
   cargarImagenesPaisajes();
   reiniciarTimerPaisajes();
 
-  // ── FUNCIONES GLOBALES ─────────────────────────────────────
-  function mostrarMensaje(texto) {
-    const mensaje = document.createElement('div');
-    mensaje.className = 'toast-mensaje';
-    mensaje.textContent = texto;
-    document.body.appendChild(mensaje);
-    setTimeout(() => mensaje.remove(), 3000);
-  }
+  // ── DATOS ESTÁTICOS PARA TABLAS (EDITA AQUÍ) ─────────────────────
+  // ============================================================
+  // 🟢 LISTA DE TAREAS SIMPLES - Edita esta tabla
+  // Formato: { id: número, texto: "tarea", completada: true/false }
+  // ============================================================
+  let tareasSimples = [
+    { id: 1, texto: "Póster de P y P (Pasar a plantilla para mandar a imprimir en papel bond)", completada: false },
+    { id: 2, texto: "Empezar trabajo plan de atención de enfermería", completada: false },
+    { id: 3, texto: "Estudiar para examen de fisiología", completada: true },
+    { id: 4, texto: "Comprar materiales para la práctica", completada: false }
+  ];
 
-  // ── FUNCIONES DE JSONBIN (NUBE) con mejor manejo de errores ──
-  async function guardarEnNube() {
-    const datosCompletos = {
-      tareasSimples: tareasSimples,
-      tareasPorDia: tareasPorDia,
-      ultimaActualizacion: new Date().toISOString()
-    };
-    
-    try {
-      mostrarMensaje('☁️ Guardando en la nube...');
-      
-      const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Master-Key': JSONBIN_API_KEY,
-          'X-Bin-Private': 'false'
-        },
-        body: JSON.stringify(datosCompletos)
-      });
-      
-      if (response.ok) {
-        console.log('✅ Guardado en la nube');
-        mostrarMensaje('✅ ¡Tareas guardadas en la nube!');
-        return true;
-      } else {
-        const errorText = await response.text();
-        console.error('Error al guardar:', response.status, errorText);
-        mostrarMensaje('⚠️ No se pudo guardar en la nube, pero las tareas están guardadas localmente');
-        return false;
-      }
-    } catch (error) {
-      console.error('Error de red:', error);
-      mostrarMensaje('⚠️ Sin conexión a internet. Las tareas se guardaron localmente.');
-      return false;
-    }
-  }
+  // ============================================================
+  // 🟢 TAREAS POR DÍA DE LA SEMANA - Edita esta tabla
+  // Formato: { dia: "lunes", tarea: "descripción", fechaLimite: "2026-05-10", completada: false }
+  // ============================================================
+  let tareasSemanales = [
+    { id: 1, dia: "lunes", tarea: "Revisión de apuntes de obstetricia", fechaLimite: "2026-05-12", completada: false },
+    { id: 2, dia: "martes", tarea: "Práctica de monitoría fetal", fechaLimite: "2026-05-13", completada: false },
+    { id: 3, dia: "miércoles", tarea: "Estudio de farmacología en partos", fechaLimite: "2026-05-14", completada: true },
+    { id: 4, dia: "jueves", tarea: "Simulación de emergencias obstétricas", fechaLimite: "2026-05-15", completada: false },
+    { id: 5, dia: "viernes", tarea: "Entrega de trabajo de investigación", fechaLimite: "2026-05-16", completada: false },
+    { id: 6, dia: "sábado", tarea: "Repaso general de la rotación", fechaLimite: "2026-05-17", completada: false },
+    { id: 7, dia: "domingo", tarea: "Descanso y preparación para próxima semana", fechaLimite: "2026-05-18", completada: false }
+  ];
 
-  async function cargarDesdeNube() {
-    mostrarMensaje('☁️ Cargando desde la nube...');
-    
-    try {
-      const response = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
-        method: 'GET',
-        headers: {
-          'X-Master-Key': JSONBIN_API_KEY
-        }
-      });
-      
-      if (!response.ok) {
-        console.log('No se pudo cargar desde la nube');
-        mostrarMensaje('⚠️ No se encontraron tareas en la nube');
-        return false;
-      }
-      
-      const data = await response.json();
-      
-      if (data.record) {
-        let cambios = false;
-        
-        if (data.record.tareasSimples && Array.isArray(data.record.tareasSimples)) {
-          tareasSimples = data.record.tareasSimples;
-          guardarTareasSimples();
-          if (typeof renderizarTareasSimples === 'function') {
-            renderizarTareasSimples();
-          }
-          cambios = true;
-        }
-        
-        if (data.record.tareasPorDia && typeof data.record.tareasPorDia === 'object') {
-          tareasPorDia = data.record.tareasPorDia;
-          guardarTareasPorDia();
-          cambios = true;
-        }
-        
-        if (cambios) {
-          mostrarMensaje('✅ ¡Tareas cargadas desde la nube!');
-          
-          if (typeof renderizarTareasPorDia === 'function') {
-            const diaActivo = document.querySelector('.tab-btn.activo')?.getAttribute('data-dia');
-            if (diaActivo) {
-              renderizarTareasPorDia(diaActivo);
-            }
-          }
-        }
-        return true;
-      }
-    } catch (error) {
-      console.error('Error cargando de la nube:', error);
-      mostrarMensaje('⚠️ Error al cargar desde la nube');
-    }
-    return false;
-  }
-
-  async function sincronizarConNube() {
-    await guardarEnNube();
-  }
-
-  // ── FUNCIONES PARA TAREAS SIMPLES (Post 0) ─────────────────
-  let tareasSimples = [];
-
+  // Guardar en localStorage (para mantener el estado de completado)
   function guardarTareasSimples() {
-    localStorage.setItem('listaTareas', JSON.stringify(tareasSimples));
+    localStorage.setItem('listaTareasStatic', JSON.stringify(tareasSimples));
   }
 
-  function cargarTareasSimples() {
-    const guardadas = localStorage.getItem('listaTareas');
+  function cargarTareasSimplesStatic() {
+    const guardadas = localStorage.getItem('listaTareasStatic');
     if (guardadas) {
       tareasSimples = JSON.parse(guardadas);
-    } else {
-      tareasSimples = [
-        { id: 1, texto: "Póster de P y P (Pasar a plantilla para mandar a imprimir en papel bond)", completada: false },
-        { id: 2, texto: "Empezar trabajo plan de atención de enfermería", completada: false }
-      ];
     }
-    renderizarTareasSimples();
   }
 
-  function renderizarTareasSimples() {
-    const container = document.getElementById('lista-tareas-container');
+  function guardarTareasSemanales() {
+    localStorage.setItem('tareasSemanalesStatic', JSON.stringify(tareasSemanales));
+  }
+
+  function cargarTareasSemanalesStatic() {
+    const guardadas = localStorage.getItem('tareasSemanalesStatic');
+    if (guardadas) {
+      tareasSemanales = JSON.parse(guardadas);
+    }
+  }
+
+  // Renderizar tabla de tareas simples
+  function renderizarTablaTareasSimples() {
+    const container = document.getElementById('tabla-tareas-container');
     if (!container) return;
     
-    if (tareasSimples.length === 0) {
-      container.innerHTML = '<p style="text-align:center; color:#C97A9A;">✨ ¡No hay tareas pendientes! ✨</p>';
-      return;
-    }
+    let html = `
+      <table class="tabla-tareas">
+        <thead>
+          <tr><th style="width: 40px">✓</th><th>Tarea</th></tr>
+        </thead>
+        <tbody>
+    `;
     
-    container.innerHTML = tareasSimples.map(tarea => `
-      <label class="tarea-item">
-        <input type="checkbox" class="tarea-checkbox-simple" data-id="${tarea.id}" ${tarea.completada ? 'checked' : ''}>
-        <span style="${tarea.completada ? 'text-decoration: line-through; color: #C97A9A;' : ''}">${escapeHtml(tarea.texto)}</span>
-      </label>
-    `).join('');
+    tareasSimples.forEach(tarea => {
+      html += `
+        <tr>
+          <td><input type="checkbox" class="check-simple" data-id="${tarea.id}" ${tarea.completada ? 'checked' : ''}></td>
+          <td class="${tarea.completada ? 'tarea-completada' : ''}">${escapeHtml(tarea.texto)}</td>
+        </tr>
+      `;
+    });
     
-    document.querySelectorAll('.tarea-checkbox-simple').forEach(checkbox => {
-      checkbox.addEventListener('change', async function(e) {
+    html += `
+        </tbody>
+      </table>
+      <div class="nota-static">
+        📝 Para modificar estas tareas, edita el array "tareasSimples" en el código JavaScript
+      </div>
+    `;
+    
+    container.innerHTML = html;
+    
+    document.querySelectorAll('.check-simple').forEach(checkbox => {
+      checkbox.addEventListener('change', function(e) {
         const id = parseInt(this.getAttribute('data-id'));
         const tarea = tareasSimples.find(t => t.id === id);
         if (tarea) {
           tarea.completada = this.checked;
           guardarTareasSimples();
-          renderizarTareasSimples();
-          await guardarEnNube();
+          renderizarTablaTareasSimples();
         }
       });
     });
   }
 
-  async function agregarTareaSimple() {
-    const input = document.getElementById('nueva-tarea-input');
-    const texto = input.value.trim();
-    if (texto === '') {
-      alert('🌸 Por favor escribe una tarea 🌸');
-      return;
-    }
-    
-    const nuevoId = Math.max(...tareasSimples.map(t => t.id), 0) + 1;
-    tareasSimples.push({
-      id: nuevoId,
-      texto: texto,
-      completada: false
-    });
-    guardarTareasSimples();
-    input.value = '';
-    renderizarTareasSimples();
-    mostrarMensaje('✨ Tarea agregada localmente');
-    await guardarEnNube();
-  }
-
-  async function eliminarUltimaTareaSimple() {
-    if (tareasSimples.length === 0) {
-      alert('✨ No hay tareas para eliminar ✨');
-      return;
-    }
-    tareasSimples.pop();
-    guardarTareasSimples();
-    renderizarTareasSimples();
-    mostrarMensaje('🗑️ Última tarea eliminada');
-    await guardarEnNube();
-  }
-
-  // ── FUNCIONES PARA TAREAS POR DÍA DE LA SEMANA (Post 1) ─────
-  const diasSemana = ['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo'];
-  let tareasPorDia = {};
-
-  function guardarTareasPorDia() {
-    localStorage.setItem('tareasPorDia', JSON.stringify(tareasPorDia));
-  }
-
-  function cargarTareasPorDia() {
-    const tareasGuardadas = localStorage.getItem('tareasPorDia');
-    if (tareasGuardadas) {
-      tareasPorDia = JSON.parse(tareasGuardadas);
-    } else {
-      diasSemana.forEach(dia => {
-        tareasPorDia[dia] = [];
-      });
-    }
-  }
-
-  function renderizarTareasPorDia(dia) {
-    const container = document.getElementById(`tareas-${dia}`);
+  // Renderizar tabla de tareas semanales
+  function renderizarTablaTareasSemanales() {
+    const container = document.getElementById('tabla-semanas-container');
     if (!container) return;
     
-    const tareas = tareasPorDia[dia] || [];
+    // Traducir días
+    const diasEsp = {
+      lunes: "Lunes", martes: "Martes", miércoles: "Miércoles", 
+      jueves: "Jueves", viernes: "Viernes", sábado: "Sábado", domingo: "Domingo"
+    };
     
-    if (tareas.length === 0) {
-      container.innerHTML = '<p style="text-align:center; color:#C97A9A; padding:10px;">✨ No hay tareas para este día ✨</p>';
-      return;
-    }
+    let html = `
+      <table class="tabla-tareas">
+        <thead>
+          <tr><th style="width: 40px">✓</th><th>Día</th><th>Tarea</th><th>Fecha Límite</th></tr>
+        </thead>
+        <tbody>
+    `;
     
-    container.innerHTML = tareas.map((tarea, index) => `
-      <label class="tarea-item">
-        <input type="checkbox" class="tarea-checkbox-dia" data-dia="${dia}" data-index="${index}" ${tarea.completada ? 'checked' : ''}>
-        <div style="flex: 1;">
-          <span style="${tarea.completada ? 'text-decoration: line-through; color: #C97A9A;' : ''}">${escapeHtml(tarea.texto)}</span>
-          ${tarea.fechaLimite ? `<div class="tarea-fecha">📅 ${tarea.fechaLimite}</div>` : ''}
-        </div>
-      </label>
-    `).join('');
+    tareasSemanales.forEach(tarea => {
+      const fechaFormateada = tarea.fechaLimite ? tarea.fechaLimite : "Sin fecha";
+      html += `
+        <tr>
+          <td><input type="checkbox" class="check-semanal" data-id="${tarea.id}" ${tarea.completada ? 'checked' : ''}></td>
+          <td><strong>${diasEsp[tarea.dia] || tarea.dia}</strong></td>
+          <td class="${tarea.completada ? 'tarea-completada' : ''}">${escapeHtml(tarea.tarea)}</td>
+          <td>📅 ${fechaFormateada}</td>
+        </tr>
+      `;
+    });
     
-    document.querySelectorAll('.tarea-checkbox-dia').forEach(checkbox => {
-      checkbox.addEventListener('change', async function(e) {
-        const dia = this.getAttribute('data-dia');
-        const index = parseInt(this.getAttribute('data-index'));
-        if (tareasPorDia[dia] && tareasPorDia[dia][index]) {
-          tareasPorDia[dia][index].completada = this.checked;
-          guardarTareasPorDia();
-          renderizarTareasPorDia(dia);
-          await guardarEnNube();
+    html += `
+        </tbody>
+      </table>
+      <div class="nota-static">
+        📝 Para modificar estas tareas, edita el array "tareasSemanales" en el código JavaScript
+      </div>
+    `;
+    
+    container.innerHTML = html;
+    
+    document.querySelectorAll('.check-semanal').forEach(checkbox => {
+      checkbox.addEventListener('change', function(e) {
+        const id = parseInt(this.getAttribute('data-id'));
+        const tarea = tareasSemanales.find(t => t.id === id);
+        if (tarea) {
+          tarea.completada = this.checked;
+          guardarTareasSemanales();
+          renderizarTablaTareasSemanales();
         }
       });
     });
-  }
-
-  async function agregarTareaDia(dia) {
-    const input = document.getElementById(`input-${dia}`);
-    const fechaInput = document.getElementById(`fecha-${dia}`);
-    const texto = input.value.trim();
-    const fechaLimite = fechaInput.value;
-    
-    if (texto === '') {
-      alert(`🌸 Por favor escribe una tarea para el ${dia} 🌸`);
-      return;
-    }
-    
-    if (!tareasPorDia[dia]) {
-      tareasPorDia[dia] = [];
-    }
-    
-    tareasPorDia[dia].push({
-      id: Date.now(),
-      texto: texto,
-      fechaLimite: fechaLimite,
-      completada: false
-    });
-    
-    guardarTareasPorDia();
-    input.value = '';
-    fechaInput.value = '';
-    renderizarTareasPorDia(dia);
-    mostrarMensaje(`✨ Tarea agregada a ${dia}`);
-    await guardarEnNube();
-  }
-
-  function cambiarDia(dia) {
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('activo'));
-    document.querySelector(`.tab-btn[data-dia="${dia}"]`).classList.add('activo');
-    document.querySelectorAll('.contenido-dia').forEach(contenido => contenido.classList.remove('activo'));
-    document.getElementById(`dia-${dia}`).classList.add('activo');
-    renderizarTareasPorDia(dia);
-  }
-
-  async function eliminarUltimaTareaDia(dia) {
-    if (!tareasPorDia[dia] || tareasPorDia[dia].length === 0) {
-      alert(`✨ No hay tareas para eliminar en ${dia} ✨`);
-      return;
-    }
-    tareasPorDia[dia].pop();
-    guardarTareasPorDia();
-    renderizarTareasPorDia(dia);
-    mostrarMensaje(`🗑️ Última tarea eliminada de ${dia}`);
-    await guardarEnNube();
-  }
-
-  // ── FUNCIONES DE EXPORTAR/IMPORTAR ─────────────────────────
-  function exportarTodasLasTareas() {
-    const datosCompletos = {
-      tareasSimples: tareasSimples,
-      tareasPorDia: tareasPorDia,
-      fechaExportacion: new Date().toISOString()
-    };
-    
-    const dataStr = JSON.stringify(datosCompletos, null, 2);
-    const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
-    const exportFileDefaultName = `mis-tareas-completas_${new Date().toISOString().slice(0,10)}.json`;
-    
-    const linkElement = document.createElement('a');
-    linkElement.setAttribute('href', dataUri);
-    linkElement.setAttribute('download', exportFileDefaultName);
-    linkElement.click();
-    
-    mostrarMensaje('📤 ¡Tareas exportadas correctamente!');
-  }
-
-  function importarTareas(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    
-    const reader = new FileReader();
-    
-    reader.onload = async function(e) {
-      try {
-        const datosImportados = JSON.parse(e.target.result);
-        
-        if (datosImportados.tareasSimples && Array.isArray(datosImportados.tareasSimples)) {
-          tareasSimples = datosImportados.tareasSimples;
-          guardarTareasSimples();
-          renderizarTareasSimples();
-        }
-        
-        if (datosImportados.tareasPorDia && typeof datosImportados.tareasPorDia === 'object') {
-          tareasPorDia = datosImportados.tareasPorDia;
-          guardarTareasPorDia();
-          const diaActivo = document.querySelector('.tab-btn.activo')?.getAttribute('data-dia');
-          if (diaActivo) {
-            renderizarTareasPorDia(diaActivo);
-          } else {
-            diasSemana.forEach(dia => renderizarTareasPorDia(dia));
-          }
-        }
-        
-        mostrarMensaje(`✅ ¡Importadas correctamente!`);
-        await guardarEnNube();
-      } catch (error) {
-        alert('❌ Error al importar: archivo inválido');
-      }
-    };
-    
-    reader.readAsText(file);
-    event.target.value = '';
   }
 
   function escapeHtml(text) {
@@ -1179,7 +757,8 @@
       autor: "Yo mismo",
       resumen: "Tareas pendientes que aún no puedo completar pero en las que puedo trabajar",
       contenido: ``,
-      gif: "Keep.gif"
+      gif: "Keep.gif",
+      usarTabla: true
     },
     {
       imagen: "alien.jpg",
@@ -1189,7 +768,8 @@
       autor: "Yo mismo",
       resumen: "Organiza tus tareas por cada día de la semana con fechas límite 🌸",
       contenido: ``,
-      gif: null
+      gif: null,
+      usarTabla: true
     },
     {
       imagen: "japan3.jpg",
@@ -1227,7 +807,7 @@
       </article>`;
   });
 
-  async function abrirModal(i) {
+  function abrirModal(i) {
     const p = posts[i];
     document.getElementById('m-cat').textContent = p.categoria;
     document.getElementById('m-titulo').textContent = p.titulo;
@@ -1236,23 +816,12 @@
     let contenidoFinal = '';
 
     if (i === 0) {
+      // Cargar tareas estáticas y renderizar tabla
+      cargarTareasSimplesStatic();
+      renderizarTablaTareasSimples();
+      
       contenidoFinal = `
-        <div class="botones-sync-modal">
-          <button class="btn-sync nube" onclick="sincronizarConNube()">☁️ Guardar en nube</button>
-          <button class="btn-sync" onclick="cargarDesdeNube()">📥 Cargar de nube</button>
-          <button class="btn-sync" onclick="exportarTodasLasTareas()">📤 Exportar</button>
-          <input type="file" id="importarArchivoGlobal" accept=".json" style="display:none" onchange="importarTareas(event)">
-          <button class="btn-sync importar" onclick="document.getElementById('importarArchivoGlobal').click()">📥 Importar</button>
-        </div>
-        <div class="tareas-controles">
-          <div class="input-group">
-            <input type="text" id="nueva-tarea-input" class="nueva-tarea-input" placeholder="Escribe una nueva tarea...">
-            <button class="btn-tarea" onclick="agregarTareaSimple()">➕ Agregar</button>
-            <button class="btn-tarea btn-eliminar" onclick="eliminarUltimaTareaSimple()">🗑️ Eliminar última</button>
-          </div>
-        </div>
-        <div id="lista-tareas-container"></div>
-        
+        <div id="tabla-tareas-container"></div>
         <div class="motivacion-container">
           <div class="motivacion-marco">
             <img src="sevenseven.jpg" alt="Imagen de motivación" class="motivacion-imagen" onerror="this.src='https://via.placeholder.com/600x300/FFD1DC/B3416B?text=🌟+Tú+puedes+con+todo+🌟'">
@@ -1263,40 +832,12 @@
         </div>
       `;
     } else if (i === 1) {
-      let tabsHtml = '<div class="tabs-semana">';
-      let contenidoHtml = '';
-      
-      diasSemana.forEach((dia, idx) => {
-        const activo = idx === 0 ? 'activo' : '';
-        tabsHtml += `<button class="tab-btn ${activo}" data-dia="${dia}" onclick="cambiarDia('${dia}')">${dia.toUpperCase()}</button>`;
-        
-        contenidoHtml += `
-          <div id="dia-${dia}" class="contenido-dia ${activo}">
-            <div class="tareas-dia-container">
-              <div class="agregar-tarea-dia">
-                <input type="text" id="input-${dia}" class="input-pequeno" placeholder="Nueva tarea para ${dia}...">
-                <input type="date" id="fecha-${dia}" class="input-pequeno">
-                <button class="btn-pequeno" onclick="agregarTareaDia('${dia}')">➕ Agregar</button>
-                <button class="btn-pequeno btn-eliminar" onclick="eliminarUltimaTareaDia('${dia}')">🗑️</button>
-              </div>
-              <div id="tareas-${dia}"></div>
-            </div>
-          </div>
-        `;
-      });
-      tabsHtml += '</div>';
+      // Cargar tareas semanales estáticas y renderizar tabla
+      cargarTareasSemanalesStatic();
+      renderizarTablaTareasSemanales();
       
       contenidoFinal = `
-        <div class="botones-sync-modal">
-          <button class="btn-sync nube" onclick="sincronizarConNube()">☁️ Guardar en nube</button>
-          <button class="btn-sync" onclick="cargarDesdeNube()">📥 Cargar de nube</button>
-          <button class="btn-sync" onclick="exportarTodasLasTareas()">📤 Exportar</button>
-          <input type="file" id="importarArchivoGlobal2" accept=".json" style="display:none" onchange="importarTareas(event)">
-          <button class="btn-sync importar" onclick="document.getElementById('importarArchivoGlobal2').click()">📥 Importar</button>
-        </div>
-        ${tabsHtml}
-        ${contenidoHtml}
-        
+        <div id="tabla-semanas-container"></div>
         <div class="motivacion-container">
           <div class="motivacion-marco">
             <img src="sevenseven.jpg" alt="Imagen de motivación" class="motivacion-imagen" onerror="this.src='https://via.placeholder.com/600x300/FFD1DC/B3416B?text=🌟+Organiza+tu+semana+con+cariño+🌟'">
@@ -1319,16 +860,6 @@
     
     document.getElementById('m-contenido').innerHTML = contenidoFinal;
     document.getElementById('modal').classList.add('activo');
-    
-    if (i === 0) {
-      cargarTareasSimples();
-    } else if (i === 1) {
-      cargarTareasPorDia();
-      diasSemana.forEach(dia => renderizarTareasPorDia(dia));
-    }
-    
-    // Intentar cargar desde la nube al abrir
-    await cargarDesdeNube();
   }
 
   function cerrarModal() {
