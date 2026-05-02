@@ -354,12 +354,12 @@
     {
       imagen: "Buddha.jpg",
       categoria: "Tecnología",
-      titulo: "Lista de tareas por hacer pendientes",
+      titulo: "Lista de tareas (˶ ´༥` ˶)୭",
       fecha: "1 de mayo, 2026",
       autor: "Yo mismo",
-      resumen: "Aprender a crear páginas web desde cero es más fácil de lo que crees. En este artículo te cuento mi experiencia paso a paso.",
-      contenido: `<p>Póster de P y P (Pasar a plantilla para mandar a imprimir en papel bond)</p>
-                  <p>Empezar trabajo plan de atención de enfermería</p>`,
+      resumen: "Tareas pendientes pero que no puedo completar.",
+      contenido: `<p>ദ്ദി ˉ͈̀꒳ˉ͈́ )✧Póster de P y P (Pasar a plantilla para mandar a imprimir en papel bond)</p>
+                  <p>ദ്ദി ˉ͈̀꒳ˉ͈́ )✧Empezar trabajo plan de atención de enfermería</p>`,
       gif: "Keep.gif"  // GIF para este post
     },
     {
@@ -406,6 +406,47 @@
     document.getElementById('m-cat').textContent = p.categoria;
     document.getElementById('m-titulo').textContent = p.titulo;
     document.getElementById('m-meta').textContent = `📅 ${p.fecha}  ·  ✍️ ${p.autor}`;
+
+    let contenidoFinal = '';
+
+    if (i === 0) { // Para el primer post con tareas
+    contenidoFinal = `
+      <div class="lista-tareas">
+        <label class="tarea-item">
+          <input type="checkbox" class="tarea-checkbox" data-tarea="1" ${localStorage.getItem('tarea1') === 'true' ? 'checked' : ''}>
+          <span>Póster de P y P (Pasar a plantilla para mandar a imprimir en papel bond)</span>
+        </label>
+        <label class="tarea-item">
+          <input type="checkbox" class="tarea-checkbox" data-tarea="2" ${localStorage.getItem('tarea2') === 'true' ? 'checked' : ''}>
+          <span>Empezar trabajo plan de atención de enfermería</span>
+        </label>
+      </div>
+    `;
+  } else if (p.gif && p.gif !== null) {
+    contenidoFinal = `
+      <div class="modal-gif-container">
+        <img src="${p.gif}" alt="GIF animado">
+      </div>
+      ${p.contenido}
+    `;
+  } else {
+    contenidoFinal = p.contenido;
+  }
+  
+  document.getElementById('m-contenido').innerHTML = contenidoFinal;
+  document.getElementById('modal').classList.add('activo');
+  
+  // Agregar event listeners para guardar el estado de los checkboxes
+  if (i === 0) {
+    const checkboxes = document.querySelectorAll('.tarea-checkbox');
+    checkboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', function(e) {
+        const tareaId = this.getAttribute('data-tarea');
+        localStorage.setItem(`tarea${tareaId}`, this.checked);
+      });
+    });
+  }
+}
     
     // Construir contenido con GIF si existe
     let contenidoFinal = '';
