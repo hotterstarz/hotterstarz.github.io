@@ -191,6 +191,58 @@
     }
     .tag:hover { background: #1a1a2e; color: white; }
 
+    /* ── SLIDESHOW ── */
+    .slideshow {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      border-radius: 6px;
+      background: #eee;
+    }
+    .slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity .6s ease;
+    }
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .slide.activo { opacity: 1; }
+    .slide-btns {
+      display: flex;
+      justify-content: space-between;
+      margin-top: .6rem;
+    }
+    .slide-btn {
+      background: #1a1a2e;
+      color: white;
+      border: none;
+      padding: .3rem .8rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background .2s;
+    }
+    .slide-btn:hover { background: #f0a500; }
+    .slide-dots {
+      display: flex;
+      justify-content: center;
+      gap: .4rem;
+      margin-top: .5rem;
+    }
+    .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #ccc;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .dot.activo { background: #1a1a2e; }
+
     /* ── FOOTER ── */
     footer {
       background: #1a1a2e;
@@ -225,6 +277,20 @@
 <div class="contenedor">
   <main id="posts"></main>
   <aside>
+    <div class="widget">
+      <h3>Galería</h3>
+      <div class="slideshow" id="slideshow">
+        <div class="slide activo"><img src="chii.jpg" alt="Foto 1"></div>
+        <div class="slide"><img src="umibe no onnanoko.jpg" alt="Foto 2"></div>
+        <div class="slide"><img src="gwen stacy _ spiderman _ marvel aesthetic.jpg" alt="Foto 3"></div>
+      </div>
+      <div class="slide-dots" id="dots"></div>
+      <div class="slide-btns">
+        <button class="slide-btn" onclick="cambiarSlide(-1)">&#8592;</button>
+        <button class="slide-btn" onclick="cambiarSlide(1)">&#8594;</button>
+      </div>
+    </div>
+
     <div class="widget">
       <h3>Sobre mí</h3>
       <p style="font-size:.9rem;color:#555;line-height:1.6">
@@ -270,7 +336,37 @@
 </footer>
 
 <script>
-  const posts = [
+  // ── SLIDESHOW ─────────────────────────────────────────────
+  const slides = document.querySelectorAll('.slide');
+  const dotsEl = document.getElementById('dots');
+  let actual = 0, timer;
+
+  slides.forEach((_, i) => {
+    const d = document.createElement('span');
+    d.className = 'dot' + (i === 0 ? ' activo' : '');
+    d.onclick = () => irA(i);
+    dotsEl.appendChild(d);
+  });
+
+  function irA(n) {
+    slides[actual].classList.remove('activo');
+    document.querySelectorAll('.dot')[actual].classList.remove('activo');
+    actual = (n + slides.length) % slides.length;
+    slides[actual].classList.add('activo');
+    document.querySelectorAll('.dot')[actual].classList.add('activo');
+    reiniciarTimer();
+  }
+
+  function cambiarSlide(dir) { irA(actual + dir); }
+
+  function reiniciarTimer() {
+    clearInterval(timer);
+    timer = setInterval(() => cambiarSlide(1), 3000);
+  }
+
+  reiniciarTimer();
+
+  // ── POSTS ──────────────────────────────────────────────────
     {
       emoji: "💻",
       categoria: "Tecnología",
