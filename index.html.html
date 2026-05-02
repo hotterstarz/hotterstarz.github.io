@@ -498,140 +498,6 @@
       border-radius: 4px;
     }
 
-    /* Widget de Calendario */
-    .widget-calendario {
-      background: linear-gradient(135deg, #FFF0F5, #FFE4E8);
-    }
-    .calendario-mes {
-      text-align: center;
-      font-size: 1.1rem;
-      font-weight: bold;
-      color: #B3416B;
-      margin-bottom: 15px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .btn-mes {
-      background: #D86F8B;
-      color: white;
-      border: none;
-      padding: 5px 12px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-family: 'Quicksand', cursive;
-      font-size: 0.8rem;
-      transition: all 0.3s ease;
-    }
-    .btn-mes:hover {
-      background: #B3416B;
-      transform: scale(1.05);
-    }
-    .calendario-dias-semana {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      text-align: center;
-      font-weight: bold;
-      color: #D86F8B;
-      margin-bottom: 8px;
-      font-size: 0.75rem;
-    }
-    .calendario-dias {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 4px;
-    }
-    .dia-calendario {
-      background: #FFF5F7;
-      border-radius: 8px;
-      padding: 8px 4px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-size: 0.8rem;
-      position: relative;
-      border: 1px solid #F4C2D0;
-    }
-    .dia-calendario:hover {
-      background: #FFE4E8;
-      transform: scale(1.05);
-    }
-    .dia-calendario.tiene-tareas {
-      background: #FFD1DC;
-      font-weight: bold;
-    }
-    .dia-calendario.tiene-tareas::after {
-      content: "•";
-      position: absolute;
-      bottom: 2px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: #D86F8B;
-      font-size: 12px;
-    }
-    .dia-calendario.activo {
-      background: #D86F8B;
-      color: white;
-      border-color: #D86F8B;
-    }
-    .tareas-del-dia {
-      margin-top: 15px;
-      padding-top: 10px;
-      border-top: 1px solid #F4C2D0;
-    }
-    .tareas-del-dia h4 {
-      color: #B3416B;
-      font-size: 0.9rem;
-      margin-bottom: 8px;
-    }
-    .lista-tareas-fecha {
-      max-height: 150px;
-      overflow-y: auto;
-    }
-    .tarea-fecha-item {
-      font-size: 0.75rem;
-      padding: 5px;
-      background: #FFF5F7;
-      border-radius: 8px;
-      margin-bottom: 4px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .tarea-fecha-item.completada {
-      text-decoration: line-through;
-      color: #C97A9A;
-    }
-    .checkbox-fecha {
-      width: 14px;
-      height: 14px;
-      accent-color: #D86F8B;
-      cursor: pointer;
-    }
-
-    .widget ul { list-style: none; }
-    .widget ul li {
-      padding: .5rem 0;
-      border-bottom: 1px solid #F4C2D0;
-      font-size: .9rem;
-      color: #5C3D4F;
-      font-family: 'Quicksand', 'Comic Neue', cursive;
-    }
-    .widget ul li:last-child { border: none; }
-    .tag-cloud { display: flex; flex-wrap: wrap; gap: .5rem; }
-    .tag {
-      background: #FFF0F5;
-      padding: .3rem .8rem;
-      border-radius: 20px;
-      font-size: .8rem;
-      font-family: 'Quicksand', 'Comic Neue', cursive;
-      color: #D86F8B;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      border: 1px solid #F4C2D0;
-    }
-    .tag:hover { background: #D86F8B; color: white; }
-
     .slideshow {
       position: relative;
       width: 100%;
@@ -740,13 +606,6 @@
         font-size: 0.7rem;
         padding: 5px 8px;
       }
-      .calendario-dias {
-        gap: 2px;
-      }
-      .dia-calendario {
-        font-size: 0.65rem;
-        padding: 4px 2px;
-      }
     }
   </style>
 </head>
@@ -757,7 +616,7 @@
   <a href="#">Tecnología</a>
   <a href="#">Viajes</a>
   <a href="#">Música</a>
-  <a href="#">Contacto</a>
+  <a href="calendario.html">📅 Calendario</a>
 </nav>
 
 <div class="contenedor">
@@ -782,35 +641,15 @@
     <div class="widget widget-paisajes">
       <h3>🏔️ Paisajes que Inspiran 🌅</h3>
       <div class="slideshow-paisajes" id="slideshowPaisajes">
-        <div class="slide-paisaje activo"><img srcs="Ipanema.jpg" alt="Paisaje 1"></div>
-        <div class="slide-paisaje"><img srcs="Japan1.jpg" alt="Paisaje 2"></div>
-        <div class="slide-paisaje"><img srcs="Japan2.jpg"alt="Paisaje 3"></div>
-        <div class="slide-paisaje"><img id="paisaje4" alt="Paisaje 4"></div>
-        <div class="slide-paisaje"><img id="paisaje5" alt="Paisaje 5"></div>
+        <div class="slide-paisaje activo"><img src="Ipanema.jpg" alt="Paisaje 1"></div>
+        <div class="slide-paisaje"><img src="Japan1.jpg" alt="Paisaje 2"></div>
+        <div class="slide-paisaje"><img src="Japan2.jpg" alt="Paisaje 3"></div>
       </div>
       <div class="slideshow-paisajes-btns">
         <button class="btn-paisaje" onclick="cambiarPaisaje(-1)">◀</button>
         <button class="btn-paisaje" onclick="cambiarPaisaje(1)">▶</button>
       </div>
       <div class="indicadores-paisajes" id="indicadoresPaisajes"></div>
-    </div>
-
-    <!-- WIDGET 3: CALENDARIO DE TAREAS -->
-    <div class="widget widget-calendario">
-      <h3>📅 Calendario de Tareas</h3>
-      <div class="calendario-mes">
-        <button class="btn-mes" onclick="cambiarMes(-1)">◀</button>
-        <span id="mesActual"></span>
-        <button class="btn-mes" onclick="cambiarMes(1)">▶</button>
-      </div>
-      <div class="calendario-dias-semana">
-        <span>D</span><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span>
-      </div>
-      <div id="calendarioDias" class="calendario-dias"></div>
-      <div class="tareas-del-dia" id="tareasDelDia">
-        <h4>✨ Tareas del día ✨</h4>
-        <div id="listaTareasFecha" class="lista-tareas-fecha"></div>
-      </div>
     </div>
 
     <!-- Widget de música -->
@@ -826,30 +665,6 @@
       </iframe>
       <div class="musica-info">
         🎧 Mi playlist favorita 🎵
-      </div>
-    </div>
-
-    <div class="widget">
-      <h3>Categorías</h3>
-      <ul>
-        <li>💻 Tecnología (3)</li>
-        <li>✈️ Viajes (2)</li>
-        <li>📚 Libros (1)</li>
-        <li>🍕 Recetas (2)</li>
-        <li>🎵 Música (5)</li>
-      </ul>
-    </div>
-    <div class="widget">
-      <h3>Etiquetas</h3>
-      <div class="tag-cloud">
-        <span class="tag">HTML</span>
-        <span class="tag">CSS</span>
-        <span class="tag">JavaScript</span>
-        <span class="tag">Diseño</span>
-        <span class="tag">Viajes</span>
-        <span class="tag">Colombia</span>
-        <span class="tag">Tecnología</span>
-        <span class="tag">Música</span>
       </div>
     </div>
 
@@ -892,11 +707,9 @@
 
   // ── SLIDESHOW DE PAISAJES ───────────────────────────────────
   let imagenesPaisajes = [
-    "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800",
-    "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800",
-    "https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=800",
-    "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800",
-    "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800"
+    "Ipanema.jpg",
+    "Japan1.jpg",
+    "Japan2.jpg"
   ];
   
   let slidesPaisajes = document.querySelectorAll('.slide-paisaje');
@@ -954,166 +767,6 @@
   cargarImagenesPaisajes();
   reiniciarTimerPaisajes();
 
-  // ── CALENDARIO Y TAREAS GLOBALES ────────────────────────────
-  let fechaActual = new Date();
-  let todasLasTareas = []; // Almacena todas las tareas con fecha
-
-  // Cargar tareas de localStorage
-  function cargarTareasGlobales() {
-    const tareasGuardadas = localStorage.getItem('tareasCalendario');
-    if (tareasGuardadas) {
-      todasLasTareas = JSON.parse(tareasGuardadas);
-    } else {
-      todasLasTareas = [];
-    }
-  }
-
-  function guardarTareasGlobales() {
-    localStorage.setItem('tareasCalendario', JSON.stringify(todasLasTareas));
-  }
-
-  // Agregar tarea desde el calendario
-  function agregarTareaGlobal() {
-    const input = document.getElementById('nueva-tarea-calendario');
-    const fechaInput = document.getElementById('fecha-tarea-calendario');
-    const texto = input.value.trim();
-    const fecha = fechaInput.value;
-    
-    if (texto === '') {
-      alert('🌸 Por favor escribe una tarea 🌸');
-      return;
-    }
-    if (fecha === '') {
-      alert('📅 Por favor selecciona una fecha 📅');
-      return;
-    }
-    
-    todasLasTareas.push({
-      id: Date.now(),
-      texto: texto,
-      fecha: fecha,
-      completada: false
-    });
-    
-    guardarTareasGlobales();
-    input.value = '';
-    fechaInput.value = '';
-    renderizarCalendario();
-  }
-
-  function eliminarTareaGlobal(id) {
-    todasLasTareas = todasLasTareas.filter(t => t.id !== id);
-    guardarTareasGlobales();
-    renderizarCalendario();
-  }
-
-  function toggleCompletarTarea(id) {
-    const tarea = todasLasTareas.find(t => t.id === id);
-    if (tarea) {
-      tarea.completada = !tarea.completada;
-      guardarTareasGlobales();
-      renderizarCalendario();
-    }
-  }
-
-  // Renderizar calendario
-  function renderizarCalendario() {
-    const year = fechaActual.getFullYear();
-    const month = fechaActual.getMonth();
-    
-    const primerDia = new Date(year, month, 1);
-    const ultimoDia = new Date(year, month + 1, 0);
-    const inicioSemana = primerDia.getDay();
-    
-    const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-    document.getElementById('mesActual').textContent = `${meses[month]} ${year}`;
-    
-    let html = '';
-    // Días vacíos al inicio
-    for (let i = 0; i < inicioSemana; i++) {
-      html += '<div class="dia-calendario"></div>';
-    }
-    
-    // Días del mes
-    for (let dia = 1; dia <= ultimoDia.getDate(); dia++) {
-      const fechaStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
-      const tareasEnFecha = todasLasTareas.filter(t => t.fecha === fechaStr && !t.completada);
-      const tieneTareas = tareasEnFecha.length > 0;
-      
-      html += `<div class="dia-calendario ${tieneTareas ? 'tiene-tareas' : ''}" onclick="seleccionarFecha('${fechaStr}')">${dia}</div>`;
-    }
-    
-    document.getElementById('calendarioDias').innerHTML = html;
-    
-    // Mostrar tareas de la fecha seleccionada (si hay)
-    const fechaSeleccionada = document.getElementById('fechaSeleccionada')?.value || `${year}-${String(month + 1).padStart(2, '0')}-01`;
-    mostrarTareasPorFecha(fechaSeleccionada);
-  }
-
-  function seleccionarFecha(fecha) {
-    const inputFecha = document.getElementById('fechaSeleccionada');
-    if (!inputFecha) {
-      const hidden = document.createElement('input');
-      hidden.type = 'hidden';
-      hidden.id = 'fechaSeleccionada';
-      document.body.appendChild(hidden);
-    }
-    document.getElementById('fechaSeleccionada').value = fecha;
-    mostrarTareasPorFecha(fecha);
-  }
-
-  function mostrarTareasPorFecha(fecha) {
-    const tareasEnFecha = todasLasTareas.filter(t => t.fecha === fecha);
-    const container = document.getElementById('listaTareasFecha');
-    
-    if (tareasEnFecha.length === 0) {
-      container.innerHTML = '<p style="text-align:center; color:#C97A9A; padding:10px;">✨ No hay tareas para esta fecha ✨</p>';
-      return;
-    }
-    
-    container.innerHTML = tareasEnFecha.map(tarea => `
-      <div class="tarea-fecha-item ${tarea.completada ? 'completada' : ''}">
-        <input type="checkbox" class="checkbox-fecha" ${tarea.completada ? 'checked' : ''} onchange="toggleCompletarTarea(${tarea.id})">
-        <span style="flex:1;">${escapeHtml(tarea.texto)}</span>
-        <button class="btn-pequeno" onclick="eliminarTareaGlobal(${tarea.id})" style="background:#ff4444;">🗑️</button>
-      </div>
-    `).join('');
-  }
-
-  function cambiarMes(delta) {
-    fechaActual.setMonth(fechaActual.getMonth() + delta);
-    renderizarCalendario();
-  }
-
-  // Función para agregar tarea al calendario desde el widget
-  function agregarTareaCalendario() {
-    const input = document.getElementById('nueva-tarea-calendario-widget');
-    const fechaInput = document.getElementById('fecha-tarea-calendario-widget');
-    const texto = input.value.trim();
-    const fecha = fechaInput.value;
-    
-    if (texto === '') {
-      alert('🌸 Por favor escribe una tarea 🌸');
-      return;
-    }
-    if (fecha === '') {
-      alert('📅 Por favor selecciona una fecha 📅');
-      return;
-    }
-    
-    todasLasTareas.push({
-      id: Date.now(),
-      texto: texto,
-      fecha: fecha,
-      completada: false
-    });
-    
-    guardarTareasGlobales();
-    input.value = '';
-    fechaInput.value = '';
-    renderizarCalendario();
-  }
-
   // ── FUNCIONES PARA TAREAS POR DÍA DE LA SEMANA ─────────────
   const diasSemana = ['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo'];
   let tareasPorDia = {};
@@ -1162,19 +815,6 @@
           tareasPorDia[dia][index].completada = this.checked;
           guardarTareasPorDia();
           renderizarTareasPorDia(dia);
-          
-          // También agregar al calendario si tiene fecha límite
-          const tarea = tareasPorDia[dia][index];
-          if (tarea.fechaLimite && !todasLasTareas.some(t => t.texto === tarea.texto && t.fecha === tarea.fechaLimite)) {
-            todasLasTareas.push({
-              id: Date.now(),
-              texto: tarea.texto,
-              fecha: tarea.fechaLimite,
-              completada: tarea.completada
-            });
-            guardarTareasGlobales();
-            renderizarCalendario();
-          }
         }
       });
     });
@@ -1206,18 +846,6 @@
     input.value = '';
     fechaInput.value = '';
     renderizarTareasPorDia(dia);
-    
-    // También agregar al calendario si tiene fecha límite
-    if (fechaLimite) {
-      todasLasTareas.push({
-        id: Date.now(),
-        texto: texto,
-        fecha: fechaLimite,
-        completada: false
-      });
-      guardarTareasGlobales();
-      renderizarCalendario();
-    }
   }
 
   function cambiarDia(dia) {
@@ -1472,10 +1100,6 @@
   document.getElementById('modal').addEventListener('click', function(e) {
     if (e.target === this) cerrarModal();
   });
-
-  // Inicializar calendario
-  cargarTareasGlobales();
-  renderizarCalendario();
 </script>
 </body>
 </html>
