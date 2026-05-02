@@ -171,12 +171,31 @@
       color: #C97A9A;
     }
 
+    /* Estilos para tareas con fecha */
+    .tarea-fecha {
+      font-size: 0.75rem;
+      color: #D86F8B;
+      margin-left: 10px;
+      font-weight: 500;
+    }
+
+    .tarea-vencida {
+      color: #ff4444 !important;
+    }
+
     /* Botones para agregar/eliminar tareas */
     .tareas-controles {
       display: flex;
       gap: 10px;
       margin-top: 15px;
       margin-bottom: 15px;
+      flex-wrap: wrap;
+      flex-direction: column;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 10px;
       flex-wrap: wrap;
     }
 
@@ -207,16 +226,26 @@
     }
 
     .nueva-tarea-input {
+      flex: 2;
+      padding: 8px 12px;
+      border: 2px solid #F4C2D0;
+      border-radius: 25px;
+      font-family: 'Quicksand', 'Comic Neue', cursive;
+      font-size: 0.9rem;
+      background: #FFF5F7;
+    }
+
+    .fecha-input {
       flex: 1;
       padding: 8px 12px;
       border: 2px solid #F4C2D0;
       border-radius: 25px;
       font-family: 'Quicksand', 'Comic Neue', cursive;
       font-size: 0.9rem;
-      min-width: 150px;
       background: #FFF5F7;
     }
-    .nueva-tarea-input:focus {
+
+    .nueva-tarea-input:focus, .fecha-input:focus {
       outline: none;
       border-color: #D86F8B;
     }
@@ -339,7 +368,7 @@
       font-weight: 700;
     }
 
-    /* Widget de música - UN SOLO VIDEO DE YOUTUBE */
+    /* Widget de música */
     .widget-musica {
       background: linear-gradient(135deg, #FFE4E8, #FFD1DC);
     }
@@ -442,6 +471,9 @@
       .musica-iframe {
         min-height: 180px;
       }
+      .input-group {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
@@ -471,11 +503,11 @@
       </div>
     </div>
 
-    <!-- Widget de música - UN SOLO VIDEO DE YOUTUBE que SÍ funciona -->
+    <!-- Widget de música - Video de YouTube CORREGIDO -->
     <div class="widget widget-musica">
       <h3>🎵 Mi canción favorita 🎵</h3>
       <iframe class="musica-iframe" 
-        src="https://www.youtube.com/watch?v=XbKLO9TbRRQ" 
+        src="https://www.youtube.com/embed/XbKLO9TbRRQ" 
         title="YouTube video player" 
         frameborder="0" 
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
@@ -549,6 +581,104 @@
 
   reiniciarTimer();
 
+  // ── FUNCIONES PARA TAREAS CON FECHA ─────────────────────────
+  let tareasDia = [];
+
+  function guardarTareasDia() {
+    localStorage.setItem('tareasDia', JSON.stringify(tareasDia));
+  }
+
+  function cargarTareasDia() {
+    const tareasGuardadas = localStorage.getItem('tareasDia');
+    if (tareasGuardadas) {
+      tareasDia = JSON.parse(tareasGuardadas);
+    } else {
+      tareasDia = [];
+    }
+    renderizarTareasDia();
+  }
+
+  function renderizarTareasDia() {
+    const container = document.getElementById('lista-tareas-dia');
+    if (!container) return;
+    
+    if (tareasDia.length === 0) {
+      container.innerHTML = '<p style="text-align:center; color:#C97A9A;">✨ No hay tareas para hoy ✨</p>';
+      return;
+    }
+    
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+    
+    container.innerHTML = tareasDia.map((tarea, index) => {
+      const fechaLimite = new Date(tarea.fechaLimite);
+      fechaLimite.setHours(0, 0, 0, 0);
+      const estaVencida = fechaLimite < hoy && !tarea.completada;
+      const fechaTexto = tarea.fechaLimite ? `📅 ${tarea.fechaLimite}` : '';
+      
+      return `
+        <label class="tarea-item">
+          <input type="checkbox" class="tarea-checkbox" data-index="${index}" ${tarea.completada ? 'checked' : ''}>
+          <div style="flex: 1;">
+            <span style="${tarea.completada ? 'text-decoration: line-through; color: #C97A9A;' : ''}">${escapeHtml(tarea.texto)}</span>
+            <div class="tarea-fecha ${estaVencida && !tarea.completada ? 'tarea-vencida' : ''}">${fechaTexto} ${estaVencida && !tarea.completada ? '⚠️ VENCIDA' : ''}</div>
+          </div>
+        </label>
+      `;
+    }).join('');
+    
+    document.querySelectorAll('.tarea-checkbox').forEach(checkbox => {
+      checkbox.addEventListener('change', function(e) {
+        const index = parseInt(this.getAttribute('data-index'));
+        if (tareasDia[index]) {
+          tareasDia[index].completada = this.checked;
+          guardarTareasDia();
+          renderizarTareasDia();
+        }
+      });
+    });
+  }
+
+  function agregarTareaDia() {
+    const input = document.getElementById('nueva-tarea-dia');
+    const fechaInput = document.getElementById('fecha-limite');
+    const texto = input.value.trim();
+    const fechaLimite = fechaInput.value;
+    
+    if (texto === '') {
+      alert('🌸 Por favor escribe una tarea 🌸');
+      return;
+    }
+    
+    tareasDia.push({
+      id: Date.now(),
+      texto: texto,
+      fechaLimite: fechaLimite,
+      completada: false
+    });
+    
+    guardarTareasDia();
+    input.value = '';
+    fechaInput.value = '';
+    renderizarTareasDia();
+  }
+
+  function eliminarUltimaTareaDia() {
+    if (tareasDia.length === 0) {
+      alert('✨ No hay tareas para eliminar ✨');
+      return;
+    }
+    tareasDia.pop();
+    guardarTareasDia();
+    renderizarTareasDia();
+  }
+
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
   // ── POSTS CON IMÁGENES ─────────────────────────────────────
   const posts = [
     {
@@ -557,18 +687,18 @@
       titulo: "Lista de tareas (˶ ´༥` ˶)୭",
       fecha: "1 de mayo, 2026",
       autor: "Yo mismo",
-      resumen: "Tareas pendientes pero que puedo completar con motivación ✨",
+      resumen: "Tareas pendientes que aún no puedo completar pero en las que puedo trabajar",
       contenido: ``,
       gif: "Keep.gif"
     },
     {
-      imagen: "https://via.placeholder.com/800x400/F4A4B8/white?text=Viajes",
-      categoria: "Viajes",
-      titulo: "Eje Cafetero: el corazón de Colombia",
+      imagen: "https://via.placeholder.com/800x400/F4A4B8/white?text=Tareas+por+día",
+      categoria: "Organización",
+      titulo: "Tareas por día",
       fecha: "20 de abril, 2026",
       autor: "Yo mismo",
-      resumen: "Pereira, Armenia, Manizales... una región llena de cultura, café y paisajes increíbles.",
-      contenido: `<p>El Eje Cafetero es una de las regiones más bellas de Colombia. Sus montañas verdes, el aroma a café y la calidez de su gente lo hacen un destino único.</p><p>Empecé mi recorrido en <strong>Pereira</strong>, una ciudad vibrante con una gastronomía increíble.</p>`,
+      resumen: "Organiza tus tareas diarias con fechas límite para ser más productiva 🌸",
+      contenido: ``,
       gif: null
     },
     {
@@ -582,89 +712,6 @@
       gif: null
     }
   ];
-
-  function guardarTareas(tareas) {
-    localStorage.setItem('listaTareas', JSON.stringify(tareas));
-  }
-
-  function cargarTareas() {
-    const tareasGuardadas = localStorage.getItem('listaTareas');
-    if (tareasGuardadas) {
-      return JSON.parse(tareasGuardadas);
-    }
-    return [
-      { id: 1, texto: "Póster de P y P (Pasar a plantilla para mandar a imprimir en papel bond)", completada: false },
-      { id: 2, texto: "Empezar trabajo plan de atención de enfermería", completada: false }
-    ];
-  }
-
-  function renderizarTareas() {
-    const tareas = cargarTareas();
-    const container = document.getElementById('lista-tareas-container');
-    if (!container) return;
-    
-    if (tareas.length === 0) {
-      container.innerHTML = '<p style="text-align:center; color:#C97A9A;">✨ ¡No hay tareas pendientes! ✨</p>';
-      return;
-    }
-    
-    container.innerHTML = tareas.map(tarea => `
-      <label class="tarea-item">
-        <input type="checkbox" class="tarea-checkbox" data-id="${tarea.id}" ${tarea.completada ? 'checked' : ''}>
-        <span style="${tarea.completada ? 'text-decoration: line-through; color: #C97A9A;' : ''}">${escapeHtml(tarea.texto)}</span>
-      </label>
-    `).join('');
-    
-    document.querySelectorAll('.tarea-checkbox').forEach(checkbox => {
-      checkbox.addEventListener('change', function(e) {
-        const id = parseInt(this.getAttribute('data-id'));
-        const tareasActuales = cargarTareas();
-        const tarea = tareasActuales.find(t => t.id === id);
-        if (tarea) {
-          tarea.completada = this.checked;
-          guardarTareas(tareasActuales);
-          renderizarTareas();
-        }
-      });
-    });
-  }
-
-  function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-  }
-
-  function agregarTarea() {
-    const input = document.getElementById('nueva-tarea-input');
-    const texto = input.value.trim();
-    if (texto === '') {
-      alert('🌸 Por favor escribe una tarea 🌸');
-      return;
-    }
-    
-    const tareas = cargarTareas();
-    const nuevoId = Math.max(...tareas.map(t => t.id), 0) + 1;
-    tareas.push({
-      id: nuevoId,
-      texto: texto,
-      completada: false
-    });
-    guardarTareas(tareas);
-    input.value = '';
-    renderizarTareas();
-  }
-
-  function eliminarUltimaTarea() {
-    const tareas = cargarTareas();
-    if (tareas.length === 0) {
-      alert('✨ No hay tareas para eliminar ✨');
-      return;
-    }
-    tareas.pop();
-    guardarTareas(tareas);
-    renderizarTareas();
-  }
 
   const main = document.getElementById('posts');
   posts.forEach((p, i) => {
@@ -694,9 +741,11 @@
     if (i === 0) {
       contenidoFinal = `
         <div class="tareas-controles">
-          <input type="text" id="nueva-tarea-input" class="nueva-tarea-input" placeholder="Escribe una nueva tarea...">
-          <button class="btn-tarea" onclick="agregarTarea()">➕ Agregar</button>
-          <button class="btn-tarea btn-eliminar" onclick="eliminarUltimaTarea()">🗑️ Eliminar última</button>
+          <div class="input-group">
+            <input type="text" id="nueva-tarea-input" class="nueva-tarea-input" placeholder="Escribe una nueva tarea...">
+            <button class="btn-tarea" onclick="agregarTarea()">➕ Agregar</button>
+            <button class="btn-tarea btn-eliminar" onclick="eliminarUltimaTarea()">🗑️ Eliminar última</button>
+          </div>
         </div>
         <div id="lista-tareas-container"></div>
         
@@ -706,6 +755,29 @@
           </div>
           <div class="motivacion-texto">
             ✨ ¡Tú puedes hacerlo! ✨ ദ്ദി◝ ⩊ ◜.ᐟ
+          </div>
+        </div>
+      `;
+    } else if (i === 1) {
+      contenidoFinal = `
+        <div class="tareas-controles">
+          <div class="input-group">
+            <input type="text" id="nueva-tarea-dia" class="nueva-tarea-input" placeholder="Escribe una tarea...">
+            <input type="date" id="fecha-limite" class="fecha-input">
+          </div>
+          <div class="input-group">
+            <button class="btn-tarea" onclick="agregarTareaDia()">➕ Agregar tarea</button>
+            <button class="btn-tarea btn-eliminar" onclick="eliminarUltimaTareaDia()">🗑️ Eliminar última</button>
+          </div>
+        </div>
+        <div id="lista-tareas-dia"></div>
+        
+        <div class="motivacion-container">
+          <div class="motivacion-marco">
+            <img src="sevenseven.jpg" alt="Imagen de motivación" class="motivacion-imagen" onerror="this.src='https://via.placeholder.com/600x300/FFD1DC/B3416B?text=🌟+Organiza+tu+día+con+cariño+🌟'">
+          </div>
+          <div class="motivacion-texto">
+            ✨ ¡Cada tarea completada es un logro! ✨ 🌸
           </div>
         </div>
       `;
@@ -724,7 +796,93 @@
     document.getElementById('modal').classList.add('activo');
     
     if (i === 0) {
+      // Función para tareas simples
+      window.guardarTareas = guardarTareas;
+      window.cargarTareas = cargarTareas;
+      window.renderizarTareas = renderizarTareas;
+      window.agregarTarea = agregarTarea;
+      window.eliminarUltimaTarea = eliminarUltimaTarea;
+      
+      function guardarTareas(tareas) {
+        localStorage.setItem('listaTareas', JSON.stringify(tareas));
+      }
+
+      function cargarTareas() {
+        const tareasGuardadas = localStorage.getItem('listaTareas');
+        if (tareasGuardadas) {
+          return JSON.parse(tareasGuardadas);
+        }
+        return [
+          { id: 1, texto: "Póster de P y P (Pasar a plantilla para mandar a imprimir en papel bond)", completada: false },
+          { id: 2, texto: "Empezar trabajo plan de atención de enfermería", completada: false }
+        ];
+      }
+
+      function renderizarTareas() {
+        const tareas = cargarTareas();
+        const container = document.getElementById('lista-tareas-container');
+        if (!container) return;
+        
+        if (tareas.length === 0) {
+          container.innerHTML = '<p style="text-align:center; color:#C97A9A;">✨ ¡No hay tareas pendientes! ✨</p>';
+          return;
+        }
+        
+        container.innerHTML = tareas.map(tarea => `
+          <label class="tarea-item">
+            <input type="checkbox" class="tarea-checkbox" data-id="${tarea.id}" ${tarea.completada ? 'checked' : ''}>
+            <span style="${tarea.completada ? 'text-decoration: line-through; color: #C97A9A;' : ''}">${escapeHtml(tarea.texto)}</span>
+          </label>
+        `).join('');
+        
+        document.querySelectorAll('.tarea-checkbox').forEach(checkbox => {
+          checkbox.addEventListener('change', function(e) {
+            const id = parseInt(this.getAttribute('data-id'));
+            const tareasActuales = cargarTareas();
+            const tarea = tareasActuales.find(t => t.id === id);
+            if (tarea) {
+              tarea.completada = this.checked;
+              guardarTareas(tareasActuales);
+              renderizarTareas();
+            }
+          });
+        });
+      }
+
+      function agregarTarea() {
+        const input = document.getElementById('nueva-tarea-input');
+        const texto = input.value.trim();
+        if (texto === '') {
+          alert('🌸 Por favor escribe una tarea 🌸');
+          return;
+        }
+        
+        const tareas = cargarTareas();
+        const nuevoId = Math.max(...tareas.map(t => t.id), 0) + 1;
+        tareas.push({
+          id: nuevoId,
+          texto: texto,
+          completada: false
+        });
+        guardarTareas(tareas);
+        input.value = '';
+        renderizarTareas();
+      }
+
+      function eliminarUltimaTarea() {
+        const tareas = cargarTareas();
+        if (tareas.length === 0) {
+          alert('✨ No hay tareas para eliminar ✨');
+          return;
+        }
+        tareas.pop();
+        guardarTareas(tareas);
+        renderizarTareas();
+      }
+
       renderizarTareas();
+    } else if (i === 1) {
+      cargarTareasDia();
     }
   }
 
