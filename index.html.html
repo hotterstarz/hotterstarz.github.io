@@ -493,7 +493,7 @@
       </div>
       <table class="tabla-tareas" id="tablaSemanales">
         <thead>
-          <tr><th style="width: 40px">✓</th><th>Día</th><th>Tarea</th><th>Fecha Límite</th></tr>
+          <tr><th style="width: 40px">✓</th><th>Día</th><th>Tarea</th></tr>
         </thead>
         <tbody id="tbodySemanales">
         </tbody>
@@ -672,26 +672,26 @@
   // ── DATOS ESTÁTICOS PARA TABLAS (EDITA AQUÍ) ─────────────────────
   // ============================================================
   // 🟢 LISTA DE TAREAS SIMPLES - Edita esta tabla
-  // Formato: { id: número, texto: "tarea", completada: true/false }
   // ============================================================
   let tareasSimples = [
     { id: 1, texto: "Póster de P y P (Pasar a plantilla para mandar a imprimir en papel bond)", completada: false },
-    { id: 2, texto: "Trabajo plan de atención de enfermería", completada: false },
+    { id: 2, texto: "Trabajo plan de atención de enfermería", completada: false }
   ];
 
   // ============================================================
-  // 🟢 TAREAS POR DÍA DE LA SEMANA - Edita esta tabla
-  // Formato: { id: número, dia: "lunes/martes/etc", tarea: "descripción", fechaLimite: "YYYY-MM-DD", completada: true/false }
+  // 🟢 TAREAS POR DÍA DE LA SEMANA - Edita esta tabla (sin fechas límite)
   // ============================================================
   let tareasSemanales = [
-    { id: 1, dia: "lunes", tarea: "Buscar artículo para diapositivas tema de profundización", fechaLimite: "2026-05-12", completada: false },
-    { id: 2, dia: "lunes", tarea: "Hacer parte 1 avance GUETI", fechaLimite: "2026-05-12", completada: false },
-    { id: 2, dia: "martes", tarea: "Práctica de monitoría fetal", fechaLimite: "2026-05-13", completada: false },
-    { id: 3, dia: "miércoles", tarea: "Estudio de farmacología en partos", fechaLimite: "2026-05-14", completada: true },
-    { id: 4, dia: "jueves", tarea: "Simulación de emergencias obstétricas", fechaLimite: "2026-05-15", completada: false },
-    { id: 5, dia: "viernes", tarea: "Entrega de trabajo de investigación", fechaLimite: "2026-05-16", completada: false },
-    { id: 6, dia: "sábado", tarea: "Repaso general de la rotación", fechaLimite: "2026-05-17", completada: false },
-    { id: 7, dia: "domingo", tarea: "Descanso y preparación para próxima semana", fechaLimite: "2026-05-18", completada: false }
+    // LUNES
+    { id: 1, dia: "lunes", tarea: "Buscar artículo para caso de profundización", completada: false },
+    { id: 2, dia: "lunes", tarea: "Parte 1 trabajo situación de enfermería", completada: false },
+    { id: 3, dia: "lunes", tarea: "Arreglar ayudas para llevar a la rotación", completada: false },
+    { id: 4, dia: "lunes", tarea: "Estudiar para la rotación de partos", completada: false },
+    // MARTES
+    { id: 5, dia: "martes", tarea: "Parte 2 trabajo situación de enfermería", completada: false },
+    { id: 6, dia: "martes", tarea: "Terminar de arreglar ayudas para llevar a la rotación", completada: false },
+    { id: 7, dia: "martes", tarea: "Estudiar rotación de partos", completada: false },
+    { id: 8, dia: "martes", tarea: "Estudiar parcial ecobiología", completada: false }
   ];
 
   // Guardar en localStorage (para mantener el estado de completado)
@@ -749,7 +749,7 @@
     });
   }
 
-  // Renderizar tabla de tareas semanales
+  // Renderizar tabla de tareas semanales (sin columna de fecha límite)
   function renderizarTablaTareasSemanales() {
     const tbody = document.getElementById('tbodySemanales');
     if (!tbody) return;
@@ -761,13 +761,11 @@
     
     let html = '';
     tareasSemanales.forEach(tarea => {
-      const fechaFormateada = tarea.fechaLimite ? tarea.fechaLimite : "Sin fecha";
       html += `
         <tr>
           <td style="text-align:center"><input type="checkbox" class="check-semanal" data-id="${tarea.id}" ${tarea.completada ? 'checked' : ''}></td>
           <td><strong>${diasEsp[tarea.dia] || tarea.dia}</strong></td>
           <td class="${tarea.completada ? 'tarea-completada' : ''}">${escapeHtml(tarea.tarea)}</td>
-          <td>📅 ${fechaFormateada}</td>
         </tr>
       `;
     });
