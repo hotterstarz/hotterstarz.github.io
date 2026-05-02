@@ -41,6 +41,37 @@
     .btn-volver:hover {
       background: #B3416B;
     }
+    
+    /* Botones de sincronización */
+    .botones-sync {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-sync {
+      background: #D86F8B;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-family: 'Quicksand', cursive;
+      font-size: 0.8rem;
+      transition: all 0.3s ease;
+    }
+    .btn-sync:hover {
+      background: #B3416B;
+      transform: scale(1.05);
+    }
+    .btn-sync.importar {
+      background: #4ECDC4;
+    }
+    .btn-sync.importar:hover {
+      background: #44b3aa;
+    }
+    
     .calendario-mes {
       text-align: center;
       font-size: 1.2rem;
@@ -166,15 +197,6 @@
       cursor: pointer;
       font-size: 0.7rem;
     }
-    .btn-editar {
-      background: #D86F8B;
-      color: white;
-      border: none;
-      padding: 5px 12px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 0.7rem;
-    }
     .tarea-completada {
       text-decoration: line-through;
       color: #C97A9A;
@@ -248,12 +270,41 @@
       cursor: pointer;
       color: #D86F8B;
     }
+    
+    /* Mensaje de éxito */
+    .toast-mensaje {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #4ECDC4;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-family: 'Quicksand', cursive;
+      font-size: 0.9rem;
+      z-index: 1100;
+      animation: fadeOut 3s ease forwards;
+    }
+    @keyframes fadeOut {
+      0% { opacity: 1; }
+      70% { opacity: 1; }
+      100% { opacity: 0; visibility: hidden; }
+    }
   </style>
 </head>
 <body>
   <div class="contenedor-calendario">
     <a href="index.html" class="btn-volver">← Volver al Blog</a>
     <h1>📅 Mi Calendario de Tareas</h1>
+    
+    <!-- Botones de sincronización entre dispositivos -->
+    <div class="botones-sync">
+      <button class="btn-sync" onclick="exportarTareas()">📤 Exportar tareas</button>
+      <input type="file" id="importarArchivo" accept=".json" style="display:none" onchange="importarTareas(event)">
+      <button class="btn-sync importar" onclick="document.getElementById('importarArchivo').click()">📥 Importar tareas</button>
+      <button class="btn-sync" onclick="generarCodigoQR()">📱 Compartir enlace</button>
+    </div>
     
     <div class="calendario-mes">
       <button class="btn-mes" onclick="cambiarMes(-1)">◀</button>
@@ -309,6 +360,145 @@
       localStorage.setItem('tareasCalendario', JSON.stringify(todasLasTareas));
     }
 
+    // 🆕 EXPORTAR TAREAS (Guardar en archivo)
+    function exportarTareas() {
+      if (todasLasTareas.length === 0) {
+        alert('🌸 No hay tareas para exportar');
+        return;
+      }
+      
+      const dataStr = JSON.stringify(todasLasTareas, null, 2);
+      const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+      const exportFileDefaultName = `mis-tareas_${new Date().toISOString().slice(0,10)}.json`;
+      
+      const linkElement = document.createElement('a');
+      linkElement.setAttribute('href', dataUri);
+      linkElement.setAttribute('download', exportFileDefaultName);
+      linkElement.click();
+      
+      mostrarMensaje('📤 Tareas exportadas correctamente');
+    }
+
+    // 🆕 IMPORTAR TAREAS (Cargar desde archivo)
+    function importarTareas(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      
+      const reader = new FileReader();
+      
+      reader.onload = function(e) {
+        try {
+          const tareasImportadas = JSON.parse(e.target.result);
+          
+          // Validar que sea un array de tareas
+          if (Array.isArray(tareasImportadas)) {
+            todasLasTareas = tareasImportadas;
+            guardarTareas();
+            renderizarCalendario();
+            mostrarMensaje(`✅ ¡Importadas ${tareasImportadas.length} tareas!`);
+          } else {
+            alert('❌ El archivo no tiene el formato correcto');
+          }
+        } catch (error) {
+          alert('❌ Error al importar: archivo inválido');
+        }
+      };
+      
+      reader.readAsText(file);
+      
+      // Limpiar el input para poder importar el mismo archivo de nuevo
+      event.target.value = '';
+    }
+
+    // 🆕 Mostrar mensaje temporal
+    function mostrarMensaje(texto) {
+      const mensaje = document.createElement('div');
+      mensaje.className = 'toast-mensaje';
+      mensaje.textContent = texto;
+      document.body.appendChild(mensaje);
+      
+      setTimeout(() => {
+        mensaje.remove();
+      }, 3000);
+    }
+
+    // 🆕 Generar enlace para compartir (con las tareas codificadas en la URL)
+    function generarCodigoQR() {
+      const tareasJSON = JSON.stringify(todasLasTareas);
+      // Comprimir un poco las tareas para que quepan en la URL
+      const tareasComprimidas = btoa(encodeURIComponent(tareasJSON));
+      
+      // Obtener la URL actual sin parámetros
+      const urlActual = window.location.href.split('?')[0];
+      const urlCompartir = `${urlActual}?t=${tareasComprimidas}`;
+      
+      // Mostrar modal con el enlace
+      mostrarModalCompartir(urlCompartir);
+    }
+
+    // Modal para compartir enlace
+    function mostrarModalCompartir(url) {
+      // Crear modal si no existe
+      let modalCompartir = document.getElementById('modalCompartir');
+      if (!modalCompartir) {
+        modalCompartir = document.createElement('div');
+        modalCompartir.id = 'modalCompartir';
+        modalCompartir.className = 'modal-editar';
+        modalCompartir.innerHTML = `
+          <div class="modal-contenido">
+            <span class="cerrar-modal" onclick="cerrarModalCompartir()">&times;</span>
+            <h3>📱 Compartir tareas</h3>
+            <p style="margin-bottom:15px;">Comparte este enlace en tu celular:</p>
+            <input type="text" id="enlaceCompartir" style="width:100%; padding:10px; border-radius:15px; border:2px solid #F4C2D0; font-family:monospace; font-size:12px;" readonly>
+            <div class="modal-btns" style="margin-top:15px;">
+              <button class="btn-guardar" onclick="copiarEnlace()">📋 Copiar enlace</button>
+              <button class="btn-cancelar" onclick="cerrarModalCompartir()">Cerrar</button>
+            </div>
+          </div>
+        `;
+        document.body.appendChild(modalCompartir);
+      }
+      
+      document.getElementById('enlaceCompartir').value = url;
+      modalCompartir.classList.add('activo');
+    }
+
+    function cerrarModalCompartir() {
+      const modal = document.getElementById('modalCompartir');
+      if (modal) modal.classList.remove('activo');
+    }
+
+    function copiarEnlace() {
+      const input = document.getElementById('enlaceCompartir');
+      input.select();
+      document.execCommand('copy');
+      mostrarMensaje('📋 Enlace copiado al portapapeles');
+    }
+
+    // Cargar tareas desde URL (cuando se abre en otro dispositivo)
+    function cargarTareasDesdeURL() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const tareasParam = urlParams.get('t');
+      
+      if (tareasParam) {
+        try {
+          const tareasJSON = decodeURIComponent(atob(tareasParam));
+          const tareasImportadas = JSON.parse(tareasJSON);
+          if (Array.isArray(tareasImportadas) && tareasImportadas.length > 0) {
+            todasLasTareas = tareasImportadas;
+            guardarTareas();
+            renderizarCalendario();
+            mostrarMensaje('🎉 ¡Tareas cargadas desde el enlace!');
+            
+            // Limpiar la URL sin recargar
+            window.history.replaceState({}, document.title, window.location.pathname);
+          }
+        } catch (e) {
+          console.log('No hay tareas en la URL o están corruptas');
+        }
+      }
+    }
+
     function agregarTarea() {
       const input = document.getElementById('nueva-tarea');
       const fechaInput = document.getElementById('fecha-tarea');
@@ -336,6 +526,7 @@
       input.value = '';
       fechaInput.value = '';
       renderizarCalendario();
+      mostrarMensaje('✨ Tarea agregada');
     }
 
     function eliminarTarea(id) {
@@ -343,6 +534,7 @@
         todasLasTareas = todasLasTareas.filter(t => t.id !== id);
         guardarTareas();
         renderizarCalendario();
+        mostrarMensaje('🗑️ Tarea eliminada');
       }
     }
 
@@ -352,6 +544,7 @@
         tarea.completada = !tarea.completada;
         guardarTareas();
         renderizarCalendario();
+        mostrarMensaje(tarea.completada ? '✅ Tarea completada' : '🔄 Tarea pendiente');
       }
     }
 
@@ -380,6 +573,7 @@
         tarea.detalles = nuevosDetalles;
         guardarTareas();
         renderizarCalendario();
+        mostrarMensaje('💾 Tarea actualizada');
       }
       
       cerrarModal();
@@ -430,7 +624,7 @@
       const container = document.getElementById('listaTareasFecha');
       
       if (tareasEnFecha.length === 0) {
-        container.innerHTML = '<p style="color:#C97A9A; text-align:center;">✨ No hay tareas para esta fecha ✨</p>';
+        container.innerHTML = '<p style="color:#C97A9A; text-align:center;">✨ No hay tareas para esta fecha ✨<br><small style="font-size:11px;">Haz clic en un día o agrega tareas</small></p>';
         return;
       }
       
@@ -462,7 +656,9 @@
       if (e.target === this) cerrarModal();
     });
 
+    // Inicializar: cargar tareas y luego verificar URL
     cargarTareas();
+    cargarTareasDesdeURL();
   </script>
 </body>
 </html>
