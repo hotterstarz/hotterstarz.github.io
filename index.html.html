@@ -527,24 +527,6 @@
       background: #B3416B;
       transform: scale(1.05);
     }
-    .agregar-evento {
-      margin-bottom: 15px;
-      padding: 10px;
-      background: #FFF5F7;
-      border-radius: 12px;
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    .agregar-evento input {
-      flex: 2;
-      padding: 6px 10px;
-      border: 2px solid #F4C2D0;
-      border-radius: 20px;
-      font-family: 'Quicksand', cursive;
-      font-size: 0.8rem;
-      background: white;
-    }
     .calendario-dias-semana {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
@@ -782,6 +764,55 @@
   <main id="posts"></main>
   <aside>
 
+    <!-- WIDGET 1: Slideshow de imágenes personales -->
+    <div class="widget" style="padding:0;overflow:hidden;border-radius:16px;">
+      <div class="slideshow" id="slideshow">
+        <div class="slide activo"><img src="chii.jpg" alt="Foto 1"></div>
+        <div class="slide"><img src="umibe.jpg" alt="Foto 2"></div>
+        <div class="slide"><img src="gwen.jpg" alt="Foto 3"></div>
+        <div class="slide"><img src="Isobe.jpg" alt="Foto 4"></div>
+      </div>
+      <div class="slide-btns">
+        <button class="slide-btn" onclick="cambiarSlide(-1)">◀</button>
+        <button class="slide-btn" onclick="cambiarSlide(1)">▶</button>
+      </div>
+    </div>
+
+    <!-- WIDGET 2: SLIDESHOW DE PAISAJES -->
+    <div class="widget widget-paisajes">
+      <h3>🏔️ Paisajes que Inspiran 🌅</h3>
+      <div class="slideshow-paisajes" id="slideshowPaisajes">
+        <div class="slide-paisaje activo"><img srcs="Ipanema.jpg" alt="Paisaje 1"></div>
+        <div class="slide-paisaje"><img srcs="Japan1.jpg" alt="Paisaje 2"></div>
+        <div class="slide-paisaje"><img srcs="Japan2.jpg"alt="Paisaje 3"></div>
+        <div class="slide-paisaje"><img id="paisaje4" alt="Paisaje 4"></div>
+        <div class="slide-paisaje"><img id="paisaje5" alt="Paisaje 5"></div>
+      </div>
+      <div class="slideshow-paisajes-btns">
+        <button class="btn-paisaje" onclick="cambiarPaisaje(-1)">◀</button>
+        <button class="btn-paisaje" onclick="cambiarPaisaje(1)">▶</button>
+      </div>
+      <div class="indicadores-paisajes" id="indicadoresPaisajes"></div>
+    </div>
+
+    <!-- WIDGET 3: CALENDARIO DE TAREAS -->
+    <div class="widget widget-calendario">
+      <h3>📅 Calendario de Tareas</h3>
+      <div class="calendario-mes">
+        <button class="btn-mes" onclick="cambiarMes(-1)">◀</button>
+        <span id="mesActual"></span>
+        <button class="btn-mes" onclick="cambiarMes(1)">▶</button>
+      </div>
+      <div class="calendario-dias-semana">
+        <span>D</span><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span>
+      </div>
+      <div id="calendarioDias" class="calendario-dias"></div>
+      <div class="tareas-del-dia" id="tareasDelDia">
+        <h4>✨ Tareas del día ✨</h4>
+        <div id="listaTareasFecha" class="lista-tareas-fecha"></div>
+      </div>
+    </div>
+
     <!-- Widget de música -->
     <div class="widget widget-musica">
       <h3>🎵 Mi playlist favorita 🎵</h3>
@@ -840,82 +871,94 @@
 </footer>
 
 <script>
-  // ── SLIDESHOW DE PAISAJES (con tus imágenes) ───────────────────
-  // CAMBIA ESTAS RUTAS por tus imágenes: Ipanema.jpg, Japan1.jpg, Japan2.jpg
+  // ── SLIDESHOW PRINCIPAL ──────────────────────────────────────────
+  const slides = document.querySelectorAll('.slide');
+  let actualSlide = 0, timerPrincipal;
+
+  function irA(n) {
+    slides[actualSlide].classList.remove('activo');
+    actualSlide = (n + slides.length) % slides.length;
+    slides[actualSlide].classList.add('activo');
+    reiniciarTimerPrincipal();
+  }
+
+  function cambiarSlide(dir) { irA(actualSlide + dir); }
+
+  function reiniciarTimerPrincipal() {
+    clearInterval(timerPrincipal);
+    timerPrincipal = setInterval(() => cambiarSlide(1), 4000);
+  }
+  reiniciarTimerPrincipal();
+
+  // ── SLIDESHOW DE PAISAJES ───────────────────────────────────
   let imagenesPaisajes = [
-    "Ipanema.jpg",
-    "Japan1.jpg",
-    "Japan2.jpg"
+    "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800",
+    "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800",
+    "https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=800",
+    "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800",
+    "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800"
   ];
   
-  let slidesPaisajes = [];
+  let slidesPaisajes = document.querySelectorAll('.slide-paisaje');
   let actualPaisaje = 0;
   let timerPaisajes;
 
-  // Crear slideshow dinámicamente en el modal
-  function crearSlideshowPaisajesEnModal() {
-    const container = document.getElementById('slideshow-paisajes-modal');
-    if (!container) return;
-    
-    container.innerHTML = '';
-    slidesPaisajes = [];
-    
-    imagenesPaisajes.forEach((imgSrc, index) => {
-      const slide = document.createElement('div');
-      slide.className = 'slide-paisaje';
-      if (index === 0) slide.classList.add('activo');
-      const img = document.createElement('img');
-      img.src = imgSrc;
-      img.alt = `Paisaje ${index + 1}`;
-      slide.appendChild(img);
-      container.appendChild(slide);
-      slidesPaisajes.push(slide);
+  function cargarImagenesPaisajes() {
+    slidesPaisajes.forEach((slide, index) => {
+      if (index < imagenesPaisajes.length) {
+        const img = slide.querySelector('img');
+        if (img) {
+          img.src = imagenesPaisajes[index];
+          img.alt = `Paisaje ${index + 1}`;
+        }
+      }
     });
-    
-    crearIndicadoresEnModal();
+    crearIndicadores();
   }
 
-  function crearIndicadoresEnModal() {
-    const container = document.getElementById('indicadores-paisajes-modal');
+  function crearIndicadores() {
+    const container = document.getElementById('indicadoresPaisajes');
     if (!container) return;
     container.innerHTML = '';
     for (let i = 0; i < slidesPaisajes.length; i++) {
       const dot = document.createElement('span');
       dot.classList.add('dot');
       if (i === actualPaisaje) dot.classList.add('activo');
-      dot.onclick = () => irAPaisajeModal(i);
+      dot.onclick = () => irAPaisaje(i);
       container.appendChild(dot);
     }
   }
 
-  function actualizarIndicadoresModal() {
-    const dots = document.querySelectorAll('#indicadores-paisajes-modal .dot');
+  function actualizarIndicadores() {
+    const dots = document.querySelectorAll('#indicadoresPaisajes .dot');
     dots.forEach((dot, index) => {
       if (index === actualPaisaje) dot.classList.add('activo');
       else dot.classList.remove('activo');
     });
   }
 
-  function irAPaisajeModal(n) {
-    if (slidesPaisajes.length === 0) return;
+  function irAPaisaje(n) {
     slidesPaisajes[actualPaisaje].classList.remove('activo');
     actualPaisaje = (n + slidesPaisajes.length) % slidesPaisajes.length;
     slidesPaisajes[actualPaisaje].classList.add('activo');
-    actualizarIndicadoresModal();
-    reiniciarTimerPaisajesModal();
+    actualizarIndicadores();
+    reiniciarTimerPaisajes();
   }
 
-  function cambiarPaisajeModal(dir) { irAPaisajeModal(actualPaisaje + dir); }
+  function cambiarPaisaje(dir) { irAPaisaje(actualPaisaje + dir); }
 
-  function reiniciarTimerPaisajesModal() {
+  function reiniciarTimerPaisajes() {
     clearInterval(timerPaisajes);
-    timerPaisajes = setInterval(() => cambiarPaisajeModal(1), 5000);
+    timerPaisajes = setInterval(() => cambiarPaisaje(1), 5000);
   }
+  cargarImagenesPaisajes();
+  reiniciarTimerPaisajes();
 
   // ── CALENDARIO Y TAREAS GLOBALES ────────────────────────────
   let fechaActual = new Date();
-  let todasLasTareas = [];
+  let todasLasTareas = []; // Almacena todas las tareas con fecha
 
+  // Cargar tareas de localStorage
   function cargarTareasGlobales() {
     const tareasGuardadas = localStorage.getItem('tareasCalendario');
     if (tareasGuardadas) {
@@ -929,7 +972,8 @@
     localStorage.setItem('tareasCalendario', JSON.stringify(todasLasTareas));
   }
 
-  function agregarTareaDesdeCalendario() {
+  // Agregar tarea desde el calendario
+  function agregarTareaGlobal() {
     const input = document.getElementById('nueva-tarea-calendario');
     const fechaInput = document.getElementById('fecha-tarea-calendario');
     const texto = input.value.trim();
@@ -972,6 +1016,7 @@
     }
   }
 
+  // Renderizar calendario
   function renderizarCalendario() {
     const year = fechaActual.getFullYear();
     const month = fechaActual.getMonth();
@@ -984,10 +1029,12 @@
     document.getElementById('mesActual').textContent = `${meses[month]} ${year}`;
     
     let html = '';
+    // Días vacíos al inicio
     for (let i = 0; i < inicioSemana; i++) {
       html += '<div class="dia-calendario"></div>';
     }
     
+    // Días del mes
     for (let dia = 1; dia <= ultimoDia.getDate(); dia++) {
       const fechaStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
       const tareasEnFecha = todasLasTareas.filter(t => t.fecha === fechaStr && !t.completada);
@@ -998,19 +1045,20 @@
     
     document.getElementById('calendarioDias').innerHTML = html;
     
+    // Mostrar tareas de la fecha seleccionada (si hay)
     const fechaSeleccionada = document.getElementById('fechaSeleccionada')?.value || `${year}-${String(month + 1).padStart(2, '0')}-01`;
     mostrarTareasPorFecha(fechaSeleccionada);
   }
 
   function seleccionarFecha(fecha) {
-    if (!document.getElementById('fechaSeleccionada')) {
+    const inputFecha = document.getElementById('fechaSeleccionada');
+    if (!inputFecha) {
       const hidden = document.createElement('input');
       hidden.type = 'hidden';
       hidden.id = 'fechaSeleccionada';
       document.body.appendChild(hidden);
     }
     document.getElementById('fechaSeleccionada').value = fecha;
-    document.getElementById('fecha-tarea-calendario').value = fecha;
     mostrarTareasPorFecha(fecha);
   }
 
@@ -1037,10 +1085,33 @@
     renderizarCalendario();
   }
 
-  function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
+  // Función para agregar tarea al calendario desde el widget
+  function agregarTareaCalendario() {
+    const input = document.getElementById('nueva-tarea-calendario-widget');
+    const fechaInput = document.getElementById('fecha-tarea-calendario-widget');
+    const texto = input.value.trim();
+    const fecha = fechaInput.value;
+    
+    if (texto === '') {
+      alert('🌸 Por favor escribe una tarea 🌸');
+      return;
+    }
+    if (fecha === '') {
+      alert('📅 Por favor selecciona una fecha 📅');
+      return;
+    }
+    
+    todasLasTareas.push({
+      id: Date.now(),
+      texto: texto,
+      fecha: fecha,
+      completada: false
+    });
+    
+    guardarTareasGlobales();
+    input.value = '';
+    fechaInput.value = '';
+    renderizarCalendario();
   }
 
   // ── FUNCIONES PARA TAREAS POR DÍA DE LA SEMANA ─────────────
@@ -1092,6 +1163,7 @@
           guardarTareasPorDia();
           renderizarTareasPorDia(dia);
           
+          // También agregar al calendario si tiene fecha límite
           const tarea = tareasPorDia[dia][index];
           if (tarea.fechaLimite && !todasLasTareas.some(t => t.texto === tarea.texto && t.fecha === tarea.fechaLimite)) {
             todasLasTareas.push({
@@ -1135,6 +1207,7 @@
     fechaInput.value = '';
     renderizarTareasPorDia(dia);
     
+    // También agregar al calendario si tiene fecha límite
     if (fechaLimite) {
       todasLasTareas.push({
         id: Date.now(),
@@ -1163,6 +1236,12 @@
     tareasPorDia[dia].pop();
     guardarTareasPorDia();
     renderizarTareasPorDia(dia);
+  }
+
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
   }
 
   // ── POSTS ─────────────────────────────────────────────────
@@ -1248,50 +1327,9 @@
       let tabsHtml = '<div class="tabs-semana">';
       let contenidoHtml = '';
       
-      // Slideshow de paisajes DENTRO del modal
-      tabsHtml += '</div>';
-      
-      contenidoHtml = `
-        <div class="widget widget-paisajes" style="margin-bottom:20px;">
-          <h3>🏔️ Paisajes que Inspiran 🌅</h3>
-          <div class="slideshow-paisajes" id="slideshow-paisajes-modal">
-            <div id="slideshow-paisajes-container"></div>
-          </div>
-          <div class="slideshow-paisajes-btns">
-            <button class="btn-paisaje" onclick="cambiarPaisajeModal(-1)">◀</button>
-            <button class="btn-paisaje" onclick="cambiarPaisajeModal(1)">▶</button>
-          </div>
-          <div class="indicadores-paisajes" id="indicadores-paisajes-modal"></div>
-        </div>
-        
-        <div class="widget widget-calendario" style="margin-bottom:20px;">
-          <h3>📅 Calendario de Tareas</h3>
-          <div class="calendario-mes">
-            <button class="btn-mes" onclick="cambiarMes(-1)">◀</button>
-            <span id="mesActual"></span>
-            <button class="btn-mes" onclick="cambiarMes(1)">▶</button>
-          </div>
-          <div class="agregar-evento">
-            <input type="text" id="nueva-tarea-calendario" placeholder="Nueva tarea...">
-            <input type="date" id="fecha-tarea-calendario">
-            <button class="btn-pequeno" onclick="agregarTareaDesdeCalendario()">➕ Agregar</button>
-          </div>
-          <div class="calendario-dias-semana">
-            <span>D</span><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span>
-          </div>
-          <div id="calendarioDias" class="calendario-dias"></div>
-          <div class="tareas-del-dia">
-            <h4>✨ Tareas del día ✨</h4>
-            <div id="listaTareasFecha" class="lista-tareas-fecha"></div>
-          </div>
-        </div>
-      `;
-      
       diasSemana.forEach((dia, idx) => {
         const activo = idx === 0 ? 'activo' : '';
-        tabsHtml = `<div class="tabs-semana">` + diasSemana.map((d, idx2) => 
-          `<button class="tab-btn ${idx2 === 0 ? 'activo' : ''}" data-dia="${d}" onclick="cambiarDia('${d}')">${d.toUpperCase()}</button>`
-        ).join('') + `</div>`;
+        tabsHtml += `<button class="tab-btn ${activo}" data-dia="${dia}" onclick="cambiarDia('${dia}')">${dia.toUpperCase()}</button>`;
         
         contenidoHtml += `
           <div id="dia-${dia}" class="contenido-dia ${activo}">
@@ -1307,6 +1345,7 @@
           </div>
         `;
       });
+      tabsHtml += '</div>';
       
       contenidoFinal = `
         ${tabsHtml}
@@ -1421,71 +1460,6 @@
 
       renderizarTareas();
     } else if (i === 1) {
-      // Inicializar slideshow de paisajes
-      slidesPaisajes = [];
-      actualPaisaje = 0;
-      
-      // Crear slides dinámicamente
-      const container = document.getElementById('slideshow-paisajes-container');
-      if (container) {
-        container.innerHTML = '';
-        imagenesPaisajes.forEach((imgSrc, idx) => {
-          const slide = document.createElement('div');
-          slide.className = 'slide-paisaje';
-          if (idx === 0) slide.classList.add('activo');
-          const img = document.createElement('img');
-          img.src = imgSrc;
-          img.alt = `Paisaje ${idx + 1}`;
-          slide.appendChild(img);
-          container.appendChild(slide);
-          slidesPaisajes.push(slide);
-        });
-        
-        // Crear indicadores
-        const indicadoresContainer = document.getElementById('indicadores-paisajes-modal');
-        if (indicadoresContainer) {
-          indicadoresContainer.innerHTML = '';
-          for (let j = 0; j < slidesPaisajes.length; j++) {
-            const dot = document.createElement('span');
-            dot.classList.add('dot');
-            if (j === actualPaisaje) dot.classList.add('activo');
-            dot.onclick = () => {
-              slidesPaisajes[actualPaisaje].classList.remove('activo');
-              actualPaisaje = j;
-              slidesPaisajes[actualPaisaje].classList.add('activo');
-              const dots = document.querySelectorAll('#indicadores-paisajes-modal .dot');
-              dots.forEach((d, idx) => {
-                if (idx === actualPaisaje) d.classList.add('activo');
-                else d.classList.remove('activo');
-              });
-              reiniciarTimerPaisajesModal();
-            };
-            indicadoresContainer.appendChild(dot);
-          }
-        }
-        
-        // Configurar funciones globales para el modal
-        window.cambiarPaisajeModal = function(dir) {
-          if (slidesPaisajes.length === 0) return;
-          slidesPaisajes[actualPaisaje].classList.remove('activo');
-          actualPaisaje = (actualPaisaje + dir + slidesPaisajes.length) % slidesPaisajes.length;
-          slidesPaisajes[actualPaisaje].classList.add('activo');
-          const dots = document.querySelectorAll('#indicadores-paisajes-modal .dot');
-          dots.forEach((dot, idx) => {
-            if (idx === actualPaisaje) dot.classList.add('activo');
-            else dot.classList.remove('activo');
-          });
-          reiniciarTimerPaisajesModal();
-        };
-        
-        reiniciarTimerPaisajesModal();
-      }
-      
-      // Inicializar calendario
-      cargarTareasGlobales();
-      renderizarCalendario();
-      
-      // Inicializar tareas por día
       cargarTareasPorDia();
       diasSemana.forEach(dia => renderizarTareasPorDia(dia));
     }
@@ -1498,6 +1472,10 @@
   document.getElementById('modal').addEventListener('click', function(e) {
     if (e.target === this) cerrarModal();
   });
+
+  // Inicializar calendario
+  cargarTareasGlobales();
+  renderizarCalendario();
 </script>
 </body>
 </html>
