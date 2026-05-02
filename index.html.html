@@ -197,6 +197,13 @@
       border: none;
       color: #D86F8B;
     }
+    .modal-gif-container {
+      text-align: center;
+      margin: 20px 0;
+      padding: 10px;
+      background: #FFF5F7;
+      border-radius: 12px;
+    }
 
     aside { display: flex; flex-direction: column; gap: 1.5rem; }
     .widget {
@@ -210,6 +217,12 @@
       margin-bottom: 1rem;
       padding-bottom: .5rem;
       border-bottom: 2px solid #D86F8B;
+      color: #B3416B;
+    }
+    .musica-info {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 0.8rem;
       color: #B3416B;
     }
 
@@ -332,11 +345,12 @@
 <body>
 
 <nav>
-  <a href="#">Inicio</a>
+  <a href="index.html">🏠 Inicio</a>
   <a href="#">Tecnología</a>
   <a href="#">Viajes</a>
   <a href="#">Música</a>
   <a href="calendario.html">📅 Calendario</a>
+  <a href="notas.html" style="background:#B3416B; padding:0.3rem 1rem; border-radius:25px;">📝 Notas</a>
 </nav>
 
 <div class="contenedor">
@@ -352,8 +366,8 @@
       <table class="tabla-tareas">
         <thead><tr><th style="width:40px">✓</th><th>Tarea</th></tr></thead>
         <tbody id="tbodySimples"></tbody>
-      </table>
-      <div class="nota-static">📝 Edita el array "tareasSimples" en el código JavaScript (línea ~250)</div>
+      <table>
+      <div class="nota-static">📝 Edita el array "tareasSimples" en el código JavaScript</div>
       <div class="motivacion-container">
         <div class="motivacion-marco">
           <img src="sevenseven.jpg" class="motivacion-imagen" onerror="this.src='https://via.placeholder.com/600x300/FFD1DC/B3416B?text=🌟+Tú+puedes+con+todo+🌟'">
@@ -373,7 +387,7 @@
         <thead><tr><th style="width:40px">✓</th><th>Día</th><th>Tarea</th></tr></thead>
         <tbody id="tbodySemanales"></tbody>
       </table>
-      <div class="nota-static">📝 Edita el array "tareasSemanales" en el código JavaScript (línea ~265)</div>
+      <div class="nota-static">📝 Edita el array "tareasSemanales" en el código JavaScript</div>
       <div class="motivacion-container">
         <div class="motivacion-marco">
           <img src="Buddha.jpg" class="motivacion-imagen" onerror="this.src='https://via.placeholder.com/600x300/FFD1DC/B3416B?text=🌟+Organiza+tu+semana+con+cariño+🌟'">
@@ -465,7 +479,7 @@
     { id: 5, dia: "domingo", tarea: "Parte 2 trabajo situación de enfermería", completada: false },
     { id: 6, dia: "domingo", tarea: "Terminar de arreglar ayudas para llevar a la rotación: botellitas", completada: false },
     { id: 7, dia: "domingo", tarea: "Estudiar rotación de partos", completada: false },
-    { id: 8, dia: "domingo", tarea: "Estudiar parcial ecobiología", completada: false }
+    { id: 8, dia: "domingo", tarea: "Estudiar parcial ecobiología", completada: false },
     // LUNES
     { id: 9, dia: "lunes", tarea: "Tutoría de la GUETI", completada: false },
     { id: 10, dia: "lunes", tarea: "Estudiar para tema de profundización", completada: false },
@@ -476,6 +490,10 @@
   // ============================================================
   // NO EDITES NADA DEBAJO DE ESTA LÍNEA
   // ============================================================
+
+  // Limpiar localStorage si hay datos corruptos (opcional, solo para arreglar)
+  // localStorage.removeItem('tareasSimples');
+  // localStorage.removeItem('tareasSemanales');
 
   // Slideshow principal
   const slides = document.querySelectorAll('.slide');
@@ -510,15 +528,54 @@
   cargarImagenesPaisajes();
   reiniciarTimerPaisajes();
 
+  // Limpiar localStorage viejo si está corrupto
+  function limpiarSiEsNecesario() {
+    try {
+      const testSimples = localStorage.getItem('tareasSimples');
+      if (testSimples) {
+        JSON.parse(testSimples);
+      }
+      const testSemanales = localStorage.getItem('tareasSemanales');
+      if (testSemanales) {
+        JSON.parse(testSemanales);
+      }
+    } catch(e) {
+      localStorage.removeItem('tareasSimples');
+      localStorage.removeItem('tareasSemanales');
+    }
+  }
+  limpiarSiEsNecesario();
+
   // Guardar/recuperar estado de completado
   function guardarTareasSimples() { localStorage.setItem('tareasSimples', JSON.stringify(tareasSimples)); }
   function guardarTareasSemanales() { localStorage.setItem('tareasSemanales', JSON.stringify(tareasSemanales)); }
-  function cargarTareasSimples() { const g = localStorage.getItem('tareasSimples'); if (g) tareasSimples = JSON.parse(g); renderizarTablaSimples(); }
-  function cargarTareasSemanales() { const g = localStorage.getItem('tareasSemanales'); if (g) tareasSemanales = JSON.parse(g); renderizarTablaSemanales(); }
+  
+  function cargarTareasSimples() { 
+    const g = localStorage.getItem('tareasSimples'); 
+    if (g) {
+      try {
+        const parsed = JSON.parse(g);
+        if (parsed && parsed.length > 0) tareasSimples = parsed;
+      } catch(e) {}
+    }
+    renderizarTablaSimples(); 
+  }
+  
+  function cargarTareasSemanales() { 
+    const g = localStorage.getItem('tareasSemanales'); 
+    if (g) {
+      try {
+        const parsed = JSON.parse(g);
+        if (parsed && parsed.length > 0) tareasSemanales = parsed;
+      } catch(e) {}
+    }
+    renderizarTablaSemanales(); 
+  }
 
   function renderizarTablaSimples() {
     const tbody = document.getElementById('tbodySimples');
-    tbody.innerHTML = tareasSimples.map(t => `<tr><td><input type="checkbox" class="check-simple" data-id="${t.id}" ${t.completada ? 'checked' : ''}></td><td class="${t.completada ? 'tarea-completada' : ''}">${escapeHtml(t.texto)}</td></tr>`).join('');
+    if (!tbody) return;
+    tbody.innerHTML = tareasSimples.map(t => `<tr><td style="text-align:center"><input type="checkbox" class="check-simple" data-id="${t.id}" ${t.completada ? 'checked' : ''}></td><td class="${t.completada ? 'tarea-completada' : ''}">${escapeHtml(t.texto)}</td>`).join('');
     document.querySelectorAll('.check-simple').forEach(cb => cb.addEventListener('change', function() {
       const t = tareasSimples.find(t => t.id == this.dataset.id);
       if (t) { t.completada = this.checked; guardarTareasSimples(); renderizarTablaSimples(); }
@@ -528,19 +585,49 @@
   function renderizarTablaSemanales() {
     const diasEsp = { lunes: "Lunes", martes: "Martes", miércoles: "Miércoles", jueves: "Jueves", viernes: "Viernes", sábado: "Sábado", domingo: "Domingo" };
     const tbody = document.getElementById('tbodySemanales');
-    tbody.innerHTML = tareasSemanales.map(t => `<tr><td><input type="checkbox" class="check-semanal" data-id="${t.id}" ${t.completada ? 'checked' : ''}></td><td><strong>${diasEsp[t.dia]}</strong></td><td class="${t.completada ? 'tarea-completada' : ''}">${escapeHtml(t.tarea)}</td></tr>`).join('');
+    if (!tbody) return;
+    tbody.innerHTML = tareasSemanales.map(t => `<td><td style="text-align:center"><input type="checkbox" class="check-semanal" data-id="${t.id}" ${t.completada ? 'checked' : ''}></td><td><strong>${diasEsp[t.dia]}</strong></td><td class="${t.completada ? 'tarea-completada' : ''}">${escapeHtml(t.tarea)}</td>`).join('');
     document.querySelectorAll('.check-semanal').forEach(cb => cb.addEventListener('change', function() {
       const t = tareasSemanales.find(t => t.id == this.dataset.id);
       if (t) { t.completada = this.checked; guardarTareasSemanales(); renderizarTablaSemanales(); }
     }));
   }
 
-  function escapeHtml(t) { return t.replace(/[&<>]/g, function(m) { if (m === '&') return '&amp;'; if (m === '<') return '&lt;'; if (m === '>') return '&gt;'; return m; }); }
+  function escapeHtml(t) { 
+    if (!t) return '';
+    return t.replace(/[&<>]/g, function(m) { 
+      if (m === '&') return '&amp;'; 
+      if (m === '<') return '&lt;'; 
+      if (m === '>') return '&gt;'; 
+      return m; 
+    }); 
+  }
 
   function abrirModalContenido() {
-    document.getElementById('m-contenido').innerHTML = `<div class="modal-gif-container"><img src="keep.gif" alt="GIF"></div><p>Fisiología del trabajo de parto</p><p>Las 4 etapas del trabajo de parto</p><p>Mecanismos del trabajo de parto</p><p>Monitoría fetal</p><p>Signos vitales y valoración materna</p><p>💊 Farmacología básica en sala de partos</p><p>🔬 Procedimientos que debes reconocer</p><p>⚠️ Emergencias obstétricas</p>`;
+    document.getElementById('m-contenido').innerHTML = `<div class="modal-gif-container"><img src="keep.gif" alt="GIF" style="max-width:100%"></div>
+      <p><strong>📚 Fisiología del trabajo de parto</strong></p>
+      <p>• Las 4 etapas del trabajo de parto (dilatación, expulsivo, alumbramiento y posparto inmediato)</p>
+      <p>• Mecanismos del trabajo de parto (encajamiento, descenso, rotación, extensión, etc.)</p>
+      <p>• Diferencia entre trabajo de parto verdadero y falso</p>
+      <p>• Clasificación de la presentación fetal (cefálica, podálica, transversa)</p>
+      <p><strong>🩺 Monitoría fetal</strong></p>
+      <p>• Cómo interpretar una cardiotocografía (CTG) básica</p>
+      <p>• Valores normales de la frecuencia cardíaca fetal (110–160 lpm)</p>
+      <p>• Reconocer desaceleraciones tempranas, tardías y variables</p>
+      <p><strong>💊 Farmacología básica en sala de partos</strong></p>
+      <p>• Oxitocina: dosis, indicaciones, riesgos</p>
+      <p>• Misoprostol: uso en inducción y posparto</p>
+      <p>• Sulfato de magnesio: manejo de preeclampsia</p>
+      <p>• Analgesia epidural: conceptos básicos</p>
+      <p><strong>🔬 Procedimientos que debes reconocer</strong></p>
+      <p>• Amniotomía, Maniobras de Leopold, Episiotomía</p>
+      <p>• Atención inmediata del recién nacido: APGAR</p>
+      <p><strong>⚠️ Emergencias obstétricas</strong></p>
+      <p>• Hemorragia posparto, Preeclampsia/eclampsia</p>
+      <p>• Distocia de hombros, Prolapso de cordón</p>`;
     document.getElementById('modal').classList.add('activo');
   }
+  
   function cerrarModal() { document.getElementById('modal').classList.remove('activo'); }
   document.getElementById('modal').addEventListener('click', function(e) { if (e.target === this) cerrarModal(); });
 
