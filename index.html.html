@@ -67,12 +67,17 @@
     .articulo-img {
       width: 100%;
       height: 200px;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 3rem;
+      overflow: hidden;
+      background: #f0f0f0;
+    }
+    .articulo-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    .articulo-img img:hover {
+      transform: scale(1.05);
     }
     .articulo-body { padding: 1.5rem; }
     .categoria {
@@ -322,10 +327,10 @@
 
   reiniciarTimer();
 
-  // ── POSTS ──────────────────────────────────────────────────
+  // ── POSTS CON IMÁGENES (cambié emoji por imagen) ───────────
   const posts = [
     {
-      imagen: "Buddha.jpg",
+      imagen: "Buddha.jpg", 
       categoria: "Tecnología",
       titulo: "Lista de tareas por hacer pendientes",
       fecha: "1 de mayo, 2026",
@@ -335,7 +340,7 @@
                   <p>Empezar trabajo plan de atención de enfermería</p>`
     },
     {
-      emoji: "✈️",
+      imagen: "https://via.placeholder.com/400x200/FF6B6B/white?text=Viajes",  // Imagen de ejemplo
       categoria: "Viajes",
       titulo: "Eje Cafetero: el corazón de Colombia",
       fecha: "20 de abril, 2026",
@@ -344,7 +349,7 @@
       contenido: `<p>El Eje Cafetero es una de las regiones más bellas de Colombia. Sus montañas verdes, el aroma a café y la calidez de su gente lo hacen un destino único.</p><p>Empecé mi recorrido en <strong>Pereira</strong>, una ciudad vibrante con una gastronomía increíble.</p>`
     },
     {
-      emoji: "📚",
+      imagen: "https://via.placeholder.com/400x200/4ECDC4/white?text=Libros",  // Imagen de ejemplo
       categoria: "Libros",
       titulo: "5 libros que me cambiaron la vida",
       fecha: "10 de abril, 2026",
@@ -358,7 +363,9 @@
   posts.forEach((p, i) => {
     main.innerHTML += `
       <article class="articulo">
-        <div class="articulo-img">${p.emoji}</div>
+        <div class="articulo-img">
+          <img src="${p.imagen}" alt="${p.categoria}" onerror="this.src='https://via.placeholder.com/400x200/CCCCCC/white?text=Imagen+no+encontrada'">
+        </div>
         <div class="articulo-body">
           <span class="categoria">${p.categoria}</span>
           <h2>${p.titulo}</h2>
