@@ -202,67 +202,39 @@
       font-size: 0.9rem;
     }
 
-    /* Estilos para la imagen de motivación */
+    /* Estilos para la imagen de motivación - Marco simple rosa bebé */
     .motivacion-container {
       margin-top: 25px;
       margin-bottom: 10px;
-      padding: 15px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      border-radius: 15px;
       text-align: center;
-      animation: fadeInUp 0.6s ease;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
 
     .motivacion-marco {
-      background: white;
-      border-radius: 12px;
-      padding: 5px;
-      border: 3px solid #f0a500;
-      box-shadow: 0 0 20px rgba(240, 165, 0, 0.3);
+      background: #FFB6C1; /* Rosa bebé */
+      padding: 15px;
+      border-radius: 10px;
+      display: inline-block;
+      width: 100%;
     }
 
     .motivacion-imagen {
       width: 100%;
-      max-height: 200px;
+      max-height: 250px;
       object-fit: cover;
-      border-radius: 8px;
+      border-radius: 5px;
       display: block;
     }
 
     .motivacion-texto {
-      margin-top: 12px;
+      margin-top: 15px;
       font-size: 1.3rem;
       font-weight: bold;
-      background: linear-gradient(135deg, #f0a500, #ff6b6b);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+      color: #FF69B4; /* Rosa más intenso para el texto */
       font-family: 'Comic Neue', 'Comic Sans MS', cursive;
-      display: inline-flex;
+      display: flex;
       align-items: center;
+      justify-content: center;
       gap: 8px;
-      animation: pulse 1.5s infinite;
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes pulse {
-      0%, 100% {
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(1.05);
-      }
     }
 
     .modal-overlay {
@@ -656,6 +628,7 @@
 
     if (i === 0) {
       // Renderizar el gestor de tareas completo con imagen de motivación
+      // CAMBIA LA RUTA DE LA IMAGEN AQUÍ: reemplaza "sevenseven.jpg" con el nombre de tu imagen
       contenidoFinal = `
         <div class="tareas-controles">
           <input type="text" id="nueva-tarea-input" class="nueva-tarea-input" placeholder="Escribe una nueva tarea...">
@@ -666,7 +639,7 @@
         
         <div class="motivacion-container">
           <div class="motivacion-marco">
-            <imagen="sevenseven.jpg">
+            <img src="sevenseven.jpg" alt="Imagen de motivación" class="motivacion-imagen" onerror="this.src='https://via.placeholder.com/600x300/FFB6C1/ffffff?text=🌟+Mi+imagen+de+motivación+🌟'">
           </div>
           <div class="motivacion-texto">
             ✨ ¡Tú puedes hacerlo! ✨ ദ്ദി◝ ⩊ ◜.ᐟ
