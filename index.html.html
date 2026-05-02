@@ -8,7 +8,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: 'Quicksand', 'Comic Neue', 'Comic Sans MS', 'Chalkboard SE', cursive, sans-serif;
+      font-family: 'Quicksand', 'Comic Neue', 'Comic Sans MS', cursive;
       background: #FFF0F5;
       color: #4A2B3D;
     }
@@ -27,7 +27,6 @@
       color: #FFF0F5;
       text-decoration: none;
       font-size: .95rem;
-      font-family: 'Quicksand', 'Comic Neue', cursive;
       font-weight: 600;
       transition: color .2s;
     }
@@ -48,10 +47,6 @@
       overflow: hidden;
       margin-bottom: 2rem;
       box-shadow: 0 4px 12px rgba(216, 111, 139, 0.15);
-      transition: transform 0.3s ease;
-    }
-    .articulo:hover {
-      transform: translateY(-5px);
     }
     .articulo-img {
       width: 100%;
@@ -60,19 +55,12 @@
       max-height: 400px;
       overflow: hidden;
       background: #FFD1DC;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
     .articulo-img img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 0.3s ease;
-    }
-    .articulo-img img:hover {
-      transform: scale(1.05);
     }
     .articulo-body { padding: 1.5rem; }
     .categoria {
@@ -80,32 +68,19 @@
       background: #F4A4B8;
       color: white;
       font-size: .75rem;
-      font-family: 'Quicksand', 'Comic Neue', cursive;
-      font-weight: 600;
       padding: .2rem .7rem;
       border-radius: 20px;
       margin-bottom: .8rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
     }
     .articulo h2 { 
       font-size: 1.4rem; 
       margin-bottom: .5rem; 
-      font-family: 'Quicksand', 'Comic Neue', cursive;
       color: #B3416B;
-      font-weight: 700;
     }
     .meta { 
       font-size: .82rem; 
       color: #C97A9A; 
-      font-family: 'Quicksand', 'Comic Neue', cursive; 
       margin-bottom: .8rem; 
-      font-weight: 500;
-    }
-    .articulo p { 
-      line-height: 1.7; 
-      color: #5C3D4F; 
-      font-family: 'Quicksand', 'Comic Neue', cursive; 
     }
     .leer-mas {
       display: inline-block;
@@ -114,19 +89,12 @@
       color: white;
       padding: .5rem 1.2rem;
       border-radius: 25px;
-      font-family: 'Quicksand', 'Comic Neue', cursive;
-      font-size: .9rem;
-      font-weight: 600;
       cursor: pointer;
       border: none;
-      transition: all 0.3s ease;
     }
-    .leer-mas:hover { 
-      background: #B3416B;
-      transform: scale(1.05);
-    }
+    .leer-mas:hover { background: #B3416B; }
 
-    /* Estilos para tablas estáticas */
+    /* Tablas */
     .seccion-tabla {
       background: #FFFFFF;
       border-radius: 16px;
@@ -146,13 +114,10 @@
       color: white;
       padding: 12px;
       text-align: left;
-      font-family: 'Quicksand', cursive;
-      font-weight: 600;
     }
     .tabla-tareas td {
       padding: 10px;
       border-bottom: 1px solid #F4C2D0;
-      font-family: 'Quicksand', cursive;
     }
     .tabla-tareas tr:hover {
       background: #FFF5F7;
@@ -180,7 +145,6 @@
 
     .motivacion-container {
       margin-top: 25px;
-      margin-bottom: 10px;
       text-align: center;
       padding: 0 1.5rem 1.5rem 1.5rem;
     }
@@ -188,8 +152,6 @@
       background: #FFE4E8;
       padding: 15px;
       border-radius: 20px;
-      display: block;
-      width: 100%;
       border: 2px solid #F4C2D0;
     }
     .motivacion-imagen {
@@ -198,19 +160,12 @@
       max-height: 300px;
       object-fit: contain;
       border-radius: 12px;
-      display: block;
     }
     .motivacion-texto {
       margin-top: 15px;
       font-size: 1.3rem;
       font-weight: bold;
       color: #D86F8B;
-      font-family: 'Quicksand', 'Comic Neue', cursive;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      flex-wrap: wrap;
     }
 
     .modal-overlay {
@@ -233,19 +188,6 @@
       max-height: 80vh;
       overflow-y: auto;
     }
-    .modal h2 { 
-      font-size: 1.6rem; 
-      margin-bottom: .5rem; 
-      font-family: 'Quicksand', 'Comic Neue', cursive;
-      color: #B3416B;
-    }
-    .modal .meta { margin-bottom: 1rem; }
-    .modal p { 
-      line-height: 1.8; 
-      color: #5C3D4F; 
-      margin-bottom: 1rem; 
-      font-family: 'Quicksand', 'Comic Neue', cursive; 
-    }
     .cerrar {
       position: absolute;
       top: 1rem; right: 1.2rem;
@@ -254,23 +196,6 @@
       background: none;
       border: none;
       color: #D86F8B;
-      font-weight: bold;
-    }
-    .cerrar:hover {
-      color: #B3416B;
-    }
-
-    .modal-gif-container {
-      text-align: center;
-      margin: 20px 0;
-      padding: 10px;
-      background: #FFF5F7;
-      border-radius: 12px;
-    }
-    .modal-gif-container img {
-      max-width: 100%;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
     aside { display: flex; flex-direction: column; gap: 1.5rem; }
@@ -281,15 +206,11 @@
       box-shadow: 0 4px 12px rgba(216, 111, 139, 0.1);
     }
     .widget h3 {
-      font-family: 'Quicksand', 'Comic Neue', cursive;
       font-size: 1rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
       margin-bottom: 1rem;
       padding-bottom: .5rem;
       border-bottom: 2px solid #D86F8B;
       color: #B3416B;
-      font-weight: 700;
     }
 
     .widget-musica {
@@ -298,16 +219,8 @@
     .musica-iframe {
       width: 100%;
       border-radius: 12px;
-      margin-top: 10px;
       min-height: 232px;
       aspect-ratio: 16/9;
-    }
-    .musica-info {
-      text-align: center;
-      margin-top: 10px;
-      font-size: 0.8rem;
-      color: #B3416B;
-      font-family: 'Quicksand', cursive;
     }
 
     .widget-paisajes {
@@ -341,7 +254,6 @@
       padding: 0.5rem;
       background: #D86F8B;
       border-radius: 0 0 12px 12px;
-      margin-top: -4px;
     }
     .btn-paisaje {
       background: #FFFFFF;
@@ -350,14 +262,6 @@
       padding: 0.3rem 0.9rem;
       border-radius: 20px;
       cursor: pointer;
-      font-size: 1rem;
-      transition: all 0.3s ease;
-      font-family: 'Quicksand', cursive;
-      font-weight: bold;
-    }
-    .btn-paisaje:hover {
-      background: #B3416B;
-      color: white;
     }
     .indicadores-paisajes {
       text-align: center;
@@ -371,7 +275,6 @@
       display: inline-block;
       margin: 0 4px;
       cursor: pointer;
-      transition: all 0.3s ease;
     }
     .dot.activo {
       background-color: #D86F8B;
@@ -409,12 +312,7 @@
       padding: .3rem .9rem;
       border-radius: 20px;
       cursor: pointer;
-      font-size: 1rem;
-      transition: all 0.3s ease;
-      font-family: 'Quicksand', 'Comic Neue', cursive;
-      font-weight: bold;
     }
-    .slide-btn:hover { background: #B3416B; color: white; }
 
     footer {
       background: #D86F8B;
@@ -422,25 +320,12 @@
       text-align: center;
       padding: 1.5rem;
       margin-top: 2rem;
-      font-family: 'Quicksand', 'Comic Neue', cursive;
-      font-size: .85rem;
     }
 
     @media (max-width: 640px) {
       .contenedor { grid-template-columns: 1fr; }
-      .articulo-img {
-        max-height: 300px;
-      }
-      .motivacion-texto {
-        font-size: 1rem;
-      }
-      .musica-iframe {
-        min-height: 180px;
-      }
-      .tabla-tareas th, .tabla-tareas td {
-        font-size: 0.75rem;
-        padding: 6px;
-      }
+      .musica-iframe { min-height: 180px; }
+      .tabla-tareas th, .tabla-tareas td { font-size: 0.75rem; padding: 6px; }
     }
   </style>
 </head>
@@ -464,23 +349,16 @@
         <h2>Lista de tareas (˶ ´༥` ˶)୭</h2>
         <p class="meta">📅 1 de mayo, 2026 &nbsp;·&nbsp; ✍️ Yo mismo</p>
       </div>
-      <table class="tabla-tareas" id="tablaSimples">
-        <thead>
-          <tr><th style="width: 40px">✓</th><th>Tarea</th></tr>
-        </thead>
-        <tbody id="tbodySimples">
-        </tbody>
+      <table class="tabla-tareas">
+        <thead><tr><th style="width:40px">✓</th><th>Tarea</th></tr></thead>
+        <tbody id="tbodySimples"></tbody>
       </table>
-      <div class="nota-static">
-        📝 Para modificar estas tareas, edita el array "tareasSimples" en el código JavaScript
-      </div>
+      <div class="nota-static">📝 Edita el array "tareasSimples" en el código JavaScript (línea ~250)</div>
       <div class="motivacion-container">
         <div class="motivacion-marco">
-          <img src="sevenseven.jpg" alt="Imagen de motivación" class="motivacion-imagen" onerror="this.src='https://via.placeholder.com/600x300/FFD1DC/B3416B?text=🌟+Tú+puedes+con+todo+🌟'">
+          <img src="sevenseven.jpg" class="motivacion-imagen" onerror="this.src='https://via.placeholder.com/600x300/FFD1DC/B3416B?text=🌟+Tú+puedes+con+todo+🌟'">
         </div>
-        <div class="motivacion-texto">
-          ✨ ¡Tú puedes hacerlo! ✨ ദ്ദി◝ ⩊ ◜.ᐟ
-        </div>
+        <div class="motivacion-texto">✨ ¡Tú puedes hacerlo! ✨ ദ്ദി◝ ⩊ ◜.ᐟ</div>
       </div>
     </div>
 
@@ -491,31 +369,22 @@
         <h2>Tareas por día de la semana</h2>
         <p class="meta">📅 20 de abril, 2026 &nbsp;·&nbsp; ✍️ Yo mismo</p>
       </div>
-      <table class="tabla-tareas" id="tablaSemanales">
-        <thead>
-          <tr><th style="width: 40px">✓</th><th>Día</th><th>Tarea</th></tr>
-        </thead>
-        <tbody id="tbodySemanales">
-        </tbody>
+      <table class="tabla-tareas">
+        <thead><tr><th style="width:40px">✓</th><th>Día</th><th>Tarea</th></tr></thead>
+        <tbody id="tbodySemanales"></tbody>
       </table>
-      <div class="nota-static">
-        📝 Para modificar estas tareas, edita el array "tareasSemanales" en el código JavaScript
-      </div>
+      <div class="nota-static">📝 Edita el array "tareasSemanales" en el código JavaScript (línea ~265)</div>
       <div class="motivacion-container">
         <div class="motivacion-marco">
-          <img src="Buddha.jpg" alt="Imagen de motivación" class="motivacion-imagen" onerror="this.src='https://via.placeholder.com/600x300/FFD1DC/B3416B?text=🌟+Organiza+tu+semana+con+cariño+🌟'">
+          <img src="Buddha.jpg" class="motivacion-imagen" onerror="this.src='https://via.placeholder.com/600x300/FFD1DC/B3416B?text=🌟+Organiza+tu+semana+con+cariño+🌟'">
         </div>
-        <div class="motivacion-texto">
-          ✨ ¡Cada día es una nueva oportunidad! ✨ 🌸
-        </div>
+        <div class="motivacion-texto">✨ ¡Cada día es una nueva oportunidad! ✨ 🌸</div>
       </div>
     </div>
 
-    <!-- TERCER POST (contenido educativo) -->
+    <!-- TERCER POST -->
     <article class="articulo">
-      <div class="articulo-img">
-        <img src="japan3.jpg" alt="Estudio" onerror="this.src='https://via.placeholder.com/800x400/E8A0B5/white?text=Imagen+no+encontrada'">
-      </div>
+      <div class="articulo-img"><img src="japan3.jpg" onerror="this.src='https://via.placeholder.com/800x400/E8A0B5/white?text=Imagen+no+encontrada'"></div>
       <div class="articulo-body">
         <span class="categoria">˚₊‧꒰ა ☆ ໒꒱ ‧₊˚</span>
         <h2>QUE ESTUDIAR PARA ROTACIÓN DE PARTOS</h2>
@@ -530,10 +399,10 @@
 
     <div class="widget" style="padding:0;overflow:hidden;border-radius:16px;">
       <div class="slideshow" id="slideshow">
-        <div class="slide activo"><img src="chii.jpg" alt="Foto 1"></div>
-        <div class="slide"><img src="umibe.jpg" alt="Foto 2"></div>
-        <div class="slide"><img src="gwen.jpg" alt="Foto 3"></div>
-        <div class="slide"><img src="Isobe.jpg" alt="Foto 4"></div>
+        <div class="slide activo"><img src="chii.jpg"></div>
+        <div class="slide"><img src="umibe.jpg"></div>
+        <div class="slide"><img src="gwen.jpg"></div>
+        <div class="slide"><img src="Isobe.jpg"></div>
       </div>
       <div class="slide-btns">
         <button class="slide-btn" onclick="cambiarSlide(-1)">◀</button>
@@ -544,9 +413,9 @@
     <div class="widget widget-paisajes">
       <h3>🏔️ Paisajes que Inspiran 🌅</h3>
       <div class="slideshow-paisajes" id="slideshowPaisajes">
-        <div class="slide-paisaje activo"><img src="Ipanema.jpg" alt="Paisaje 1"></div>
-        <div class="slide-paisaje"><img src="Japan1.jpg" alt="Paisaje 2"></div>
-        <div class="slide-paisaje"><img src="Japan2.jpg" alt="Paisaje 3"></div>
+        <div class="slide-paisaje activo"><img src="Ipanema.jpg"></div>
+        <div class="slide-paisaje"><img src="Japan1.jpg"></div>
+        <div class="slide-paisaje"><img src="Japan2.jpg"></div>
       </div>
       <div class="slideshow-paisajes-btns">
         <button class="btn-paisaje" onclick="cambiarPaisaje(-1)">◀</button>
@@ -557,17 +426,8 @@
 
     <div class="widget widget-musica">
       <h3>🎵 Mi playlist favorita 🎵</h3>
-      <iframe class="musica-iframe" 
-        src="https://www.youtube.com/embed/videoseries?list=PLl4CgAo8Zq4hNkAEh5VOC-XgGnkk6yuPF" 
-        title="YouTube Playlist" 
-        frameborder="0" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-        referrerpolicy="strict-origin-when-cross-origin" 
-        allowfullscreen>
-      </iframe>
-      <div class="musica-info">
-        🎧 Mi playlist favorita 🎵
-      </div>
+      <iframe class="musica-iframe" src="https://www.youtube.com/embed/videoseries?list=PLl4CgAo8Zq4hNkAEh5VOC-XgGnkk6yuPF" allowfullscreen></iframe>
+      <div class="musica-info">🎧 Mi playlist favorita 🎵</div>
     </div>
 
   </aside>
@@ -576,111 +436,24 @@
 <div class="modal-overlay" id="modal">
   <div class="modal">
     <button class="cerrar" onclick="cerrarModal()">✕</button>
-    <span class="categoria" id="m-cat"></span>
-    <h2 id="m-titulo"></h2>
-    <p class="meta" id="m-meta"></p>
     <div id="m-contenido"></div>
   </div>
 </div>
 
-<footer>
-  <p>🌸 © 2026 Mi Blog · Hecho con 💖 y mucha ternura 🌸</p>
-</footer>
+<footer>🌸 © 2026 Mi Blog · Hecho con 💖 y mucha ternura 🌸</footer>
 
 <script>
-  // ── SLIDESHOW PRINCIPAL ──────────────────────────────────────────
-  const slides = document.querySelectorAll('.slide');
-  let actualSlide = 0, timerPrincipal;
-
-  function irA(n) {
-    slides[actualSlide].classList.remove('activo');
-    actualSlide = (n + slides.length) % slides.length;
-    slides[actualSlide].classList.add('activo');
-    reiniciarTimerPrincipal();
-  }
-
-  function cambiarSlide(dir) { irA(actualSlide + dir); }
-
-  function reiniciarTimerPrincipal() {
-    clearInterval(timerPrincipal);
-    timerPrincipal = setInterval(() => cambiarSlide(1), 4000);
-  }
-  reiniciarTimerPrincipal();
-
-  // ── SLIDESHOW DE PAISAJES ───────────────────────────────────
-  let imagenesPaisajes = [
-    "Ipanema.jpg",
-    "Japan1.jpg",
-    "Japan2.jpg"
-  ];
+  // ============================================================
+  // ✏️ EDITA LAS TAREAS AQUÍ ABAJO ✏️
+  // ============================================================
   
-  let slidesPaisajes = document.querySelectorAll('.slide-paisaje');
-  let actualPaisaje = 0;
-  let timerPaisajes;
-
-  function cargarImagenesPaisajes() {
-    slidesPaisajes.forEach((slide, index) => {
-      if (index < imagenesPaisajes.length) {
-        const img = slide.querySelector('img');
-        if (img) {
-          img.src = imagenesPaisajes[index];
-          img.alt = `Paisaje ${index + 1}`;
-        }
-      }
-    });
-    crearIndicadores();
-  }
-
-  function crearIndicadores() {
-    const container = document.getElementById('indicadoresPaisajes');
-    if (!container) return;
-    container.innerHTML = '';
-    for (let i = 0; i < slidesPaisajes.length; i++) {
-      const dot = document.createElement('span');
-      dot.classList.add('dot');
-      if (i === actualPaisaje) dot.classList.add('activo');
-      dot.onclick = () => irAPaisaje(i);
-      container.appendChild(dot);
-    }
-  }
-
-  function actualizarIndicadores() {
-    const dots = document.querySelectorAll('#indicadoresPaisajes .dot');
-    dots.forEach((dot, index) => {
-      if (index === actualPaisaje) dot.classList.add('activo');
-      else dot.classList.remove('activo');
-    });
-  }
-
-  function irAPaisaje(n) {
-    slidesPaisajes[actualPaisaje].classList.remove('activo');
-    actualPaisaje = (n + slidesPaisajes.length) % slidesPaisajes.length;
-    slidesPaisajes[actualPaisaje].classList.add('activo');
-    actualizarIndicadores();
-    reiniciarTimerPaisajes();
-  }
-
-  function cambiarPaisaje(dir) { irAPaisaje(actualPaisaje + dir); }
-
-  function reiniciarTimerPaisajes() {
-    clearInterval(timerPaisajes);
-    timerPaisajes = setInterval(() => cambiarPaisaje(1), 5000);
-  }
-  cargarImagenesPaisajes();
-  reiniciarTimerPaisajes();
-
-  // ── DATOS ESTÁTICOS PARA TABLAS (EDITA AQUÍ) ─────────────────────
-  // ============================================================
-  // 🟢 LISTA DE TAREAS SIMPLES - Edita esta tabla
-  // ============================================================
+  // LISTA DE TAREAS SIMPLES
   let tareasSimples = [
     { id: 1, texto: "Póster de P y P (Pasar a plantilla para mandar a imprimir en papel bond)", completada: false },
     { id: 2, texto: "Trabajo plan de atención de enfermería", completada: false }
   ];
 
-  // ============================================================
-  // 🟢 TAREAS POR DÍA DE LA SEMANA - Edita esta tabla (sin fechas límite)
-  // ============================================================
+  // TAREAS POR DÍA DE LA SEMANA
   let tareasSemanales = [
     // LUNES
     { id: 1, dia: "lunes", tarea: "Buscar artículo para caso de profundización", completada: false },
@@ -694,161 +467,79 @@
     { id: 8, dia: "martes", tarea: "Estudiar parcial ecobiología", completada: false }
   ];
 
-  // Guardar en localStorage (para mantener el estado de completado)
-  function guardarTareasSimples() {
-    localStorage.setItem('listaTareasStatic', JSON.stringify(tareasSimples));
-  }
+  // ============================================================
+  // NO EDITES NADA DEBAJO DE ESTA LÍNEA
+  // ============================================================
 
-  function cargarTareasSimplesStatic() {
-    const guardadas = localStorage.getItem('listaTareasStatic');
-    if (guardadas) {
-      tareasSimples = JSON.parse(guardadas);
+  // Slideshow principal
+  const slides = document.querySelectorAll('.slide');
+  let actualSlide = 0, timerPrincipal;
+  function irA(n) { slides[actualSlide].classList.remove('activo'); actualSlide = (n + slides.length) % slides.length; slides[actualSlide].classList.add('activo'); reiniciarTimerPrincipal(); }
+  function cambiarSlide(dir) { irA(actualSlide + dir); }
+  function reiniciarTimerPrincipal() { clearInterval(timerPrincipal); timerPrincipal = setInterval(() => cambiarSlide(1), 4000); }
+  reiniciarTimerPrincipal();
+
+  // Slideshow paisajes
+  let slidesPaisajes = document.querySelectorAll('.slide-paisaje');
+  let actualPaisaje = 0, timerPaisajes;
+  function cargarImagenesPaisajes() {
+    const imagenes = ["Ipanema.jpg", "Japan1.jpg", "Japan2.jpg"];
+    slidesPaisajes.forEach((s, i) => { if (i < imagenes.length) s.querySelector('img').src = imagenes[i]; });
+    crearIndicadores();
+  }
+  function crearIndicadores() {
+    const container = document.getElementById('indicadoresPaisajes');
+    container.innerHTML = '';
+    for (let i = 0; i < slidesPaisajes.length; i++) {
+      const dot = document.createElement('span'); dot.classList.add('dot');
+      if (i === actualPaisaje) dot.classList.add('activo');
+      dot.onclick = () => { slidesPaisajes[actualPaisaje].classList.remove('activo'); actualPaisaje = i; slidesPaisajes[actualPaisaje].classList.add('activo'); actualizarIndicadores(); reiniciarTimerPaisajes(); };
+      container.appendChild(dot);
     }
-    renderizarTablaTareasSimples();
   }
+  function actualizarIndicadores() { document.querySelectorAll('#indicadoresPaisajes .dot').forEach((d, i) => { if (i === actualPaisaje) d.classList.add('activo'); else d.classList.remove('activo'); }); }
+  function irAPaisaje(n) { slidesPaisajes[actualPaisaje].classList.remove('activo'); actualPaisaje = (n + slidesPaisajes.length) % slidesPaisajes.length; slidesPaisajes[actualPaisaje].classList.add('activo'); actualizarIndicadores(); reiniciarTimerPaisajes(); }
+  function cambiarPaisaje(dir) { irAPaisaje(actualPaisaje + dir); }
+  function reiniciarTimerPaisajes() { clearInterval(timerPaisajes); timerPaisajes = setInterval(() => cambiarPaisaje(1), 5000); }
+  cargarImagenesPaisajes();
+  reiniciarTimerPaisajes();
 
-  function guardarTareasSemanales() {
-    localStorage.setItem('tareasSemanalesStatic', JSON.stringify(tareasSemanales));
-  }
+  // Guardar/recuperar estado de completado
+  function guardarTareasSimples() { localStorage.setItem('tareasSimples', JSON.stringify(tareasSimples)); }
+  function guardarTareasSemanales() { localStorage.setItem('tareasSemanales', JSON.stringify(tareasSemanales)); }
+  function cargarTareasSimples() { const g = localStorage.getItem('tareasSimples'); if (g) tareasSimples = JSON.parse(g); renderizarTablaSimples(); }
+  function cargarTareasSemanales() { const g = localStorage.getItem('tareasSemanales'); if (g) tareasSemanales = JSON.parse(g); renderizarTablaSemanales(); }
 
-  function cargarTareasSemanalesStatic() {
-    const guardadas = localStorage.getItem('tareasSemanalesStatic');
-    if (guardadas) {
-      tareasSemanales = JSON.parse(guardadas);
-    }
-    renderizarTablaTareasSemanales();
-  }
-
-  // Renderizar tabla de tareas simples
-  function renderizarTablaTareasSimples() {
+  function renderizarTablaSimples() {
     const tbody = document.getElementById('tbodySimples');
-    if (!tbody) return;
-    
-    let html = '';
-    tareasSimples.forEach(tarea => {
-      html += `
-        <tr>
-          <td style="text-align:center"><input type="checkbox" class="check-simple" data-id="${tarea.id}" ${tarea.completada ? 'checked' : ''}></td>
-          <td class="${tarea.completada ? 'tarea-completada' : ''}">${escapeHtml(tarea.texto)}</td>
-        </tr>
-      `;
-    });
-    
-    tbody.innerHTML = html;
-    
-    document.querySelectorAll('.check-simple').forEach(checkbox => {
-      checkbox.addEventListener('change', function(e) {
-        const id = parseInt(this.getAttribute('data-id'));
-        const tarea = tareasSimples.find(t => t.id === id);
-        if (tarea) {
-          tarea.completada = this.checked;
-          guardarTareasSimples();
-          renderizarTablaTareasSimples();
-        }
-      });
-    });
+    tbody.innerHTML = tareasSimples.map(t => `<tr><td><input type="checkbox" class="check-simple" data-id="${t.id}" ${t.completada ? 'checked' : ''}></td><td class="${t.completada ? 'tarea-completada' : ''}">${escapeHtml(t.texto)}</td></tr>`).join('');
+    document.querySelectorAll('.check-simple').forEach(cb => cb.addEventListener('change', function() {
+      const t = tareasSimples.find(t => t.id == this.dataset.id);
+      if (t) { t.completada = this.checked; guardarTareasSimples(); renderizarTablaSimples(); }
+    }));
   }
 
-  // Renderizar tabla de tareas semanales (sin columna de fecha límite)
-  function renderizarTablaTareasSemanales() {
+  function renderizarTablaSemanales() {
+    const diasEsp = { lunes: "Lunes", martes: "Martes", miércoles: "Miércoles", jueves: "Jueves", viernes: "Viernes", sábado: "Sábado", domingo: "Domingo" };
     const tbody = document.getElementById('tbodySemanales');
-    if (!tbody) return;
-    
-    const diasEsp = {
-      lunes: "Lunes", martes: "Martes", miércoles: "Miércoles", 
-      jueves: "Jueves", viernes: "Viernes", sábado: "Sábado", domingo: "Domingo"
-    };
-    
-    let html = '';
-    tareasSemanales.forEach(tarea => {
-      html += `
-        <tr>
-          <td style="text-align:center"><input type="checkbox" class="check-semanal" data-id="${tarea.id}" ${tarea.completada ? 'checked' : ''}></td>
-          <td><strong>${diasEsp[tarea.dia] || tarea.dia}</strong></td>
-          <td class="${tarea.completada ? 'tarea-completada' : ''}">${escapeHtml(tarea.tarea)}</td>
-        </tr>
-      `;
-    });
-    
-    tbody.innerHTML = html;
-    
-    document.querySelectorAll('.check-semanal').forEach(checkbox => {
-      checkbox.addEventListener('change', function(e) {
-        const id = parseInt(this.getAttribute('data-id'));
-        const tarea = tareasSemanales.find(t => t.id === id);
-        if (tarea) {
-          tarea.completada = this.checked;
-          guardarTareasSemanales();
-          renderizarTablaTareasSemanales();
-        }
-      });
-    });
+    tbody.innerHTML = tareasSemanales.map(t => `<tr><td><input type="checkbox" class="check-semanal" data-id="${t.id}" ${t.completada ? 'checked' : ''}></td><td><strong>${diasEsp[t.dia]}</strong></td><td class="${t.completada ? 'tarea-completada' : ''}">${escapeHtml(t.tarea)}</td></tr>`).join('');
+    document.querySelectorAll('.check-semanal').forEach(cb => cb.addEventListener('change', function() {
+      const t = tareasSemanales.find(t => t.id == this.dataset.id);
+      if (t) { t.completada = this.checked; guardarTareasSemanales(); renderizarTablaSemanales(); }
+    }));
   }
 
-  function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-  }
+  function escapeHtml(t) { return t.replace(/[&<>]/g, function(m) { if (m === '&') return '&amp;'; if (m === '<') return '&lt;'; if (m === '>') return '&gt;'; return m; }); }
 
-  // Modal para el contenido del tercer post
   function abrirModalContenido() {
-    document.getElementById('m-cat').textContent = "˚₊‧꒰ა ☆ ໒꒱ ‧₊˚";
-    document.getElementById('m-titulo').textContent = "QUE ESTUDIAR PARA ROTACIÓN DE PARTOS";
-    document.getElementById('m-meta').textContent = "📅 10 de abril, 2026  ·  ✍️ Yo mismo";
-    
-    const contenido = `
-      <div class="modal-gif-container">
-        <img src="keep.gif" alt="GIF animado">
-      </div>
-      <p>Fisiología del trabajo de parto</p>
-      <p>Las 4 etapas del trabajo de parto (dilatación, expulsivo, alumbramiento y posparto inmediato)</p>
-      <p>Mecanismos del trabajo de parto (encajamiento, descenso, rotación, extensión, etc.)</p>
-      <p>Diferencia entre trabajo de parto verdadero y falso</p>
-      <p>Clasificación de la presentación fetal (cefálica, podálica, transversa)</p>
-      <p>Monitoría fetal</p>
-      <p>Cómo interpretar una cardiotocografía (CTG) básica</p>
-      <p>Valores normales de la frecuencia cardíaca fetal (110–160 lpm)</p>
-      <p>Reconocer desaceleraciones tempranas, tardías y variables</p>
-      <p>Signos vitales y valoración materna</p>
-      <p>Rangos normales en la gestante (TA, FC, temperatura)</p>
-      <p>Señales de alarma: hipertensión, sangrado, fiebre, disminución del movimiento fetal</p>
-      <p>💊 Farmacología básica en sala de partos</p>
-      <p>Oxitocina: dosis, indicaciones, riesgos (hiperstimulación uterina)</p>
-      <p>Misoprostol: uso en inducción y posparto</p>
-      <p>Sulfato de magnesio: manejo de la preeclampsia severa, signos de toxicidad</p>
-      <p>Ergometrina / metilergonovina: control del sangrado posparto</p>
-      <p>Analgesia epidural: conceptos básicos, posición para el procedimiento</p>
-      <p>🔬 Procedimientos que debes reconocer y/o apoyar</p>
-      <p>Amniotomía (rotura artificial de membranas)</p>
-      <p>Control de la dilatación cervical y borramiento</p>
-      <p>Maniobras de Leopold</p>
-      <p>Episiotomía y su reparación</p>
-      <p>Alumbramiento activo (manejo activo de la tercera etapa)</p>
-      <p>Atención inmediata del recién nacido: APGAR, ligadura del cordón, termorregulación</p>
-      <p>⚠️ Emergencias obstétricas que debes conocer (aunque no vayas a manejarlas solas)</p>
-      <p>Hemorragia posparto (HPP): la causa más frecuente es la atonía uterina</p>
-      <p>Preeclampsia / eclampsia</p>
-      <p>Distocia de hombros</p>
-      <p>Prolapso de cordón</p>
-      <p>Desprendimiento de placenta</p>
-    `;
-    
-    document.getElementById('m-contenido').innerHTML = contenido;
+    document.getElementById('m-contenido').innerHTML = `<div class="modal-gif-container"><img src="keep.gif" alt="GIF"></div><p>Fisiología del trabajo de parto</p><p>Las 4 etapas del trabajo de parto</p><p>Mecanismos del trabajo de parto</p><p>Monitoría fetal</p><p>Signos vitales y valoración materna</p><p>💊 Farmacología básica en sala de partos</p><p>🔬 Procedimientos que debes reconocer</p><p>⚠️ Emergencias obstétricas</p>`;
     document.getElementById('modal').classList.add('activo');
   }
+  function cerrarModal() { document.getElementById('modal').classList.remove('activo'); }
+  document.getElementById('modal').addEventListener('click', function(e) { if (e.target === this) cerrarModal(); });
 
-  function cerrarModal() {
-    document.getElementById('modal').classList.remove('activo');
-  }
-
-  document.getElementById('modal').addEventListener('click', function(e) {
-    if (e.target === this) cerrarModal();
-  });
-
-  // Inicializar tablas al cargar la página
-  cargarTareasSimplesStatic();
-  cargarTareasSemanalesStatic();
+  cargarTareasSimples();
+  cargarTareasSemanales();
 </script>
 </body>
 </html>
