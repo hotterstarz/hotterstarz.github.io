@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mi Blog</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Georgia', serif;
+      background: #f5f5f0;
+      color: #222;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: #1a1a2e;
+      color: white;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+    header h1 { font-size: 2.2rem; letter-spacing: 2px; }
+    header p  { margin-top: .4rem; color: #aaa; font-style: italic; }
+
+    /* ── NAV ── */
+    nav {
+      background: #16213e;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: .8rem;
+    }
+    nav a {
+      color: #e0e0e0;
+      text-decoration: none;
+      font-size: .95rem;
+      font-family: sans-serif;
+      transition: color .2s;
+    }
+    nav a:hover { color: #f0a500; }
+
+    /* ── LAYOUT ── */
+    .contenedor {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 2rem;
+    }
+
+    /* ── ARTÍCULOS ── */
+    .articulo {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    }
+    .articulo-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 3rem;
+    }
+    .articulo-body { padding: 1.5rem; }
+    .categoria {
+      display: inline-block;
+      background: #f0a500;
+      color: white;
+      font-size: .75rem;
+      font-family: sans-serif;
+      padding: .2rem .7rem;
+      border-radius: 20px;
+      margin-bottom: .8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .articulo h2 { font-size: 1.4rem; margin-bottom: .5rem; }
+    .meta {
+      font-size: .82rem;
+      color: #888;
+      font-family: sans-serif;
+      margin-bottom: .8rem;
+    }
+    .articulo p { line-height: 1.7; color: #444; }
+    .leer-mas {
+      display: inline-block;
+      margin-top: 1rem;
+      background: #1a1a2e;
+      color: white;
+      padding: .5rem 1.2rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-family: sans-serif;
+      font-size: .9rem;
+      cursor: pointer;
+      border: none;
+      transition: background .2s;
+    }
+    .leer-mas:hover { background: #f0a500; }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.6);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.activo { display: flex; }
+    .modal {
+      background: white;
+      max-width: 650px;
+      width: 90%;
+      border-radius: 10px;
+      padding: 2rem;
+      position: relative;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    .modal h2 { font-size: 1.6rem; margin-bottom: .5rem; }
+    .modal .meta { margin-bottom: 1rem; }
+    .modal p { line-height: 1.8; color: #333; margin-bottom: 1rem; }
+    .cerrar {
+      position: absolute;
+      top: 1rem; right: 1.2rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: #555;
+    }
+
+    /* ── SIDEBAR ── */
+    aside { display: flex; flex-direction: column; gap: 1.5rem; }
+    .widget {
+      background: white;
+      border-radius: 8px;
+      padding: 1.2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    }
+    .widget h3 {
+      font-family: sans-serif;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 1rem;
+      padding-bottom: .5rem;
+      border-bottom: 2px solid #f0a500;
+    }
+    .widget ul { list-style: none; }
+    .widget ul li {
+      padding: .5rem 0;
+      border-bottom: 1px solid #eee;
+      font-size: .9rem;
+      color: #555;
+    }
+    .widget ul li:last-child { border: none; }
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .tag {
+      background: #eee;
+      padding: .3rem .8rem;
+      border-radius: 20px;
+      font-size: .8rem;
+      font-family: sans-serif;
+      color: #444;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .tag:hover { background: #1a1a2e; color: white; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #1a1a2e;
+      color: #aaa;
+      text-align: center;
+      padding: 1.5rem;
+      margin-top: 2rem;
+      font-family: sans-serif;
+      font-size: .85rem;
+    }
+
+    @media (max-width: 640px) {
+      .contenedor { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <h1>✍️ Mi Blog</h1>
+  <p>Pensamientos, tutoriales y más</p>
+</header>
+
+<!-- NAV -->
+<nav>
+  <a href="#">Inicio</a>
+  <a href="#">Tecnología</a>
+  <a href="#">Viajes</a>
+  <a href="#">Sobre mí</a>
+  <a href="#">Contacto</a>
+</nav>
+
+<!-- CONTENIDO PRINCIPAL -->
+<div class="contenedor">
+  <main id="posts"></main>
+
+  <!-- SIDEBAR -->
+  <aside>
+    <div class="widget">
+      <h3>Sobre mí</h3>
+      <p style="font-size:.9rem;color:#555;line-height:1.6">
+        ¡Hola! Soy el autor de este blog. Aquí comparto mis ideas, aprendizajes y aventuras. 🎉
+      </p>
+    </div>
+
+    <div class="widget">
+      <h3>Categorías</h3>
+      <ul>
+        <li>💻 Tecnología (3)</li>
+        <li>✈️ Viajes (2)</li>
+        <li>📚 Libros (1)</li>
+        <li>🍕 Recetas (2)</li>
+      </ul>
+    </div>
+
+    <div class="widget">
+      <h3>Etiquetas</h3>
+      <div class="tag-cloud">
+        <span class="tag">HTML</span>
+        <span class="tag">CSS</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag">Diseño</span>
+        <span class="tag">Viajes</span>
+        <span class="tag">Colombia</span>
+        <span class="tag">Tecnología</span>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="cerrar" onclick="cerrarModal()">✕</button>
+    <span class="categoria" id="m-cat"></span>
+    <h2 id="m-titulo"></h2>
+    <p class="meta" id="m-meta"></p>
+    <div id="m-contenido"></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Mi Blog · Hecho con ❤️ y HTML puro</p>
+</footer>
+
+<script>
+  // ── DATOS DEL BLOG ──────────────────────────────────────────
+  // Aquí agregas tus propios artículos. Solo edita este arreglo.
+  const posts = [
+    {
+      emoji: "💻",
+      categoria: "Tecnología",
+      titulo: "Cómo creé mi primer blog con HTML",
+      fecha: "1 de mayo, 2026",
+      autor: "Yo mismo",
+      resumen: "Aprender a crear páginas web desde cero es más fácil de lo que crees. En este artículo te cuento mi experiencia paso a paso.",
+      contenido: `
+        <p>Todo empezó cuando quise tener un espacio en internet donde pudiera expresarme sin depender de plataformas externas.</p>
+        <p>HTML (HyperText Markup Language) es el lenguaje con el que se construye la estructura de toda página web. Junto con CSS para los estilos y JavaScript para la interactividad, forman el trío fundamental del desarrollo web.</p>
+        <p>Lo mejor de todo: <strong>no necesitas pagar nada</strong>. Solo un editor de texto como VS Code y un navegador. ¡Eso es todo!</p>
+        <p>En los próximos artículos voy a explicar cada parte de este blog con más detalle. ¡Sigue leyendo! 🚀</p>
+      `
+    },
+    {
+      emoji: "✈️",
+      categoria: "Viajes",
+      titulo: "Eje Cafetero: el corazón de Colombia",
+      fecha: "20 de abril, 2026",
+      autor: "Yo mismo",
+      resumen: "Pereira, Armenia, Manizales... una región llena de cultura, café y paisajes increíbles. Te cuento mis experiencias viajando por el Eje Cafetero.",
+      contenido: `
+        <p>El Eje Cafetero es una de las regiones más bellas de Colombia. Sus montañas verdes, el aroma a café y la calidez de su gente lo hacen un destino único.</p>
+        <p>Empecé mi recorrido en <strong>Pereira</strong>, una ciudad vibrante con una gastronomía increíble. Luego visité el <strong>Parque Nacional del Café</strong> y no podía creer la vista desde el teleférico.</p>
+        <p>Si alguna vez tienes la oportunidad de visitar esta región, ¡no lo dudes! Es un viaje que te cambia la perspectiva.</p>
+      `
+    },
+    {
+      emoji: "📚",
+      categoria: "Libros",
+      titulo: "5 libros que me cambiaron la vida",
+      fecha: "10 de abril, 2026",
+      autor: "Yo mismo",
+      resumen: "Una lista de lecturas que me hicieron ver el mundo diferente. Desde novelas hasta libros de desarrollo personal.",
+      contenido: `
+        <p>Leer es uno de los mejores hábitos que puedes desarrollar. Aquí mis 5 favoritos:</p>
+        <p><strong>1. El Alquimista</strong> – Paulo Coelho: Una fábula sobre seguir tus sueños.</p>
+        <p><strong>2. Hábitos Atómicos</strong> – James Clear: Cómo los pequeños cambios generan grandes resultados.</p>
+        <p><strong>3. Sapiens</strong> – Yuval Noah Harari: La historia de la humanidad desde una perspectiva fascinante.</p>
+        <p><strong>4. El Principito</strong> – Saint-Exupéry: Un clásico que se puede releer mil veces.</p>
+        <p><strong>5. Deep Work</strong> – Cal Newport: Cómo enfocarte en lo que realmente importa.</p>
+      `
+    }
+  ];
+
+  // ── RENDERIZAR POSTS ─────────────────────────────────────────
+  const main = document.getElementById('posts');
+
+  posts.forEach((p, i) => {
+    main.innerHTML += `
+      <article class="articulo">
+        <div class="articulo-img">${p.emoji}</div>
+        <div class="articulo-body">
+          <span class="categoria">${p.categoria}</span>
+          <h2>${p.titulo}</h2>
+          <p class="meta">📅 ${p.fecha} &nbsp;·&nbsp; ✍️ ${p.autor}</p>
+          <p>${p.resumen}</p>
+          <button class="leer-mas" onclick="abrirModal(${i})">Leer más →</button>
+        </div>
+      </article>
+    `;
+  });
+
+  // ── MODAL ────────────────────────────────────────────────────
+  function abrirModal(i) {
+    const p = posts[i];
+    document.getElementById('m-cat').textContent      = p.categoria;
+    document.getElementById('m-titulo').textContent   = p.titulo;
+    document.getElementById('m-meta').textContent     = `📅 ${p.fecha}  ·  ✍️ ${p.autor}`;
+    document.getElementById('m-contenido').innerHTML  = p.contenido;
+    document.getElementById('modal').classList.add('activo');
+  }
+
+  function cerrarModal() {
+    document.getElementById('modal').classList.remove('activo');
+  }
+
+  // Cerrar modal al hacer clic fuera
+  document.getElementById('modal').addEventListener('click', function(e) {
+    if (e.target === this) cerrarModal();
+  });
+</script>
+</body>
+</html>
